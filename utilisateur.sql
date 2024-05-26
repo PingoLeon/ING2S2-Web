@@ -36,9 +36,8 @@ CREATE TABLE IF NOT EXISTS Posts (
 );
 
 CREATE TABLE IF NOT EXISTS Likes (
-    Post_ID INT,
+    Post_ID INT PRIMARY KEY AUTO_INCREMENT,
     Nb_likes INT,
-    PRIMARY KEY (Post_ID),
     FOREIGN KEY (Post_ID) REFERENCES Posts(Post_ID)
 );
 
@@ -71,7 +70,7 @@ CREATE TABLE IF NOT EXISTS Messages (
 );
 
 CREATE TABLE IF NOT EXISTS Education (
-    Edu_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Edu_ID INT PRIMARY KEY  AUTO_INCREMENT,
     User_ID INT,
     Debut DATE,
     Fin DATE,
@@ -93,7 +92,7 @@ CREATE TABLE IF NOT EXISTS Experience (
 );
 
 CREATE TABLE IF NOT EXISTS Projets (
-    Proj_ID INT PRIMARY KEY,
+    Proj_ID INT PRIMARY KEY AUTO_INCREMENT,
     User_ID INT,
     Debut DATE,
     Fin DATE,
@@ -129,23 +128,32 @@ CREATE TABLE IF NOT EXISTS Offre_Emploi (
 
 CREATE TABLE IF NOT EXISTS Reseau (
     ID INT PRIMARY KEY AUTO_INCREMENT,
-    Lst_ID INT,
-    FOREIGN KEY (Lst_ID) REFERENCES Utilisateur(User_ID)
+    Lst_ID INT
 );
 
-INSERT INTO Utilisateur (Mail, Nom, Prenom, Username, MDP, Photo, Pays, Statut_Admin) 
-VALUES ('fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', '1234', 'photos/photo1', 'France', 1),
-       ('ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', '1234', 'photos/photo2', 'France', 0),
-       ('atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', '1234', 'photos/photo3', 'France', 0),
-       ('aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', '1234', 'photos/photo4', 'France', 0);
 
-INSERT INTO Education (User_ID, Debut, Fin, Nom, Type_formation)
-VALUES (1, '2018-09-01', '2023-06-01', 'ECE Paris', 'Ingenieurie');
+INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Photo, Pays, Statut_Admin) 
+VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', '1234', 'photos/photo1', 'France', 1),
+       (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', '1234', 'photos/photo2', 'France', 0),
+       (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', '1234', 'photos/photo3', 'France', 0),
+       (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', '1234', 'photos/photo4', 'France', 0);
 
-INSERT INTO Projets 
+INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation)
+VALUES (1, 1, '2022-09-01', '2027-06-01', 'ECE Paris', 'Ingenieurie');
 
--- Requete SQL pour afficher les utilisateurs
-SELECT * FROM Utilisateur;
+INSERT INTO Projets (Proj_ID, User_ID, Debut, Fin, Nom, Edu_ID)
+VALUES (1, 1, '2022-09-01', '2024-06-01', 'ECE_CUP', 1);
 
--- Requete SQL pour afficher les projets de Felix Cadene
-SELECT 
+INSERT INTO Experience (Exp_ID, User_ID, Debut, Fin, Position, Type_Contrat, Enterprise_ID)
+VALUES (1, 1, '2023-12-01', '2024-01-01', 'Stagiaire au Cabinet du Maire', 'Stage', 1);
+
+INSERT INTO Enterprise (Enterprise_ID, Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
+VALUES (1, 'Entrprise/logo1', 'France', 'Administration', 'Mairie de Paris', 'Anne Hidalgo');
+
+SELECT Utilisateur.Nom, Utilisateur.Prenom, Projets.Nom, Education.Nom, Experience.Position, Enterprise.Nom_Entreprise
+FROM Utilisateur
+JOIN Projets ON Utilisateur.User_ID = Projets.User_ID
+JOIN Education ON Projets.Edu_ID = Education.Edu_ID
+JOIN Experience ON Utilisateur.User_ID = Experience.User_ID
+JOIN Enterprise ON Experience.Enterprise_ID = Enterprise.Enterprise_ID
+WHERE Utilisateur.User_ID = 1;
