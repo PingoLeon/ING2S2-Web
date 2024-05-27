@@ -162,7 +162,7 @@ VALUES (1, '2023-09-01', '2024-06-01', 'Ambassadeur', 'Contrat', 2);
 INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
 VALUES ('Entrprise/logo2', 'France', 'Ingenieur', 'ECE Paris', 'Vanessa');
 
-INSERT INTO Entreprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
+INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
 VALUES ('Entrprise/logo3', 'France', 'Ingenieur', 'ESILV', 'Bobby');
 
 /*
