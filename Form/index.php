@@ -22,7 +22,7 @@
         <?php
           include 'functions.php';
           
-          logout_button_POST() //? Fonction de déconnexion
+          logout_button_POST(); //? Fonction de déconnexion
           
           //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
           $token = cookie_or_session(); //? Fonction pour récupérer le token si il existe
@@ -55,7 +55,7 @@
                 }else{
                   echo '<div class="alert alert-warning" role="alert">Nouveau cookie généré</div>';
                   echo "<div class='alert alert-info' role='alert'>Token 1 : $token <br>Token 2 : $token2</div>";
-                  $cookieSet = set_distinct_cookie($token2)     
+                  $cookieSet = set_distinct_cookie($token2);   
                 }
               }
             } else {

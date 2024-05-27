@@ -133,7 +133,7 @@
                 exit();
             }else{
                 if ($remember) { //!Si l'utilisateur a coché la case "Rester connecté", on crée un cookie, sinon on crée une session
-                    $cookieSet = set_distinct_cookie($token)       
+                    $cookieSet = set_distinct_cookie($token);     
                     if ($cookieSet) {
                         header('Location: /ING2S2-WEB/Form/');
                     } else {
