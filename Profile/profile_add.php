@@ -10,6 +10,10 @@ if (isset($_GET['id'])) {
         Education_add($db_handle);
     } elseif ($id == 'edu_modify') {
         Education_modify($db_handle);
+    } elseif ($id == 'proj_add') {
+        Project_add($db_handle);
+    } elseif ($id == 'proj_modify') {
+        Project_modify($db_handle);
     }
 }
 
@@ -94,6 +98,30 @@ function Education_modify($db_handle) {
         if (!$result) {
             echo "Failed to update data. Please try again.";
         }
+        
+        //Redirection vers la page de profil
+        header('Location: http://localhost:8080/ING2S2-WEB/Main/profile_main.php');
+    }
+}
+
+function Project_add($db_handle) {
+    //Recuperation des donnees du formulaire de methode POST
+    $nom = isset($_POST["nom"]) ? $_POST["nom"] : "";
+    $debut = isset($_POST["debut"]) ? $_POST["debut"] : "";
+    $fin = isset($_POST["fin"]) ? $_POST["fin"] : "";
+    $description = isset($_POST["description"]) ? $_POST["description"] : "";
+    $user_id = 1;
+
+    //Verification des donnees
+    if ($nom == "" || $debut == "" || $fin == "" || $description == "") {
+        //Execute the function modification.php?id=proj_add
+        header('Location: ../Main/modification.php?id=proj_add');
+        return;
+    } else {
+        //Insertion des donnees dans la base de donnees
+        $sql = "INSERT INTO Project (User_ID, Debut, Fin, Nom)
+        VALUES ('$user_id', '$debut', '$fin', '$nom')";
+        $result = mysqli_query($db_handle, $sql);
         
         //Redirection vers la page de profil
         header('Location: http://localhost:8080/ING2S2-WEB/Main/profile_main.php');

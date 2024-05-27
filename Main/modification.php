@@ -58,6 +58,7 @@ function Edit_Education() {
 function Edit_Title() {
     echo '<h2>Edit Title</h2>';
     // Add your code to edit title here
+
 }
 
 function Edit_Projects() {
@@ -77,6 +78,8 @@ function Edit_Projects() {
         echo '</div>';
         echo '<br>';
     echo '</div>';
+
+    echo '<br>';
 }
 
 function Edit_Experiences() {
@@ -173,6 +176,36 @@ function Modification_Education($db_handle) {
                 echo '<input type="text" class="form-control" id="entreprise" name="entreprise">';
             echo '</div>';
             echo '<button type="submit" class="btn btn-primary">Modifier</button>';
+        echo '</form>';
+        echo '<br>';
+    echo '</div>';
+}
+
+function Ajout_Projet() {
+    Edit_Projects();
+    //Creation du formulaire pour ajouter un projet
+    echo '<div class="container" id="main_bloc_profile">';
+        echo '<br>';
+        echo '<div class="row">';
+            echo '<div class="col-md-10">';
+                echo '<h2 style="color: black; text-align: left;">Ajouter un projet</h2>';
+            echo '</div>';
+        echo '</div>';
+        echo '<br>';
+        echo '<form action="../Profile/Profile_add.php?id=proj_add" method="post">';
+            echo '<div class="form-group">';
+                echo '<label for="nom">Nom du projet:</label>';
+                echo '<input type="text" class="form-control" id="nom" name="nom">';
+            echo '</div>';
+            echo '<div class="form-group">';
+                echo '<label for="debut">Date de début:</label>';
+                echo '<input type="date" class="form-control" id="debut" name="debut">';
+            echo '</div>';
+            echo '<div class="form-group">';
+                echo '<label for="fin">Date de fin:</label>';
+                echo '<input type="date" class="form-control" id="fin" name="fin">';
+            echo '</div>';
+            echo '<button type="submit" class="btn btn-primary">Ajouter</button>';
         echo '</form>';
         echo '<br>';
     echo '</div>';
