@@ -27,6 +27,7 @@
     <br>
 
     <?php include '../Profile/Profile_projects.php'; ?>
+    <br>
 </body>
 </html>
 
