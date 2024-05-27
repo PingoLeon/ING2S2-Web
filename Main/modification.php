@@ -1,6 +1,26 @@
 <?php
 include 'Header.html';
 
+/*
+Fichier: modification.php
+Projet: ECEin
+Fonctionnement: Ce fichier permet de modifier les informations du profil de l'utilisateur, dont:
+    - Le titre (le profile de base, le nom, prenom, etc.)
+    - L'éducation
+    - Les projets
+    - Les expériences
+    - Les posts
+Il commence par analyser l'URL pour savoir quelle section de la page de modification l'utilisateur veut modifier. Pour cela, on se base sur l'ID de la section.
+Ensuite, on appelle la fonction correspondante à la section demandée.
+Exemple: Si l'utilisateur veut modifier l'éducation, on appelle la fonction Edit_Education() qui va afficher les boutons pour ajouter ou modifier une formation.
+
+Les fonctions sont ranges en deux parties, les fonctions meres et les sous-fonctions.
+
+Les fonctions meres sont les fonctions qui vont afficher les boutons pour ajouter ou modifier une section du profil.
+
+Les sous-fonctions traitent les formulaires pour ajouter ou modifier une section du profil selon le choix de l'utilisateur.
+*/
+
 $database = "ecein";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);

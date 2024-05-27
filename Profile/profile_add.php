@@ -20,7 +20,6 @@ if (isset($_GET['id'])) {
 function Education_add($db_handle) {
     //Recuperation des donnees du formulaire de methode POST
     $nom = isset($_POST["nom"]) ? $_POST["nom"] : "";
-    //$debut is the start date of the education and is of type date
     $debut = isset($_POST["debut"]) ? $_POST["debut"] : "";
     $fin = isset($_POST["fin"]) ? $_POST["fin"] : "";
     $type = isset($_POST["type"]) ? $_POST["type"] : "";
@@ -62,7 +61,6 @@ function Education_add($db_handle) {
 function Education_modify($db_handle) {
     //Recuperation des donnees du formulaire de methode POST
     $nom = isset($_POST["nom"]) ? $_POST["nom"] : "";
-    //$debut is the start date of the education and is of type date
     $debut = isset($_POST["debut"]) ? $_POST["debut"] : "";
     $fin = isset($_POST["fin"]) ? $_POST["fin"] : "";
     $type = isset($_POST["type"]) ? $_POST["type"] : "";
