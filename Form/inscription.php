@@ -137,7 +137,7 @@
                     'samesite' => 'Strict',
                 ]);
                 if ($cookieSet) {
-                    header('Location: index.php');
+                    header('Location: /ING2S2-WEB/Form/');
                 } else {
                     $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Erreur lors de la création du cookie</div>";
                     header('Location: inscription.php');
@@ -145,7 +145,7 @@
                 }
             }else{ //! Sinon on crée une session
                 $_SESSION["token"] = $token;
-                header('Location: index.php');
+                header('Location: /ING2S2-WEB/Form/');
             }  
         }
     }
