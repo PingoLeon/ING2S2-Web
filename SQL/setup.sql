@@ -55,21 +55,20 @@ CREATE TABLE IF NOT EXISTS Commentaires (
 );
 
 CREATE TABLE IF NOT EXISTS Messagerie (
-    Msg_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Convers_ID INT PRIMARY KEY AUTO_INCREMENT,
     ID1 INT,
     ID2 INT,
     FOREIGN KEY (ID1) REFERENCES Utilisateur(User_ID),
-    FOREIGN KEY (ID2) REFERENCES Utilisateur(User_ID),
-    UNIQUE (ID1, ID2)
+    FOREIGN KEY (ID2) REFERENCES Utilisateur(User_ID)
 );
 
 CREATE TABLE IF NOT EXISTS Messages (
-    Message_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Msg_ID INT,
+    MSG_ID INT PRIMARY KEY,
+    Convers_ID INT,
     Sender_ID INT,
     Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     Content TEXT,
-    FOREIGN KEY (Msg_ID) REFERENCES Messagerie(Msg_ID),
+    FOREIGN KEY (Convers_ID) REFERENCES Messagerie(Convers_ID),
     FOREIGN KEY (Sender_ID) REFERENCES Utilisateur(User_ID)
 );
 
@@ -154,16 +153,16 @@ INSERT INTO Experience (Exp_ID, User_ID, Debut, Fin, Position, Type_Contrat, Ent
 VALUES (1, 1, '2023-12-01', '2024-01-01', 'Stagiaire au Cabinet du Maire', 'Stage', 1);
 
 INSERT INTO Enterprise (Enterprise_ID, Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
-VALUES (1, 'Entrprise/logo1', 'France', 'Administration', 'Mairie de Paris', 'Anne Hidalgo');
+VALUES (1, 'Entreprise/logo1', 'France', 'Administration', 'Mairie de Paris', 'Anne Hidalgo');
 
 INSERT INTO Experience (User_ID, Debut, Fin, Position, Type_Contrat, Enterprise_ID)
 VALUES (1, '2023-09-01', '2024-06-01', 'Ambassadeur', 'Contrat', 2);
 
 INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
-VALUES ('Entrprise/logo2', 'France', 'Ingenieur', 'ECE Paris', 'Vanessa');
+VALUES ('Entreprise/logo2', 'France', 'Ingenieur', 'ECE Paris', 'Vanessa');
 
 INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
-VALUES ('Entrprise/logo3', 'France', 'Ingenieur', 'ESILV', 'Bobby');
+VALUES ('Entreprise/logo3', 'France', 'Ingenieur', 'ESILV', 'Bobby');
 
 /*
 SELECT Utilisateur.Nom, Utilisateur.Prenom, Projets.Nom, Education.Nom, Experience.Position, Enterprise.Nom_Entreprise
