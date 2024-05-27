@@ -20,37 +20,15 @@
       <main class="form-signin w-100 m-auto">
         <form method="post">
         <?php
-          session_start();
-          if (isset($_POST['logout'])) {
-            // Détruit la session
-            session_unset();
-            session_destroy();
-            
-            // Supprime le cookie
-            if (isset($_COOKIE['token'])) {
-                unset($_COOKIE['token']);
-                setcookie('token', '', time() - 3600, '/'); // Ancien temps pour supprimer le cookie
-            }
-            
-            // Redirige vers la page d'inscription
-            header('Location: connexion.php');
-            exit;
-          }
+          include 'functions.php';
           
-          $token = "";
+          logout_button_POST() //? Fonction de déconnexion
           
-          if (isset($_COOKIE['token'])) {
-            $token = $_COOKIE['token'];
-          } elseif (isset($_SESSION['token'])) {
-            $token = $_SESSION['token'];
-          }
-          
-          if (!empty($token)) { //!Le token n'est pas vide
-            // Connexion à la base de données
-            $db_handle = mysqli_connect('localhost', 'root', '' );
-            $database = "linkedin";  
-            $db_found = mysqli_select_db($db_handle, $database);
-            $sql = "SELECT * FROM users WHERE token = '$token'";
+          //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
+          $token = cookie_or_session(); //? Fonction pour récupérer le token si il existe
+          if (!empty($token)) { 
+            $db_handle = connect_to_db(); //? Connexion à la BDD ECEin
+            $sql = "SELECT * FROM Utilisateur WHERE Token = '$token'";
             $result = mysqli_query($db_handle, $sql);
             
             if (mysqli_num_rows($result) > 0) { //!Le token existe dans la BDD
@@ -61,8 +39,8 @@
               }
               
               $row = mysqli_fetch_assoc($result);
-              $email = $row['email'];
-              $id = $row['id'];
+              $email = $row['Mail'];
+              $id = $row['User_ID'];
               echo "<div class='alert alert-info' role='alert'>Informations de l'utilisateur :";
               echo "<br>Email: $email";
               echo "<br>ID: $id</div>";
@@ -70,21 +48,14 @@
               //!Générer un nouveau cookie si l'utilisateur s'est authentifié par cookie
               if (isset($_COOKIE['token'])) {
                 $token2 = bin2hex(random_bytes(8));
-                $sql = "UPDATE users SET token = '$token2' WHERE token = '$token'";
+                $sql = "UPDATE Utilisateur SET Token = '$token2' WHERE Token = '$token'";
                 $result_cookie = mysqli_query($db_handle, $sql);
                 if (!$result) {
                   echo "Erreur: $sql <br>" . mysqli_error($db_handle);
                 }else{
                   echo '<div class="alert alert-warning" role="alert">Nouveau cookie généré</div>';
                   echo "<div class='alert alert-info' role='alert'>Token 1 : $token <br>Token 2 : $token2</div>";
-                  setcookie("token", $token2, [
-                    'expires' => time() + 86400,
-                    'path' => '/',
-                    'domain' => $_SERVER['HTTP_HOST'],
-                    'secure' => true,
-                    'httponly' => true,
-                    'samesite' => 'Strict',
-                  ]);     
+                  $cookieSet = set_distinct_cookie($token2)     
                 }
               }
             } else {

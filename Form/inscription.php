@@ -37,7 +37,6 @@
             </div>
             <button class="btn btn-primary w-100 py-2" type="submit">Inscription</button>
             <?php
-                session_start();
                 if (isset($_SESSION['error_message'])) {
                     echo "<br><br>";
                     echo $_SESSION['error_message'];
@@ -53,25 +52,17 @@
 </html>
 
 <?php
-    //! Initialisation
-    $database = "linkedin";  
-    $db_handle = mysqli_connect('localhost', 'root', '' );  
-    $db_found = mysqli_select_db($db_handle, $database);
+
+    include 'functions.php';
     
     $email = $password = "";
     $remember = false;
-    
-    //! Vérifier si l'user à déjà un cookie ou une session
-    $token = "";
-    if (isset($_COOKIE['token'])) {
-        $token = $_COOKIE['token'];
-    } elseif (isset($_SESSION['token'])) {
-        $token = $_SESSION['token'];
-    }
-    
+
     //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
+    $token = cookie_or_session();
     if (!empty($token)) {
-        $sql = "SELECT * FROM users WHERE token = '$token'";
+        $db_handle = connect_to_db();
+        $sql = "SELECT * FROM Utilisateur WHERE Token = '$token'";
         $result = mysqli_query($db_handle, $sql);
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
@@ -110,7 +101,8 @@
         $token = bin2hex(random_bytes(8));
         
         //!Vérifier si le mail existe déjà
-        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
+        $db_handle = connect_to_db();
         $result = mysqli_query($db_handle, $sql);
         if (mysqli_num_rows($result) > 0) {
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Email déjà utilisé</div>";
@@ -119,7 +111,7 @@
         }
         
         //!Insérer les données dans la base de données
-        $sql = "INSERT INTO users (email, password, token) VALUES ('$email', '$password', '$token')";
+        $sql = "INSERT INTO Utilisateur (Mail, MDP, Token) VALUES ('$email', '$password', '$token')";
         $result = mysqli_query($db_handle, $sql);
         if ($result === false) { //! Si la requête SQL a échoué, on affiche l'erreur
             mysqli_error($db_handle);
@@ -128,14 +120,7 @@
             exit();
         } else {
             if ($remember) { //!Si l'utilisateur a coché la case "Rester connecté", on crée un cookie, sinon on crée une session
-                $cookieSet = setcookie("token", $token, [
-                    'expires' => time() + 86400,
-                    'path' => '/',
-                    'domain' => $_SERVER['HTTP_HOST'],
-                    'secure' => true,
-                    'httponly' => true,
-                    'samesite' => 'Strict',
-                ]);
+                $cookieSet = set_distinct_cookie($token) 
                 if ($cookieSet) {
                     header('Location: /ING2S2-WEB/Form/');
                 } else {
