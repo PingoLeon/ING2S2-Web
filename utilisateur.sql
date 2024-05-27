@@ -1,6 +1,9 @@
 CREATE DATABASE IF NOT EXISTS ECEIn;
 USE ECEIn;
 
+DROP TABLE `commentaires`, `education`, `enterprise`, `events`, `experience`, `likes`, `messagerie`, `messages`, `offre_emploi`, `posts`, `projets`, `reseau`, `utilisateur`;
+
+
 CREATE TABLE IF NOT EXISTS Utilisateur (
     User_ID INT(11) PRIMARY KEY AUTO_INCREMENT,
     Mail VARCHAR(255) NOT NULL,
@@ -78,7 +81,7 @@ CREATE TABLE IF NOT EXISTS Education (
     Nom VARCHAR(255),
     Type_formation VARCHAR(255),
     Enterprise_ID INT,
-    FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID)
+    FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID),
     FOREIGN KEY (Enterprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
 
@@ -135,11 +138,11 @@ CREATE TABLE IF NOT EXISTS Reseau (
 );
 
 
-INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Photo, Pays, Statut_Admin) 
-VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', '1234', 'photos/photo1', 'France', 1),
-       (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', '1234', 'photos/photo2', 'France', 0),
-       (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', '1234', 'photos/photo3', 'France', 0),
-       (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', '1234', 'photos/photo4', 'France', 0);
+INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Token, Photo, Pays, Statut_Admin) 
+VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', '1234', '', 'photos/photo1', 'France', 1),
+       (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', '1234', '', 'photos/photo2', 'France', 0),
+       (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', '1234', '', 'photos/photo3', 'France', 0),
+       (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', '1234', '', 'photos/photo4', 'France', 0);
 
 INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation, Enterprise_ID)
 VALUES (1, 1, '2022-09-01', '2027-06-01', 'ECE Paris', 'Ingenieur', 2);
@@ -159,6 +162,7 @@ VALUES (1, '2023-09-01', '2024-06-01', 'Ambassadeur', 'Contrat', 2);
 INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
 VALUES ('Entrprise/logo2', 'France', 'Administration', 'ECE Paris', 'Vanessa');
 
+/*
 SELECT Utilisateur.Nom, Utilisateur.Prenom, Projets.Nom, Education.Nom, Experience.Position, Enterprise.Nom_Entreprise
 FROM Utilisateur
 JOIN Projets ON Utilisateur.User_ID = Projets.User_ID
@@ -199,4 +203,4 @@ JOIN Education ON Utilisateur.User_ID = Education.User_ID
 JOIN Enterprise ON Education.Enterprise_ID = Enterprise.Enterprise_ID
 WHERE Utilisateur.User_ID = 1
 ORDER BY Education.Debut DESC;
-
+*/

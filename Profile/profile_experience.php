@@ -6,7 +6,11 @@ $db_found = mysqli_select_db($db_handle, $database);
 
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
-    echo '<h2 style="color: black; text-align: left;">Expériences</h2><br>';
+    echo '<div class="row">';
+        echo '<div class="col-md-10"><h2 style="color: black; text-align: left;">Expériences</h2></div>';
+        echo '<div class="col-md-2"><a href = "Profile_experience_edit.php">
+        <img src="../Photos/edit.png" alt="Modifier" width="40" height="40"></img></a></div>';
+    echo '</div>';
     echo '<div class="row">';
         $sql = "SELECT Utilisateur.Nom, Utilisateur.Prenom, Experience.Position, Experience.Debut, Experience.Fin, Experience.Type_Contrat, Enterprise.Nom_Entreprise, Enterprise.Logo
         FROM Utilisateur
