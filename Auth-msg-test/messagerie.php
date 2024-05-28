@@ -1,5 +1,5 @@
 <?php
-    ob_start(); // Ajoutez cette ligne au début de votre script
+    ob_start();
     include 'functions.php';
     
     //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
@@ -24,6 +24,9 @@
     <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
     
+    <!-- Import d'Ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     </head>
     <body class="d-flex align-items-center py-4 bg-body-tertiary">
         <main class="form-signin w-1000 m-auto">
@@ -42,8 +45,7 @@
                         echo "<input type='hidden' name='friend_email' value='$friend_email'>";
                         echo "<input type='hidden' name='friend_id' value='$friend_id'>";
                         echo "<button type='submit' class='btn btn-primary'>Conversation avec $friend_email, $friend_id</button>";
-                        echo "</form><br>";
-                        
+                        echo "</form><br>";                        
                     }
                 } 
             ?>
@@ -57,9 +59,12 @@
                                 SELECT Convers_ID FROM Messagerie 
                                 WHERE       (ID1 = '$id' AND ID2 = '$friend_id')
                                     OR      (ID1 = '$friend_id' AND ID2 = '$id'))
-                                    
-                            ORDER BY Timestamp DESC";
+                            ORDER BY MSG_ID DESC";
                     $result = mysqli_query($db_handle, $sql);
+                    
+                    //!get the number of messages in the conversation
+                    $msg_count = mysqli_num_rows($result);
+                    
                     if (mysqli_num_rows($result) != 0) {
                         while($row = mysqli_fetch_assoc($result)){
                             $sender_id = $row['Sender_ID'];
@@ -98,7 +103,6 @@
                         echo "Erreur: $sql <br>" . mysqli_error($db_handle);
                     } else {
                         echo '<div class="alert alert-success" role="alert">Message envoyé</div>';
-                        // Rediriger l'utilisateur vers la même page
                         header("Location: messagerie.php");
                         ob_end_flush(); 
                         exit;
@@ -107,5 +111,28 @@
             ?>
         </main>
     </body>
+    <script> 
+        //! Vérifier les nouveaux messages
+        //? On regarde toute les secondes si il y a de nouveaux messages en appelant la fonction check_if_new_msg_in_conv
+        //? Si le nombre est différent de celui qu'on avait avant, on recharge la page
+        var currentMessageCount = <?php echo mysqli_num_rows($result); ?>; // Le nombre actuel de messages
+        setInterval(function() {
+            $.ajax({
+                url: 'functions.php', // L'URL de votre fichier PHP
+                type: 'post',
+                data: {
+                    'check_new_msg': true, // Une variable pour indiquer que vous voulez vérifier les nouveaux messages
+                    'id': <?php echo $id; ?>, // L'ID de l'utilisateur actuel
+                    'friend_id': <?php echo $friend_id; ?> // L'ID de l'ami
+                },
+                success: function(response) {
+                    var newMessageCount = parseInt(response);
+                    if (newMessageCount > currentMessageCount) {
+                        location.reload(); // Recharge la page si de nouveaux messages ont été ajoutés
+                    }
+                }
+            });
+        }, 1000); // Vérifie les nouveaux messages toutes les 5 secondes
+    </script>
 </html>
     
