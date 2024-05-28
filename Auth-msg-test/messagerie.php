@@ -1,7 +1,6 @@
 <?php
     ob_start();
     include 'functions.php';
-    
     //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
     list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
 ?>
@@ -9,7 +8,6 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
     <head>
-        
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EngineerIN</title>
@@ -28,88 +26,164 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     </head>
-    <body class="d-flex align-items-center py-4 bg-body-tertiary">
-        <main class="form-signin w-1000 m-auto">
-            <?php
-                echo "<div class='alert alert-success' role='alert'>Vous êtes connecté en tant que $email</div>";
-                
-                
-                //! Fetch tous les mails qui ont une conversation avec la personne connectée
-                $sql = "SELECT User_ID, Mail FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
-                $result = mysqli_query($db_handle, $sql);
-                if (mysqli_num_rows($result) != 0) {
-                    while($row = mysqli_fetch_assoc($result)){
-                        $friend_email = $row['Mail'];
-                        $friend_id = $row['User_ID'];
-                        echo "<form method='post' action=''>";
-                        echo "<input type='hidden' name='friend_email' value='$friend_email'>";
-                        echo "<input type='hidden' name='friend_id' value='$friend_id'>";
-                        echo "<button type='submit' class='btn btn-primary'>Conversation avec $friend_email, $friend_id</button>";
-                        echo "</form><br>";                        
-                    }
-                } 
-            ?>
-            <div id="conversation" style="width: 300px; height: 500px; overflow-y: auto;" data-friend-email="" data-friend-id="">
-                <?php
-                    // Récupérer les messages de la conversation avec un ami entre l'adresse connectée et l'adresse de l'ami
-                    $friend_email = isset($_POST['friend_email']) ? $_POST['friend_email'] : "$friend_email";
-                    $friend_id = isset($_POST['friend_id']) ? $_POST['friend_id'] : "$friend_id";
-                    $sql = "SELECT * FROM Messages 
-                            WHERE Convers_ID = (
-                                SELECT Convers_ID FROM Messagerie 
-                                WHERE       (ID1 = '$id' AND ID2 = '$friend_id')
-                                    OR      (ID1 = '$friend_id' AND ID2 = '$id'))
-                            ORDER BY MSG_ID DESC";
+    <body class="d-flex flex-column">
+        <div class="d-flex flex-row h-100">
+            <!-- Barre latérale -->
+            <div class="p-3 flex-shrink-0" style="width: 280px; background-color: #131b21;">
+                <div class="d-flex flex-row align-items-center mb-3">
+                    <img src="<?php
+                        $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$id'";
+                        $result = mysqli_query($db_handle, $sql);
+                        if (mysqli_num_rows($result) != 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            echo $row['Photo'];
+                            $nom = $row['Nom'];
+                            $prenom = $row['Prenom'];
+                        }
+                    ?>
+                    " alt="Avatar" class="rounded-circle" width="50" height="50">
+                    <div class="ms-3">
+                        <div class="fw-bold text-white"><?php echo "$nom $prenom"; ?></div>
+                        <div class="text-muted" style="color: #24bd5d !important;">En ligne</div>
+                    </div>
+                </div>
+                <div class="fw-bold text-white mb-2">CONVERSATIONS</div>
+                <!-- ... Ajoutez ici le code PHP pour afficher les conversations dans la barre latérale ... -->
+                <?php                        
+                    //! Fetch tous les mails qui ont une conversation avec la personne connectée
+                    $sql = "SELECT User_ID, Mail, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
                     $result = mysqli_query($db_handle, $sql);
-                    
-                    //!get the number of messages in the conversation
-                    $msg_count = mysqli_num_rows($result);
-                    
                     if (mysqli_num_rows($result) != 0) {
                         while($row = mysqli_fetch_assoc($result)){
-                            $sender_id = $row['Sender_ID'];
-                            if ($sender_id == $id) {
-                                $sender_mail = $email;
-                            } else if ($sender_id == $friend_id) {
-                                $sender_mail = $friend_email;
-                            }
-                            $content = $row['Content'];
-                            $timestamp = $row['Timestamp'];
-                            if ($sender_id == $id) {
-                                echo "<div class='alert alert-success' role='alert'>$sender_mail : $content ($timestamp)</div>";
-                            } else if ($sender_id == $friend_id) {
-                                echo "<div class='alert alert-warning' role='alert'>$sender_mail : $content ($timestamp)</div>";
-                            }
+                            $friend_email = $row['Mail'];
+                            $friend_id = $row['User_ID'];
+                            $Photo = $row['Photo'];
+                            $Nom = $row['Nom'];
+                            $Prenom = $row['Prenom'];
+                            echo "<form method='post' action=''>";
+                            echo "<input type='hidden' name='friend_email' value='$friend_email'>";
+                            echo "<input type='hidden' name='friend_id' value='$friend_id'>";
+                            echo "<button type='submit' class='btn btn-whatsapp'>";
+                            echo "<img src='".$Photo."' alt='Avatar' class='rounded-circle' width='50' height='50'>";
+                            echo "$Prenom $Nom</button>";
+                            echo "</form><br>";                        
                         }
-                    }else{
-                        echo "<div class='alert alert-warning' role='alert'>Pas de messages</div>";
-                    }
+                    } 
                 ?>
             </div>
-            <form id="messageForm" method="post" action="">
-            //! Envoyer un message à l'ami
-            <input type="hidden" name="friend_email" value="<?php echo $friend_email; ?>">
-            <input type="hidden" name="friend_id" value="<?php echo $friend_id; ?>">
-            <input type="text" name="message" class="form-control" placeholder="Message" required>
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-        </form>
-            <?php
-                //! Envoyer le message
-                if (isset($_POST['message'])) {
-                    $message = mysqli_real_escape_string($db_handle, $_POST['message']);
-                    $sql = "INSERT INTO Messages (Sender_ID, Convers_ID, Content) VALUES ('$id', (SELECT Convers_ID FROM Messagerie WHERE (ID1 = '$id' AND ID2 = '$friend_id') OR (ID1 = '$friend_id' AND ID2 = '$id')), '$message')";
-                    $result = mysqli_query($db_handle, $sql);
-                    if (!$result) {
-                        echo "Erreur: $sql <br>" . mysqli_error($db_handle);
-                    } else {
-                        echo '<div class="alert alert-success" role="alert">Message envoyé</div>';
-                        header("Location: messagerie.php");
-                        ob_end_flush(); 
-                        exit;
+            <div class="d-flex flex-column flex-grow-1 p-3 bg-light">
+                <!-- Conteneur de messages -->
+                <div class="d-flex flex-column flex-grow-1 border rounded p-3">
+                    <div class="d-flex flex-row align-items-center mb-3">
+                        <img src="
+                        <?php
+                            $friend_email = isset($_POST['friend_email']) ? $_POST['friend_email'] : "$friend_email";
+                            $friend_id = isset($_POST['friend_id']) ? $_POST['friend_id'] : "$friend_id";
+                            
+                            $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$friend_id'";
+                            $result = mysqli_query($db_handle, $sql);
+                            if (mysqli_num_rows($result) != 0) {
+                                $row = mysqli_fetch_assoc($result);
+                                echo $row['Photo'];
+                                $friend_nom = $row['Nom'];
+                                $friend_prenom = $row['Prenom'];
+                            }
+                        ?>
+                        " alt="Avatar" class="rounded-circle" width="50" height="50">
+                        <div class="ms-3">
+                            <div class="fw-bold"><?php echo "$friend_nom $friend_prenom"; ?></div>
+                            <div class="text-muted">
+                                <?php
+                                    $sql = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$friend_id' ORDER BY Debut";
+                                    $result = mysqli_query($db_handle, $sql);
+                                    if (mysqli_num_rows($result) != 0) {
+                                        $row = mysqli_fetch_assoc($result);
+                                        $date = date("Y-m-d");
+                                        $Enterprise_ID = $row['Enterprise_ID'];
+                                        if ($date > $row['Fin']) {
+                                            echo "Pas d'expérience actuelle";
+                                        } else {
+                                            echo $row['Position'];
+                                            $sql = "SELECT Nom_Entreprise FROM Enterprise WHERE Enterprise_ID = '$Enterprise_ID'";
+                                            $result = mysqli_query($db_handle, $sql);
+                                            if (mysqli_num_rows($result) != 0) {
+                                                $row = mysqli_fetch_assoc($result);
+                                                echo " chez ";
+                                                echo $row['Nom_Entreprise'];
+                                            }
+                                        } 
+                                    }else{
+                                        echo "Pas d'expérience actuelle";
+                                    }
+                                ?>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Conteneur de messages 2-->
+                <div id="conversation" class="d-flex flex-column-reverse flex-grow-1 overflow-auto p-3" data-friend-email="<?php echo $friend_email; ?>" data-friend-id="<?php echo $friend_id; ?>">
+                    <!-- ... Le code PHP pour récupérer les messages reste inchangé ... -->
+                        <?php
+                        // Récupérer les messages de la conversation avec un ami entre l'adresse connectée et l'adresse de l'ami
+                        $sql = "SELECT * FROM Messages 
+                                WHERE Convers_ID = (
+                                    SELECT Convers_ID FROM Messagerie 
+                                    WHERE       (ID1 = '$id' AND ID2 = '$friend_id')
+                                        OR      (ID1 = '$friend_id' AND ID2 = '$id'))
+                                ORDER BY MSG_ID DESC";
+                        $result = mysqli_query($db_handle, $sql);
+                        
+                        //!get the number of messages in the conversation
+                        $msg_count = mysqli_num_rows($result);
+                        
+                        if (mysqli_num_rows($result) != 0) {
+                            while($row = mysqli_fetch_assoc($result)){
+                                $sender_id = $row['Sender_ID'];
+                                if ($sender_id == $id) {
+                                    $sender_mail = $email;
+                                } else if ($sender_id == $friend_id) {
+                                    $sender_mail = $friend_email;
+                                }
+                                $content = $row['Content'];
+                                $timestamp = $row['Timestamp'];
+                                if ($sender_id == $id) {
+                                    echo "<div class='message-right'>$content</div>";
+                                } else if ($sender_id == $friend_id) {
+                                    echo "<div class='message-left'>$content</div>";
+                                }
+                            }
+                        }else{
+                            echo "<div class='alert alert-warning' role='alert'>Pas de messages</div>";
+                        }
+                    ?>
+                </div>
+                <!-- Formulaire d'envoi de messages -->
+                <form id="messageForm" class="d-flex flex-row align-items-center border-top p-3 mt-auto" method="post" action="">
+                    <input type="hidden" name="friend_email" value="<?php echo $friend_email; ?>">
+                    <input type="hidden" name="friend_id" value="<?php echo $friend_id; ?>">
+                    <input type="text" name="message" class="form-control flex-grow-1 me-2" placeholder="Écrire un message" required>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </form>
+                <?php
+                    //! Envoyer le message
+                    if (isset($_POST['message'])) {
+                        $message = mysqli_real_escape_string($db_handle, $_POST['message']);
+                        $sql = "INSERT INTO Messages (Sender_ID, Convers_ID, Content) VALUES ('$id', (SELECT Convers_ID FROM Messagerie WHERE (ID1 = '$id' AND ID2 = '$friend_id') OR (ID1 = '$friend_id' AND ID2 = '$id')), '$message')";
+                        $result = mysqli_query($db_handle, $sql);
+                        if (!$result) {
+                            echo "Erreur: $sql <br>" . mysqli_error($db_handle);
+                        } else {
+                            echo '<div class="alert alert-success" role="alert">Message envoyé</div>';
+                            header("Location: messagerie.php");
+                            ob_end_flush(); 
+                            exit;
+                        }
                     }
-                }
-            ?>
-        </main>
+                ?>
+            </div>      
+        </div>
     </body>
     <script> 
         //! Vérifier les nouveaux messages

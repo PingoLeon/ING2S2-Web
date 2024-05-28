@@ -23,3 +23,70 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+body {
+    min-height: 100vh;
+}
+
+.alert {
+    margin-bottom: 0;
+}
+
+.alert-success {
+    background-color: #dbf1ee;
+    color: #2b8a3e;
+}
+
+.alert-warning {
+    background-color: #fff4d9;
+    color: #aa6d00;
+}
+
+.btn-whatsapp {
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    transition-duration: 0.1s;
+    cursor: pointer;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-whatsapp:hover {
+    background-color: white; 
+    color: #25D366;
+    border: 1px solid #25D366;
+}
+
+.btn-whatsapp img {
+    float: left;
+    margin-right: 15px;
+}
+
+.message-right {
+    background-color: #DCF8C6; /* couleur de fond pour les messages de l'utilisateur */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    position: relative;
+    text-align: right;
+    margin-left: auto;
+    display: inline-block;
+    clear: both;
+}
+
+.message-left {
+    background-color: #FFFFFF; /* couleur de fond pour les messages de l'ami */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    position: relative;
+    text-align: left;
+    margin-right: auto;
+    display: inline-block;
+    clear: both;
+    
+}
