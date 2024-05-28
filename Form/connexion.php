@@ -38,6 +38,7 @@
             </div>
             <button class="btn btn-primary w-100 py-2" type="submit">Connexion</button>
             <?php
+                include 'functions.php';
                 if (isset($_SESSION['error_message'])) {
                     echo "<br><br>";
                     echo $_SESSION['error_message'];
@@ -54,24 +55,16 @@
 
 <?php
     //! Initialisation
-    include 'functions.php';
+    
+    
+    
     
     $email = $password = "";
     $remember = false;
 
     //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
-    $token = cookie_or_session();
-    if (!empty($token)) {
-        $sql = "SELECT * FROM Utilisateur WHERE Token = '$token'";
-        $db_handle = connect_to_db();
-        $result = mysqli_query($db_handle, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            header('Location: index.php');
-        } else {
-            header('Location: connexion.php');
-        }
-    }
+    list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle('connexion');
+
 
     //! Vérification des données du formulaire
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -135,7 +128,7 @@
                 if ($remember) { //!Si l'utilisateur a coché la case "Rester connecté", on crée un cookie, sinon on crée une session
                     $cookieSet = set_distinct_cookie($token);     
                     if ($cookieSet) {
-                        header('Location: /ING2S2-WEB/Form/');
+                        header('Location: '. $page_to_send_to_once_connected);
                     } else {
                         $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Erreur lors de la création du cookie</div>";
                         header('Location: connexion.php');
@@ -144,7 +137,7 @@
                 
                 }else{ //!Sinon on crée une session
                     $_SESSION["token"] = $token;
-                    header('Location: /ING2S2-WEB/Form/');
+                    header('Location: '. $page_to_send_to_once_connected);
                 } 
             }
         }
