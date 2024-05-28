@@ -1,0 +1,15 @@
+/* Ajouter ce style à votre fichier Site.css */
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    text-align: left;
+}
