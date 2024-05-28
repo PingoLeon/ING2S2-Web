@@ -65,7 +65,34 @@
                 die("Connection failed: " . $conn->connect_error);
             }
 
-            $sql = "SELECT Offre_Emploi.Intitule, Offre_Emploi.Debut, Offre_Emploi.Fin, Offre_Emploi.Position, Offre_Emploi.Type_Contrat, Offre_Emploi.Photo, Offre_Emploi.Texte, Enterprise.Nom_Entreprise, Enterprise.Logo
+            session_start();
+
+            // Check if user_id is set
+            if (!isset($_SESSION['user_id'])) {
+                echo '<div class="col-md-12"><p class="text-center">Veuillez vous connecter pour voir les offres d\'emploi.</p></div>';
+                exit();
+            }
+
+            $userID = $_SESSION['user_id'];
+
+            // Check if the user is an admin
+            $admin_check_sql = "SELECT Statut_Admin FROM utilisateur WHERE User_ID = $userID";
+            $admin_check_result = $conn->query($admin_check_sql);
+            $is_admin = false;
+
+            if ($admin_check_result->num_rows > 0) {
+                $admin_row = $admin_check_result->fetch_assoc();
+                $is_admin = $admin_row['Statut_Admin'] == 1;
+            }
+
+            if ($is_admin) {
+                echo '<div class="col-md-12 text-right mb-3">';
+                echo '<a href="ajouter_offre.php" class="btn btn-primary">Ajouter une Offre d\'Emploi</a>';
+                echo '</div>';
+            }
+
+            // Fetch job offers
+            $sql = "SELECT Offre_Emploi.Offre_ID, Offre_Emploi.Intitule, Offre_Emploi.Debut, Offre_Emploi.Fin, Offre_Emploi.Position, Offre_Emploi.Type_Contrat, Offre_Emploi.Photo, Offre_Emploi.Texte, Enterprise.Nom_Entreprise, Enterprise.Logo
                     FROM Offre_Emploi
                     JOIN Enterprise ON Offre_Emploi.Enterprise_ID = Enterprise.Enterprise_ID";
             $result = $conn->query($sql);
@@ -83,11 +110,13 @@
                     echo '<p class="card-text"><small class="text-muted">Fin: ' . $row["Fin"] . '</small></p>';
                     echo '<p class="card-text"><small class="text-muted">Position: ' . $row["Position"] . '</small></p>';
                     echo '<p class="card-text"><small class="text-muted">Type de Contrat: ' . $row["Type_Contrat"] . '</small></p>';
+                    echo '<a href="postuler.php?offre_id=' . $row["Offre_ID"] . '" class="btn btn-primary">Postuler</a>';
                     echo '</div></div></div>';
                 }
             } else {
                 echo '<div class="col-md-12"><p class="text-center">Aucune offre d\'emploi disponible pour le moment.</p></div>';
             }
+
             $conn->close();
             ?>
         </div>
