@@ -4,6 +4,8 @@ $database = "ecein";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 
+$user_id = 1;
+
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
     
@@ -20,7 +22,7 @@ echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
 
     echo '<div class="row">';
-        $result = Recherche_Projet($db_handle, 1);
+        $result = Recherche_Projet($db_handle, $user_id);
         while ($data = mysqli_fetch_assoc($result)) {
             Affichage_Projet($data);
         }
@@ -29,13 +31,13 @@ echo '<div class="container" id="main_bloc_profile">';
 echo '</div>';
 
 function Recherche_Projet($db_handle, $user_id) {
-    $sql = "SELECT Utilisateur.Nom, Utilisateur.Prenom, Projets.Nom, Projets.Debut, Projets.Fin, Education.Nom, Enterprise.Nom_Entreprise, Enterprise.Logo
+    $sql = "SELECT Utilisateur.Nom, Utilisateur.Prenom, Projets.Nom AS ProjNom, Projets.Debut, Projets.Fin, Education.Nom, Enterprise.Nom_Entreprise, Enterprise.Logo
     FROM Utilisateur
     JOIN Projets ON Utilisateur.User_ID = Projets.User_ID
     JOIN Education ON Projets.Edu_ID = Education.Edu_ID
-    JOIN Enterprise ON Education.Nom = Enterprise.Nom_Entreprise
-    WHERE Utilisateur.User_ID = 1
-    ORDER BY Projets.Debut DESC;";
+    JOIN Enterprise ON Education.Enterprise_ID = Enterprise.Enterprise_ID
+    WHERE Utilisateur.User_ID = $user_id
+    ORDER BY Projets.Fin DESC;";
     $result = mysqli_query($db_handle, $sql);
     return $result;
 }
@@ -46,7 +48,7 @@ function Affichage_Projet($data) {
     echo '</div>';
     echo '<div class="col-md-10">';
         echo '<table>';
-            echo '<tr><h3 style="color: black; text-align: left;">' . $data['Nom'] . ' chez ' . $data['Nom_Entreprise'] . '</h3></tr>';
+            echo '<tr><h3 style="color: black; text-align: left;">' . $data['ProjNom'] . ' chez ' . $data['Nom_Entreprise'] . '</h3></tr>';
             echo '<tr><h5 style="color: black;">' . $data['Debut'] . ' - ' . $data['Fin'] . '</h5></tr>';
             echo '<tr><h5 style="color: black;">' . $data['Nom'] . '</h5></tr>';
         echo '</table>';

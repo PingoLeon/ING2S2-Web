@@ -17,9 +17,18 @@
     <?php include 'Header.html'; ?>
     <br>
 
+    <!-- Creation du fichier XML -->
+    <?php include '../Profile/CV.php'; ?>
+    <?php //Creation_XML(); ?>
+
+    <br>
+
     <!-- Ajout du titre du profil -->
     <?php include '../Profile/Profile_title.php'; ?>
     <br>
+
+    <!-- Ajout des informations AJOUTE du profil -->
+    <?php include '../Profile/Profile_add.php'; ?>
 
     <!-- Ajout des informations du profil -->
     <?php include '../Profile/Profile_posts.php'; ?>
@@ -35,7 +44,6 @@
 
     <!-- Ajout des projets du profil -->
     <?php include '../Profile/Profile_projects.php'; ?>
-    <br>
 </body>
 </html>
 

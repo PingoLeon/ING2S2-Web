@@ -4,13 +4,14 @@ $database = "ecein";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 
+$user_id = 1;
+
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
 
     echo '<div class="row">';
         echo '<div class="col-md-10"><h2 style="color: black; text-align: left;">Education</h2></div>';
         echo '<div class="col-md-2">';
-            // Updated the link to include id=education parameter
             echo '<a href="Modification.php?id=education" id="education">';
             echo '<img src="../Photos/edit.png" alt="Modifier" width="40" height="40" >';
             echo '</a>';
@@ -20,7 +21,7 @@ echo '<div class="container" id="main_bloc_profile">';
 
     echo '<br>';
     echo '<div class="row">';
-        $result = Recherche_Education($db_handle, 1);
+        $result = Recherche_Education($db_handle, $user_id);
         while ($data = mysqli_fetch_assoc($result)) {
             Affichage_Education($data);
         }

@@ -58,6 +58,7 @@
                   $cookieSet = set_distinct_cookie($token2);   
                 }
               }
+              //header('Location: ../Main/accueil_main.php'); //?Redirection vers la page d'accueil
             } else {
               echo "Token invalide !<br>";
               echo "Token: $token<br>";
