@@ -36,7 +36,7 @@
         <button class="btn btn-warning w-100 py-2" type="submit" name="logout">Déconnexion</button>   
       </form>
       <br>
-      <a class="btn btn-info w-100 py-2" name="refresh" href="/ING2S2-WEB/Form/messagerie.php">Messagerie</a>
+      <a class="btn btn-info w-100 py-2" name="refresh" href="/ING2S2-WEB/Auth-msg-test/messagerie.php">Messagerie</a>
     </main>
   </body>
 </html>

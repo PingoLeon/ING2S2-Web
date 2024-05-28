@@ -2,7 +2,7 @@
     session_start();
     
     //! POUR FELIX : 
-    $page_to_send_to_once_connected = "index.php"; //? Page vers laquelle on redirige l'utilisateur une fois connecté
+    $page_to_send_to_once_connected = "../Main/accueil_main.php"; //? Page vers laquelle on redirige l'utilisateur une fois connecté
     
     function connect_to_db() {
         $database = "ECEin";  
@@ -70,7 +70,7 @@
                 }
             }else{//! Le token n'existe pas dans la BDD -> pas connecté
                 if ($type == "normal") { //? On redirige l'utilisateur vers la page de connexion
-                    header('Location: $connexion.php');
+                    header('Location: connexion.php');
                     exit;
                 }else if ($type == "connexion"){ //? On renvoie juste ce qu'il faut, on ne redirige pas l'utilisateur car il est déjà sur la page de connexion
                     return array($id, $email, $db_handle);
@@ -78,7 +78,7 @@
             }
         }else{ //! Le token n'existe pas -> pas connecté
             if ($type == "normal") { //? On redirige l'utilisateur vers la page de connexion
-                header('Location: $connexion.php');
+                header('Location: connexion.php');
                 exit;
             }else if ($type == "connexion"){ //? On renvoie juste ce qu'il faut, on ne redirige pas l'utilisateur car il est déjà sur la page de connexion
                 return array($id, $email, $db_handle);
