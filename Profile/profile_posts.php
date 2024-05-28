@@ -4,6 +4,8 @@ $database = "ecein";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 
+$user_id = 1;
+
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
     echo '<h2 style="color: black; text-align: left;">Activités</h2><br>';
@@ -12,7 +14,7 @@ echo '<div class="container" id="main_bloc_profile">';
         $sql = "SELECT Utilisateur.Nom, Utilisateur.Prenom, Posts.Texte, Posts.Date
         FROM Utilisateur
         JOIN Posts ON Utilisateur.User_ID = Posts.User_ID
-        WHERE Utilisateur.User_ID = 1
+        WHERE Utilisateur.User_ID = $user_id
         ORDER BY Posts.Date DESC;";
         $result = mysqli_query($db_handle, $sql);
         while ($data = mysqli_fetch_assoc($result)) {
