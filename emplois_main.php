@@ -6,30 +6,28 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="Site.css">
+    <link rel="stylesheet" type="text/css" href="SiteEmplois.css">
     <title>Header</title>
 </head>
 
 <body>
     <div class="container" id="background">
         <div class="container" id="main_bloc">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-6">
                     <nav>
                         <a class="navbar-brand" href="accueil_main.php"><b>EngineerIN: Social Media Professionnel de l'ECE Paris</b></a>
                     </nav>
                 </div>
-                <div class="col-md-4">
-                    <a href="accueil_main.php"><img src="EngineerIN_logo.png" alt="ECE Paris" style="width: 60%;"></a>
+                <div class="col-md-4 text-center">
+                    <a href="accueil_main.php"><img src="EngineerIN_logo.png" alt="ECE Paris" class="img-fluid" style="width: 60%;"></a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 text-right">
                     <a href="deconnexion.php" class="button_1">Deconnexion</a>
                 </div>
             </div>
-
             <br>
-
-            <div class="row">
+            <div class="row text-center">
                 <div class="col-md-2">
                     <a href="accueil_main.php" class="button_1">Accueil</a>
                 </div>
@@ -67,7 +65,6 @@
                 die("Connection failed: " . $conn->connect_error);
             }
 
-
             $sql = "SELECT Offre_Emploi.Intitule, Offre_Emploi.Debut, Offre_Emploi.Fin, Offre_Emploi.Position, Offre_Emploi.Type_Contrat, Offre_Emploi.Photo, Offre_Emploi.Texte, Enterprise.Nom_Entreprise, Enterprise.Logo
                     FROM Offre_Emploi
                     JOIN Enterprise ON Offre_Emploi.Enterprise_ID = Enterprise.Enterprise_ID";
@@ -75,8 +72,8 @@
 
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    echo '<div class="col-md-4">';
-                    echo '<div class="card mb-4 shadow-sm">';
+                    echo '<div class="col-md-4 mb-4">';
+                    echo '<div class="card shadow-sm">';
                     echo '<img class="card-img-top" src="' . $row["Photo"] . '" alt="Image">';
                     echo '<div class="card-body">';
                     echo '<h5 class="card-title">' . $row["Intitule"] . '</h5>';
