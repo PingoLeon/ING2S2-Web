@@ -25,53 +25,18 @@
           logout_button_POST(); //? Fonction de déconnexion
           
           //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
-          $token = cookie_or_session(); //? Fonction pour récupérer le token si il existe
-          if (!empty($token)) { 
-            $db_handle = connect_to_db(); //? Connexion à la BDD ECEin
-            $sql = "SELECT * FROM Utilisateur WHERE Token = '$token'";
-            $result = mysqli_query($db_handle, $sql);
-            
-            if (mysqli_num_rows($result) > 0) { //!Le token existe dans la BDD
-              if (isset($_SESSION['token'])) {
-                echo "<div class='alert alert-success' role='alert'>Vous êtes connecté avec une session</div>";
-              } else {
-                echo "<div class='alert alert-success' role='alert'>Vous êtes connecté avec un cookie</div>";
-              }
+          list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+          echo "<div class='alert alert-info' role='alert'>Informations de l'utilisateur :";
+          echo "<br>Email: $email";
+          echo "<br>ID: $id</div>";
               
-              $row = mysqli_fetch_assoc($result);
-              $email = $row['Mail'];
-              $id = $row['User_ID'];
-              echo "<div class='alert alert-info' role='alert'>Informations de l'utilisateur :";
-              echo "<br>Email: $email";
-              echo "<br>ID: $id</div>";
-              
-              //!Générer un nouveau cookie si l'utilisateur s'est authentifié par cookie
-              if (isset($_COOKIE['token'])) {
-                $token2 = bin2hex(random_bytes(8));
-                $sql = "UPDATE Utilisateur SET Token = '$token2' WHERE Token = '$token'";
-                $result_cookie = mysqli_query($db_handle, $sql);
-                if (!$result) {
-                  echo "Erreur: $sql <br>" . mysqli_error($db_handle);
-                }else{
-                  echo '<div class="alert alert-warning" role="alert">Nouveau cookie généré</div>';
-                  echo "<div class='alert alert-info' role='alert'>Token 1 : $token <br>Token 2 : $token2</div>";
-                  $cookieSet = set_distinct_cookie($token2);   
-                }
-              }
-              //header('Location: ../Main/accueil_main.php'); //?Redirection vers la page d'accueil
-            } else {
-              echo "Token invalide !<br>";
-              echo "Token: $token<br>";
-              header('Location: connexion.php'); //?Le token n'existe pas dans la BDD, redirection vers la page de connexion
-            }
-          } else {
-            echo "Token invalide !<br>";
-            echo "Token: $token<br>";
-            header('Location: connexion.php');//? Token vide, redirection vers la page de connexion
-          }
+          //!Générer un nouveau cookie si l'utilisateur s'est authentifié par cookie
+          update_token_of_cookie($db_handle);
         ?>
-        <button class="btn btn-warning w-100 py-2" type="submit" name="logout">Déconnexion</button>
+        <button class="btn btn-warning w-100 py-2" type="submit" name="logout">Déconnexion</button>   
       </form>
+      <br>
+      <a class="btn btn-info w-100 py-2" name="refresh" href="/ING2S2-WEB/Form/messagerie.php">Messagerie</a>
     </main>
   </body>
 </html>

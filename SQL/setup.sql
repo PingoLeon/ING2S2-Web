@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS Messagerie (
 );
 
 CREATE TABLE IF NOT EXISTS Messages (
-    MSG_ID INT PRIMARY KEY,
+    MSG_ID INT PRIMARY KEY AUTO_INCREMENT,
     Convers_ID INT,
     Sender_ID INT,
     Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -71,6 +71,99 @@ CREATE TABLE IF NOT EXISTS Messages (
     FOREIGN KEY (Convers_ID) REFERENCES Messagerie(Convers_ID),
     FOREIGN KEY (Sender_ID) REFERENCES Utilisateur(User_ID)
 );
+
+USE ECEin;
+
+INSERT INTO Messagerie (ID1, ID2)
+VALUES (2, 4);
+
+INSERT INTO Messages (Convers_ID, Sender_ID, Content)
+VALUES  (1, 1, 'Salut Leon, comment vas-tu ?'),
+        (1, 2, 'Salut Felix, je vais bien merci et toi ?'),
+        (1, 1, 'Je vais bien aussi, merci de demander !'),
+        (1, 2, 'C\'est cool !'),
+        (1, 1, 'Très cool !'),
+        (1, 2, 'Oui !'),
+        (1, 1, 'Tu as vu les nouvelles offres d\'emploi ?'),
+        (1, 2, 'Oui, je vais postuler pour celle de chez ECE Paris !'),
+        (1, 1, 'Tu as lu les nouvelles ?'),
+        (1, 2, 'Oui, c\'est fou !'),
+        (1, 1, 'Tu as vu les nouvelles offres d\'emploi ?'),
+        (1, 2, 'Oui, je vais postuler pour celle de chez ECE Paris !'),
+        (1, 1, 'Tu as lu les nouvelles ?'),
+        (1, 2, 'Oui, c\'est fou !'),
+        (1, 1, 'Tu as vu les nouvelles offres d\'emploi ?'),
+        (1, 2, 'Oui, je vais postuler pour celle de chez ECE Paris !'),
+        (1, 1, 'Tu as lu les nouvelles ?'),
+        (1, 2, 'Oui, c\'est fou !'),
+        (1, 1, 'Tu as vu les nouvelles offres d\'emploi ?'),
+        (1, 2, 'Oui, je vais postuler pour celle de chez ECE Paris !'),
+        (1, 1, 'Tu as lu les nouvelles ?'),
+        (1, 2, 'Oui, c\'est fou !'),
+        (1, 1, 'Tu as vu les nouvelles offres d\'emploi ?'),
+        (1, 2, 'Oui, je vais postuler pour celle de chez ECE Paris !'),
+        (1, 1, 'Tu as lu les nouvelles ?'),
+        (1, 2, 'Oui, c\'est fou !'),
+        (1, 1, 'Tu as vu les nouvelles offres d\'emploi ?'),
+        (1, 2, 'Oui, je vais postuler pour celle de chez ECE Paris !'),
+        (1, 1, 'Tu as lu les nouvelles ?'),
+        (1, 2, 'Oui, c\'est fou !'),
+        (1, 1, 'Tu as vu les nouvelles offres d\'emploi ?'),
+        (1, 2, 'Oui, je vais postuler pour celle de chez ECE Paris !'),
+        (1, 1, 'Tu as lu les nouvelles ?');
+        
+INSERT INTO Messages (Convers_ID, Sender_ID, Content)
+VALUES  (2, 2, 'Salut Annabelle'),
+        (2, 4, 'Salut Léon'),
+        (2, 2, 'Comment vas-tu ?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca'),
+        (2, 2, '?'),
+        (2, 4, 'Caca');
+        
+--Supprimer les messages dont le MSG_ID est supérieur à 80
+DELETE FROM Messages WHERE MSG_ID > 80;
 
 CREATE TABLE IF NOT EXISTS Education (
     Edu_ID INT PRIMARY KEY  AUTO_INCREMENT,

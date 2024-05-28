@@ -59,18 +59,7 @@
     $remember = false;
 
     //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
-    $token = cookie_or_session();
-    if (!empty($token)) {
-        $db_handle = connect_to_db();
-        $sql = "SELECT * FROM Utilisateur WHERE Token = '$token'";
-        $result = mysqli_query($db_handle, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            header('Location: index.php');
-        } else {
-            header('Location: inscription.php');
-        }
-    }
+    list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle('connexion');
 
     //! Vérification des données du formulaire
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
