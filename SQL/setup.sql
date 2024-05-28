@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS Messages (
 USE ECEin;
 
 INSERT INTO Messagerie (ID1, ID2)
-VALUES (2, 4);
+VALUES (2, 4),
+       (1, 2);
 
 INSERT INTO Messages (Convers_ID, Sender_ID, Content)
 VALUES  (1, 1, 'Salut Leon, comment vas-tu ?'),
@@ -161,9 +162,6 @@ VALUES  (2, 2, 'Salut Annabelle'),
         (2, 4, 'Caca'),
         (2, 2, '?'),
         (2, 4, 'Caca');
-        
---Supprimer les messages dont le MSG_ID est supérieur à 80
-DELETE FROM Messages WHERE MSG_ID > 80;
 
 CREATE TABLE IF NOT EXISTS Education (
     Edu_ID INT PRIMARY KEY  AUTO_INCREMENT,
