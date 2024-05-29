@@ -31,7 +31,7 @@
         $cookieSet = setcookie("token", $token, [
             'expires' => time() + 86400,
             'path' => '/',
-            'domain' => $_SERVER['localhost'],
+            'domain' => 'localhost',
             'secure' => true,
             'httponly' => true,
             'samesite' => 'Strict',
@@ -70,7 +70,7 @@
                 }
             }else{//! Le token n'existe pas dans la BDD -> pas connecté
                 if ($type == "normal") { //? On redirige l'utilisateur vers la page de connexion
-                    header('Location: connexion.php');
+                    header('Location: /ING2S2-WEB/Auth/');
                     exit;
                 }else if ($type == "connexion"){ //? On renvoie juste ce qu'il faut, on ne redirige pas l'utilisateur car il est déjà sur la page de connexion
                     return array($id, $email, $db_handle);
@@ -78,7 +78,7 @@
             }
         }else{ //! Le token n'existe pas -> pas connecté
             if ($type == "normal") { //? On redirige l'utilisateur vers la page de connexion
-                header('Location: connexion.php');
+                header('Location: /ING2S2-WEB/Auth/');
                 exit;
             }else if ($type == "connexion"){ //? On renvoie juste ce qu'il faut, on ne redirige pas l'utilisateur car il est déjà sur la page de connexion
                 return array($id, $email, $db_handle);
@@ -95,14 +95,35 @@
             // Supprime le cookie
             if (isset($_COOKIE['token'])) {
                 unset($_COOKIE['token']);
-                setcookie('token', '', time() - 3600, '/'); // Ancien temps pour supprimer le cookie
+                setcookie('token', '', time() - 3600, '/'); // empty value and old timestamp
             }
             
             // Redirige vers la page d'inscription
-            header('Location: connexion.php');
+            header('Location: /ING2S2-WEB/Auth/');
             exit;
         }
     }
+    
+    function check_if_new_msg_in_conv($db_handle, $id, $friend_id){
+        //Compter le nombre de messages dans la conversation
+        $sql = "SELECT COUNT(*) AS nb_msg FROM Messages 
+                WHERE Convers_ID = (
+                    SELECT Convers_ID FROM Messagerie 
+                    WHERE       (ID1 = '$id' AND ID2 = '$friend_id')
+                        OR      (ID1 = '$friend_id' AND ID2 = '$id'))";
+        $result = mysqli_query($db_handle, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $nb_msg = $row['nb_msg'];
+        return $nb_msg;
+    }
+    
+if (isset($_POST['check_new_msg'])) {
+    $id = $_POST['id'];
+    $friend_id = $_POST['friend_id'];
+    $db_handle = connect_to_db();
+    echo check_if_new_msg_in_conv($db_handle, $id, $friend_id);
+    exit;
+}
     
 
 ?>

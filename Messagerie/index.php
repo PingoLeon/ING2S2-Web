@@ -1,6 +1,6 @@
 <?php
     ob_start();
-    include 'functions.php';
+    include '../Auth/functions.php';
     //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
     list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
 ?>
@@ -195,7 +195,7 @@
                             echo "Erreur: $sql <br>" . mysqli_error($db_handle);
                         } else {
                             $_SESSION['current_conversation'] = $friend_id;
-                            header("Location: messagerie.php");
+                            header("Location: ../Messagerie/");
                             ob_end_flush(); 
                             exit;
                         }

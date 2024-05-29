@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-  <head>
+    <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,7 @@
     <body class="d-flex align-items-center py-4 bg-body-tertiary">    
     <main class="form-signin w-100 m-auto">
         <form action="" method="post">
-            <img class="mb-4" src="logo.png" alt="" width="72" height="72">
+            <img class="mb-4" src="../Photos/EngineerIN_logo.png" alt="" width="300" height="72">
             <h1 class="h3 mb-3 fw-normal">Inscription</h1>
             <div class="form-floating">
                 <input type="email" class="form-control" id="floatingInput" name="floatingInput" placeholder="name@example.com">
@@ -43,9 +43,9 @@
                     unset($_SESSION['error_message']); // Pour ne pas afficher le même message d'erreur plusieurs fois
                 }
             ?>
-            <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
         </form>
-        <a href="connexion.php">Déjà un compte ? Connexion</a>
+        <a href="/ING2S2-WEB/Auth/">Déjà un compte ? Connexion</a>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>

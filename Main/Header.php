@@ -1,3 +1,5 @@
+</html>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +100,9 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a href="deconnexion.php" class="button_1">Deconnexion</a>
+                    <form method="post">
+                        <button class="button_1" type="submit" name="logout">Déconnexion</button>  
+                    </form>
                 </div>
             </div>
 

@@ -1,6 +1,4 @@
 <?php
-include 'Header.html';
-
 /*
 Fichier: modification.php
 Projet: ECEin
@@ -21,11 +19,10 @@ Les fonctions meres sont les fonctions qui vont afficher les boutons pour ajoute
 Les sous-fonctions traitent les formulaires pour ajouter ou modifier une section du profil selon le choix de l'utilisateur.
 */
 
-$database = "ecein";
-$db_handle = mysqli_connect('localhost', 'root', '');
-$db_found = mysqli_select_db($db_handle, $database);
-
-$user_id = 1;
+include '../Auth/functions.php';
+//! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
+list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+$user_id = $id;
 
 echo '<br>';
 
