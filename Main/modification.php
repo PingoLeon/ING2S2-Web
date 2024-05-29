@@ -27,7 +27,7 @@ $db_found = mysqli_select_db($db_handle, $database);
 
 $user_id = 1;
 
-echo '<h1>Modification</h1>';
+echo '<br>';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -105,8 +105,6 @@ function Edit_Education($db_handle) {
 }
 
 function Edit_Title($db_handle, $user_id) {
-    echo '<h2>Edit Title</h2>';
-    // Add your code to edit title here
     //the title is the basic profile, the name, surname, etc.
     //The user can change his name, email, country or profile picture by uploading a new one from his computer
     echo '<div class="container" id="main_bloc_profile">';

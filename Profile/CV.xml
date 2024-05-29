@@ -6,47 +6,29 @@
     <Nom>Cadene</Nom>
     <Prenom>Felix</Prenom>
     <Username>FefeC</Username>
-    <Photo>../Photos/photo1.png</Photo>
+    <Photo>../photos/photo1.png</Photo>
     <Pays>France</Pays>
   </User>
   <Education>
-    <Edu>
-      <Edu_ID>2</Edu_ID>
-      <Debut>2024-05-06</Debut>
-      <Fin>2024-05-20</Fin>
-      <Nom>Tricheur</Nom>
-      <Type_formation>Ingenieur</Type_formation>
-      <Enterprise>ESILV</Enterprise>
-      <Logo>Entreprise/logo3</Logo>
-    </Edu>
     <Edu>
       <Edu_ID>1</Edu_ID>
       <Debut>2022-09-01</Debut>
       <Fin>2027-06-01</Fin>
       <Nom>Etudiant</Nom>
       <Type_formation>Ingenieur</Type_formation>
-      <Enterprise>ECE Paris</Enterprise>
-      <Logo>Entreprise/logo2</Logo>
+      <Enterprise>TechCorp</Enterprise>
+      <Logo>logotechcorp.png</Logo>
     </Edu>
   </Education>
   <Experience>
-    <Exp>
-      <Exp_ID>4</Exp_ID>
-      <Debut>2024-05-08</Debut>
-      <Fin>2024-05-25</Fin>
-      <Position>Foufou</Position>
-      <Type_Contrat>Alternance</Type_Contrat>
-      <Enterprise>ESILV</Enterprise>
-      <Logo>Entreprise/logo3</Logo>
-    </Exp>
     <Exp>
       <Exp_ID>1</Exp_ID>
       <Debut>2023-12-01</Debut>
       <Fin>2024-01-01</Fin>
       <Position>Stagiaire au Cabinet du Maire</Position>
       <Type_Contrat>Stage</Type_Contrat>
-      <Enterprise>Mairie de Paris</Enterprise>
-      <Logo>Entreprise/logo1</Logo>
+      <Enterprise>ECE Paris</Enterprise>
+      <Logo>logoece.png</Logo>
     </Exp>
     <Exp>
       <Exp_ID>2</Exp_ID>
@@ -54,18 +36,11 @@
       <Fin>2024-06-01</Fin>
       <Position>Ambassadeur</Position>
       <Type_Contrat>Contrat</Type_Contrat>
-      <Enterprise>ECE Paris</Enterprise>
-      <Logo>Entreprise/logo2</Logo>
+      <Enterprise>TechCorp</Enterprise>
+      <Logo>logotechcorp.png</Logo>
     </Exp>
   </Experience>
   <Projects>
-    <Project>
-      <Proj_ID>2</Proj_ID>
-      <Debut>2024-05-20</Debut>
-      <Fin>2024-05-25</Fin>
-      <Nom>Web dynamique</Nom>
-      <Edu_Name>Etudiant</Edu_Name>
-    </Project>
     <Project>
       <Proj_ID>1</Proj_ID>
       <Debut>2022-09-01</Debut>
@@ -74,18 +49,5 @@
       <Edu_Name>Etudiant</Edu_Name>
     </Project>
   </Projects>
-  <Posts>
-    <Post>
-      <Post_ID>1</Post_ID>
-      <Date>2024-05-28 00:00:00</Date>
-      <Photo>Photos/main-qimg-d36a779b608cf6777ef52133ee6e17ce-lq</Photo>
-      <Texte>fr</Texte>
-    </Post>
-    <Post>
-      <Post_ID>2</Post_ID>
-      <Date>2024-05-28 00:00:00</Date>
-      <Photo>Photos/post1</Photo>
-      <Texte>grgr</Texte>
-    </Post>
-  </Posts>
+  <Posts/>
 </CV>

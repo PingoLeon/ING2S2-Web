@@ -4,73 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profile Posts</title>
-<style>
-/* Modal styles */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-}
+<link rel="stylesheet" href="modal.css"> <!-- Link to your modal styles -->
+<link rel="stylesheet" href="../Main/Site.css">
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
+<script src="modal.js"></script> <!-- Link to your modal script -->
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-</style>
 <script>
-function openModal(postID) {
-  console.log('Modal opened for post ID:', postID); // Debugging
-  const modal = document.getElementById("postModal");
-  const span = document.getElementsByClassName("close")[0];
-  const title = document.getElementById("modalTitle");
-  const image = document.getElementById("modalImage");
-  const text = document.getElementById("modalText");
+function postModalContent(data) {
+  return `
+  <div class = "col-mid-6">
+    <h3>${data.Titre}</h3>
+    <img src="../${data.Photo}.png" alt="Post Image" width="50%">
+    <p>${data.Texte}</p>
+    </div>
+  `;
+}
 
-  // AJAX call to fetch post data
-  fetch(`../Profile/profile_posts_modal.php?post_id=${postID}`)
-    .then(response => response.json())
-    .then(data => {
-      console.log('Data received:', data); // Debugging
-      title.innerHTML = data.Titre;
-      image.src = `../${data.Photo}.png`;
-      text.innerHTML = data.Texte;
-      modal.style.display = "block";
-    })
-    .catch(error => console.error('Error fetching post data:', error));
-
-  span.onclick = function() {
-    modal.style.display = "none";
-  }
-
-  window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  }
+function profilePhotoModalContent(data) {
+  return `
+    <div class = "col-mid-6">
+    <h3>${data.Prenom} ${data.Nom}</h3>
+    <img src="${data.Photo}" alt="Profile Photo" width="100%">
+    </div>
+  `;
 }
 </script>
 </head>
@@ -82,7 +38,7 @@ function openModal(postID) {
       <h2 style="color: black; text-align: left;">Activités</h2>
     </div>
     <div class="col-md-2">
-      <a href="Modification.php?id=post" id="post">
+      <a href="../Main/Modification.php?id=post" id="post">
         <img src="../Photos/edit.png" alt="Modifier" width="40" height="40">
       </a>
     </div>
@@ -98,23 +54,8 @@ function openModal(postID) {
   <br>
 </div>
 
-<!-- Modal -->
-<div id="postModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3 id="modalTitle"></h3>
-    <div class="row">
-      <div class="col-md-6">
-      <img id="modalImage" src="" alt="Post Image" width="100%">
-      </div>
-      <div class="col-md-6">
-        <p id="modalText"></p>
-      </div>
-    </div>
-    
-    <p id="modalText"></p>
-  </div>
-</div>
+<!-- Include the modal HTML structure -->
+<?php include '../Main/modal.html'; ?>
 </body>
 </html>
 
@@ -131,7 +72,7 @@ function Rechercher_Post($db_handle, $user_id) {
 
 function Affichage_Post($data) {
     echo '<div class="col-md-2">';
-        echo '<img src="../' . $data['Photo'] . '.png" alt="Photo de profil" width="100" height="100" onclick="openModal(' . $data['Post_ID'] . ')">';
+        echo '<img src="../' . $data['Photo'] . '.png" alt="Photo de profil" width="100" height="100" onclick="openModal(\'SELECT * FROM Posts WHERE Post_ID = :id\', ' . $data['Post_ID'] . ', postModalContent)">';
     echo '</div>';
     echo '<div class="col-md-10" style="word-wrap: break-word; overflow: hidden; text-overflow: ellipsis; white-space: pre-wrap;">';
         echo '<table>';

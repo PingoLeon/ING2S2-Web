@@ -9,6 +9,7 @@ body {
     border-radius: 15px;
 }
 
+
 #main_bloc {
     width: 110%;
     background-color: white;
@@ -17,6 +18,8 @@ body {
     margin-left: -15px;
     border-radius: 15px;
 }
+
+
 
 .navbar-brand {
     color: #006699;
