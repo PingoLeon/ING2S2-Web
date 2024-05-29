@@ -16,6 +16,7 @@
         <div class="container" id="main_bloc">
             <div class="row align-items-center">
                 <div class="col-md-6">
+                    
                     <nav>
                         <a class="navbar-brand" href="accueil_main.php"><b>EngineerIN: Social Media Professionnel de l'ECE Paris</b></a>
                     </nav>
