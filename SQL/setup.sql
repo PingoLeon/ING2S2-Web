@@ -75,8 +75,8 @@ CREATE TABLE IF NOT EXISTS Messages (
 USE ECEin;
 
 INSERT INTO Messagerie (ID1, ID2)
-VALUES (2, 4),
-       (1, 2);
+VALUES  (1, 2),
+        (2, 4);
 
 INSERT INTO Messages (Convers_ID, Sender_ID, Content)
 VALUES  (1, 1, 'Salut Leon, comment vas-tu ?'),
