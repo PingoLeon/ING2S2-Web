@@ -24,10 +24,6 @@ body {
     border-top-right-radius: 0;
 }
 
-body {
-    min-height: 100vh;
-}
-
 .alert {
     margin-bottom: 0;
 }
@@ -43,16 +39,16 @@ body {
 }
 
 .btn-whatsapp {
-    background-color: #25D366;
+    background-color: #fff;
     color: white;
     border: none;
     padding: 10px 20px;
-    transition-duration: 0.1s;
+    transition-duration: 0.2s;
     cursor: pointer;
-    border-radius: 12px;
     display: flex;
     align-items: center;
     width: 100%;
+    color: #000;
 }
 
 .btn-whatsapp:hover {
@@ -67,26 +63,83 @@ body {
 }
 
 .message-right {
-    background-color: #DCF8C6; /* couleur de fond pour les messages de l'utilisateur */
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
-    position: relative;
+    background-color: #3F74EE; /* couleur de fond pour les messages de l'utilisateur */
     text-align: right;
-    margin-left: auto;
-    display: inline-block;
-    clear: both;
+    align-self: flex-end;
+    color: #fff;
+    
 }
 
 .message-left {
-    background-color: #FFFFFF; /* couleur de fond pour les messages de l'ami */
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
-    position: relative;
+    background-color: #eff3fc; /* couleur de fond pour les messages de l'ami */
     text-align: left;
     margin-right: auto;
+    color: #202124;
+}
+
+.message-right, .message-left {
+    border-radius: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     display: inline-block;
+    max-width: 60%;
+    display: block;
     clear: both;
+    position: relative;
+    max-width: 50vh;
+}
+
+#conversation{
+    height: 100%;
+    overflow-y: scroll;
+    padding: 10px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+#conversation::-webkit-scrollbar {
+    width: 10px;
     
+}
+
+#conversation::-webkit-scrollbar-track {
+    background: transparent; /* rend la piste transparente */
+}
+
+#conversation::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+#conversation::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#conversation > * {
+    direction: ltr;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Assurez-vous que la barre latérale a une hauteur définie */
+}
+
+#disconnect-messagerie {
+    position:relative;
+    margin-top:98%;
+
+}
+
+
+#barre-laterale{
+    width: 280px; 
+    background-color: #0000; 
+    border-right: 1px solid #8a8585;
+    border-color: black;
 }

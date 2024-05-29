@@ -28,8 +28,9 @@
     </head>
     <body class="d-flex flex-column">
         <div class="d-flex flex-row h-100">
-            <!-- Barre latérale -->
-            <div class="p-3 flex-shrink-0" style="width: 280px; background-color: #131b21;">
+            <!--Barre latérale -->
+            <div id="barre-laterale" class="p-3 flex-shrink-0">
+                <!-- Onglet personnel -->
                 <div class="d-flex flex-row align-items-center mb-3">
                     <img src="<?php
                         $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$id'";
@@ -40,18 +41,18 @@
                             $nom = $row['Nom'];
                             $prenom = $row['Prenom'];
                         }
-                    ?>
-                    " alt="Avatar" class="rounded-circle" width="50" height="50">
+                    ?>" alt="Avatar" class="rounded-circle" style="border: 1px solid #000; border-color: black;" width="50" height="50">                
                     <div class="ms-3">
-                        <div class="fw-bold text-white"><?php echo "$nom $prenom"; ?></div>
+                        <div class="fw-bold text-black"><?php echo "$nom $prenom"; ?></div>
                         <div class="text-muted" style="color: #24bd5d !important;">En ligne</div>
                     </div>
                 </div>
-                <div class="fw-bold text-white mb-2">CONVERSATIONS</div>
-                <!-- ... Ajoutez ici le code PHP pour afficher les conversations dans la barre latérale ... -->
+                <!-- Conversations -->
+                <div class="fw-bold text-black mb-2 overflow-auto">CONVERSATIONS</div>
                 <?php                        
                     //! Fetch tous les mails qui ont une conversation avec la personne connectée
                     $sql = "SELECT User_ID, Mail, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
+                    
                     $result = mysqli_query($db_handle, $sql);
                     if (mysqli_num_rows($result) != 0) {
                         while($row = mysqli_fetch_assoc($result)){
@@ -64,15 +65,25 @@
                             echo "<input type='hidden' name='friend_email' value='$friend_email'>";
                             echo "<input type='hidden' name='friend_id' value='$friend_id'>";
                             echo "<button type='submit' class='btn btn-whatsapp'>";
-                            echo "<img src='".$Photo."' alt='Avatar' class='rounded-circle' width='50' height='50'>";
+                            echo "<img src='".$Photo."' alt='Avatar' class='rounded-circle' style='border: 1px solid #000; border-color: black;' width='50' height='50'>";
                             echo "$Prenom $Nom</button>";
                             echo "</form><br>";                        
                         }
                     } 
                 ?>
+                
+                <!-- Déconnexion -->
+                <form method="post">
+                    <button id= "disconnect-messagerie" class="btn btn-danger w-100 py-2" type="submit" name="logout">Déconnexion</button>
+                    <?php
+                        logout_button_POST();
+                    ?>
+                </form>
             </div>
-            <div class="d-flex flex-column flex-grow-1 p-3 bg-light">
-                <!-- Conteneur de messages -->
+            
+            <!-- Conteneur de messages -->
+            <div id="box-conversation" class="d-flex flex-column flex-grow-1 p-3 bg-light">
+                <!-- Conteneur d'informations sur l'ami -->
                 <div class="d-flex flex-column flex-grow-1 border rounded p-3">
                     <div class="d-flex flex-row align-items-center mb-3">
                         <img src="
@@ -89,9 +100,11 @@
                                 $friend_prenom = $row['Prenom'];
                             }
                         ?>
-                        " alt="Avatar" class="rounded-circle" width="50" height="50">
+                        " alt="Avatar" class="rounded-circle" style="border: 1px solid #000; border-color: black;" width="50" height="50">
                         <div class="ms-3">
+                            <!-- Nom de l'ami -->
                             <div class="fw-bold"><?php echo "$friend_nom $friend_prenom"; ?></div>
+                            <!-- Statut de l'ami -->
                             <div class="text-muted">
                                 <?php
                                     $sql = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$friend_id' ORDER BY Debut";
@@ -124,9 +137,11 @@
                 
                 <!-- Conteneur de messages 2-->
                 <div id="conversation" class="d-flex flex-column-reverse flex-grow-1 overflow-auto p-3" data-friend-email="<?php echo $friend_email; ?>" data-friend-id="<?php echo $friend_id; ?>">
-                    <!-- ... Le code PHP pour récupérer les messages reste inchangé ... -->
                         <?php
-                        // Récupérer les messages de la conversation avec un ami entre l'adresse connectée et l'adresse de l'ami
+                        if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé)
+                            $friend_id = $_SESSION['current_conversation'];
+                            unset($_SESSION['current_conversation']);
+                        }
                         $sql = "SELECT * FROM Messages 
                                 WHERE Convers_ID = (
                                     SELECT Convers_ID FROM Messagerie 
@@ -163,8 +178,12 @@
                 <form id="messageForm" class="d-flex flex-row align-items-center border-top p-3 mt-auto" method="post" action="">
                     <input type="hidden" name="friend_email" value="<?php echo $friend_email; ?>">
                     <input type="hidden" name="friend_id" value="<?php echo $friend_id; ?>">
-                    <input type="text" name="message" class="form-control flex-grow-1 me-2" placeholder="Écrire un message" required>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                    <input type="text" name="message" class="form-control flex-grow-1 me-2" placeholder="Écrire un message" autocomplete="off" required>
+                    <button type="submit" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                        </svg>
+                    </button>
                 </form>
                 <?php
                     //! Envoyer le message
@@ -175,7 +194,7 @@
                         if (!$result) {
                             echo "Erreur: $sql <br>" . mysqli_error($db_handle);
                         } else {
-                            echo '<div class="alert alert-success" role="alert">Message envoyé</div>';
+                            $_SESSION['current_conversation'] = $friend_id;
                             header("Location: messagerie.php");
                             ob_end_flush(); 
                             exit;
