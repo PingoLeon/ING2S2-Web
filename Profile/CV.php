@@ -1,12 +1,8 @@
 <?php
 
-function Creation_XML() {
+function Creation_XML($user_id) {
   
-  $database = "ecein";
-  $db_handle = mysqli_connect('localhost', 'root', '');
-  $db_found = mysqli_select_db($db_handle, $database);
-
-  $user_id = 1;
+  
 
   
 
@@ -156,6 +152,6 @@ function Creation_XML() {
 }
 
 
-$xml = Creation_XML();
+$xml = Creation_XML($user_id);
 
 ?>

@@ -37,6 +37,8 @@
             </div>
             <button class="btn btn-primary w-100 py-2" type="submit">Inscription</button>
             <?php
+                include 'functions.php';
+                
                 if (isset($_SESSION['error_message'])) {
                     echo "<br><br>";
                     echo $_SESSION['error_message'];
@@ -52,9 +54,6 @@
 </html>
 
 <?php
-
-    include 'functions.php';
-    
     $email = $password = "";
     $remember = false;
 
@@ -90,8 +89,9 @@
         $token = bin2hex(random_bytes(8));
         
         //!Vérifier si le mail existe déjà
-        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
         $db_handle = connect_to_db();
+        $email = mysqli_real_escape_string($db_handle, $email);
+        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
         $result = mysqli_query($db_handle, $sql);
         if (mysqli_num_rows($result) > 0) {
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Email déjà utilisé</div>";

@@ -91,8 +91,9 @@
         $token = bin2hex(random_bytes(8));
         
         //!Vérifier si le mail existe déjà
-        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
         $db_handle = connect_to_db();
+        $email = mysqli_real_escape_string($db_handle, $email);
+        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
         $result = mysqli_query($db_handle, $sql);
         if (mysqli_num_rows($result) === 0) {
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Ce compte n'existe pas</div>";

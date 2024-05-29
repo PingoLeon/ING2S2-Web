@@ -1,10 +1,4 @@
 <?php
-$database = "ecein";
-$db_handle = mysqli_connect('localhost', 'root', '');
-$db_found = mysqli_select_db($db_handle, $database);
-
-$user_id = 1;
-
 $sql = "SELECT * FROM utilisateur WHERE User_ID = '$user_id'";
 $result = mysqli_query($db_handle, $sql);
 $data = mysqli_fetch_assoc($result);

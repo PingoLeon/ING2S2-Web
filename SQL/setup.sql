@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS ECEIn;
+DROP DATABASE IF EXISTS ECEIn;
+CREATE DATABASE ECEIn;
 USE ECEIn;
 
 DROP TABLE IF EXISTS `commentaires`, `education`, `informations`,  `enterprise`, `events`, `experience`, `likes`, `messagerie`, `messages`, `offre_emploi`, `posts`, `projets`, `reseau`, `utilisateur`;
@@ -153,25 +154,19 @@ CREATE TABLE IF NOT EXISTS Reseau (
 
 -- Sample data insertion
 INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Token, Photo, Pays, Statut_Admin, Statut_Utilisateur, Entreprise_ID) 
-VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France', 1, 0, 0),
-       (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0, 1, 0),
-       (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0, 2, 1),
-       (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0, 2, 2);
-INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Token, Photo, Pays, Statut_Admin, Statut_Utilisateur, Entreprise_ID) 
-VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France', 1, 0, 0),
-       (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0, 1, 0),
-       (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0, 2, 1),
-       (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0, 2, 2);
+VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Félix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France', 1, 0, 0),
+        (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0, 1, 0),
+        (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0, 2, 1),
+        (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0, 2, 2);
 
 INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation, Enterprise_ID)
-VALUES (1, 1, '2022-09-01', '2027-06-01', 'Etudiant', 'Ingenieur', 2);
+VALUES (1, 1, '2022-09-01', '2027-06-01', 'Etudiant', 'Ingenieur', 1);
 
 INSERT INTO Projets (Proj_ID, User_ID, Debut, Fin, Nom, Edu_ID)
 VALUES (1, 1, '2022-09-01', '2024-06-01', 'ECE_CUP', 1);
 
 INSERT INTO Experience (Exp_ID, User_ID, Debut, Fin, Position, Type_Contrat, Enterprise_ID)
-VALUES (1, 1, '2023-12-01', '2024-01-01', 'Stagiaire au Cabinet du Maire', 'Stage', 1),
-       (2, 1, '2023-09-01', '2024-06-01', 'Ambassadeur', 'Contrat', 2);
+VALUES (1, 1, '2023-09-01', '2024-06-01', 'Ambassadeur', 'Contrat', 1);
 
 INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur, Information_ID)
 VALUES

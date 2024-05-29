@@ -121,7 +121,7 @@
                     <a href="notifications_main.php" class="button_1">Notifications</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="messagerie_main.php" class="button_1">Messagerie</a>
+                    <a href="../Messagerie/" class="button_1">Messagerie</a>
                 </div>
                 <div class="col-md-2">
                     <a href="emplois_main.php" class="button_1">Emplois</a>

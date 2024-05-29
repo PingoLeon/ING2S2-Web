@@ -3,45 +3,10 @@ body {
     height: 100%;
 }
 
-.form-signin {
-    max-width: 330px;
-    padding: 1rem;
-}
-
-.form-signin .form-floating:focus-within {
-    z-index: 2;
-}
-
-.form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-.alert {
-    margin-bottom: 0;
-}
-
-.alert-success {
-    background-color: #dbf1ee;
-    color: #2b8a3e;
-}
-
-.alert-warning {
-    background-color: #fff4d9;
-    color: #aa6d00;
-}
-
 .btn-whatsapp {
     background-color: #fff;
     color: white;
-    border: none;
+    border: 1px transparent #fff;
     padding: 10px 20px;
     transition-duration: 0.2s;
     cursor: pointer;
@@ -130,9 +95,9 @@ body {
     height: 100%; /* Assurez-vous que la barre latérale a une hauteur définie */
 }
 
-#disconnect-messagerie {
+#action-buttons-messagerie{
     position:relative;
-    margin-top:98%;
+    margin-top:80%;
 
 }
 

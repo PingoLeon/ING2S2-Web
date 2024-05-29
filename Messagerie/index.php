@@ -1,8 +1,12 @@
 <?php
     ob_start();
     include '../Auth/functions.php';
+    
     //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
     list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+    
+    //! Checker si l'utilisateur a appuyé sur le bouton de déconnexion
+    logout_button_POST();
 ?>
 
 <!doctype html>
@@ -51,34 +55,43 @@
                 <div class="fw-bold text-black mb-2 overflow-auto">CONVERSATIONS</div>
                 <?php                        
                     //! Fetch tous les mails qui ont une conversation avec la personne connectée
-                    $sql = "SELECT User_ID, Mail, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
-                    
+                    $sql = "SELECT User_ID, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
                     $result = mysqli_query($db_handle, $sql);
                     if (mysqli_num_rows($result) != 0) {
                         while($row = mysqli_fetch_assoc($result)){
-                            $friend_email = $row['Mail'];
                             $friend_id = $row['User_ID'];
-                            $Photo = $row['Photo'];
-                            $Nom = $row['Nom'];
-                            $Prenom = $row['Prenom'];
-                            echo "<form method='post' action=''>";
-                            echo "<input type='hidden' name='friend_email' value='$friend_email'>";
+                            $friend_photo = $row['Photo'];
+                            $friend_name = $row['Nom'];
+                            $friend_first_name = $row['Prenom'];
+                            echo "<form method='post'>";
                             echo "<input type='hidden' name='friend_id' value='$friend_id'>";
+                            echo "<input type='hidden' name='friend_photo' value='$friend_photo'>";
+                            echo "<input type='hidden' name='friend_nom' value='$friend_name'>";
+                            echo "<input type='hidden' name='friend_prenom' value='$friend_first_name'>";
                             echo "<button type='submit' class='btn btn-whatsapp'>";
-                            echo "<img src='".$Photo."' alt='Avatar' class='rounded-circle' style='border: 1px solid #000; border-color: black;' width='50' height='50'>";
-                            echo "$Prenom $Nom</button>";
+                            echo "<img src='".$friend_photo."' alt='Avatar' class='rounded-circle' style='border: 1px solid #000; border-color: black;' width='50' height='50'>";
+                            echo "$friend_first_name $friend_name</button>";
                             echo "</form><br>";                        
                         }
                     } 
                 ?>
                 
-                <!-- Déconnexion -->
-                <form method="post">
-                    <button id= "disconnect-messagerie" class="btn btn-danger w-100 py-2" type="submit" name="logout">Déconnexion</button>
-                    <?php
-                        logout_button_POST();
-                    ?>
-                </form>
+                <!-- Déconnexion et Retour au Menu -->
+                <div id="action-buttons-messagerie">
+                    <form method="post">
+                        <button class="btn btn-info w-100 py-2" style="margin-bottom: 6px" type="submit" name="menu">Retour au Menu</button>
+                        <?php
+                            if (isset($_POST['menu'])) {
+                                header('Location: ../Main/accueil_main.php');
+                                ob_end_flush(); 
+                                exit;
+                            }
+                        ?>
+                    </form>
+                    <form method="post">
+                        <button class="btn btn-danger w-100 py-2" type="submit" name="logout">Déconnexion</button>
+                    </form>
+                </div>
             </div>
             
             <!-- Conteneur de messages -->
@@ -88,22 +101,24 @@
                     <div class="d-flex flex-row align-items-center mb-3">
                         <img src="
                         <?php
-                            $friend_email = isset($_POST['friend_email']) ? $_POST['friend_email'] : "$friend_email";
                             $friend_id = isset($_POST['friend_id']) ? $_POST['friend_id'] : "$friend_id";
-                            
+                            if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé)
+                                $friend_id = $_SESSION['current_conversation'];
+                                unset($_SESSION['current_conversation']);
+                            }
                             $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$friend_id'";
                             $result = mysqli_query($db_handle, $sql);
                             if (mysqli_num_rows($result) != 0) {
                                 $row = mysqli_fetch_assoc($result);
                                 echo $row['Photo'];
-                                $friend_nom = $row['Nom'];
-                                $friend_prenom = $row['Prenom'];
+                                $friend_name = $row['Nom'];
+                                $friend_first_name = $row['Prenom'];
                             }
                         ?>
                         " alt="Avatar" class="rounded-circle" style="border: 1px solid #000; border-color: black;" width="50" height="50">
                         <div class="ms-3">
                             <!-- Nom de l'ami -->
-                            <div class="fw-bold"><?php echo "$friend_nom $friend_prenom"; ?></div>
+                            <div class="fw-bold"><?php echo "$friend_first_name $friend_name"; ?></div>
                             <!-- Statut de l'ami -->
                             <div class="text-muted">
                                 <?php
@@ -136,13 +151,9 @@
                 </div>
                 
                 <!-- Conteneur de messages 2-->
-                <div id="conversation" class="d-flex flex-column-reverse flex-grow-1 overflow-auto p-3" data-friend-email="<?php echo $friend_email; ?>" data-friend-id="<?php echo $friend_id; ?>">
-                        <?php
-                        if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé)
-                            $friend_id = $_SESSION['current_conversation'];
-                            unset($_SESSION['current_conversation']);
-                        }
-                        $sql = "SELECT * FROM Messages 
+                <div id="conversation" class="d-flex flex-column-reverse flex-grow-1 overflow-auto p-3">
+                    <?php
+                        $sql = "SELECT Sender_ID, Content, MSG_ID FROM Messages 
                                 WHERE Convers_ID = (
                                     SELECT Convers_ID FROM Messagerie 
                                     WHERE       (ID1 = '$id' AND ID2 = '$friend_id')
@@ -156,17 +167,26 @@
                         if (mysqli_num_rows($result) != 0) {
                             while($row = mysqli_fetch_assoc($result)){
                                 $sender_id = $row['Sender_ID'];
-                                if ($sender_id == $id) {
-                                    $sender_mail = $email;
-                                } else if ($sender_id == $friend_id) {
-                                    $sender_mail = $friend_email;
-                                }
                                 $content = $row['Content'];
-                                $timestamp = $row['Timestamp'];
+                                $message_id = $row['MSG_ID'];
                                 if ($sender_id == $id) {
-                                    echo "<div class='message-right'>$content</div>";
+                                    echo "
+                                    <div class='message-right'>$content 
+                                        <form method='post'>
+                                            <input type='hidden' name='delete_message' value='$message_id'>
+                                            <input type='hidden' name='friend_id' value='$friend_id'>
+                                            <button type='submit' class='btn btn-whatsapp'>Supprimer</button>
+                                        </form>
+                                    </div>";
                                 } else if ($sender_id == $friend_id) {
-                                    echo "<div class='message-left'>$content</div>";
+                                    echo "
+                                    <div class='message-left'>$content 
+                                        <form method='post'>
+                                            <input type='hidden' name='delete_message' value='$message_id'>
+                                            <input type='hidden' name='friend_id' value='$friend_id'>
+                                            <button type='submit' class='btn btn-whatsapp'>Supprimer</button>
+                                        </form>
+                                    </div>";
                                 }
                             }
                         }else{
@@ -175,8 +195,7 @@
                     ?>
                 </div>
                 <!-- Formulaire d'envoi de messages -->
-                <form id="messageForm" class="d-flex flex-row align-items-center border-top p-3 mt-auto" method="post" action="">
-                    <input type="hidden" name="friend_email" value="<?php echo $friend_email; ?>">
+                <form id="messageForm" class="d-flex flex-row align-items-center border-top p-3 mt-auto" method="post">
                     <input type="hidden" name="friend_id" value="<?php echo $friend_id; ?>">
                     <input type="text" name="message" class="form-control flex-grow-1 me-2" placeholder="Écrire un message" autocomplete="off" required>
                     <button type="submit" class="btn btn-primary">
@@ -185,9 +204,27 @@
                         </svg>
                     </button>
                 </form>
+                
                 <?php
+                
+                    //! Supprimer un message
+                    if (isset($_POST['delete_message'])) {
+                        $friend_id = mysqli_real_escape_string($db_handle, $_POST['friend_id']);
+                        $message_id = mysqli_real_escape_string($db_handle, $_POST['delete_message']);
+                        $sql = "DELETE FROM Messages WHERE MSG_ID = '$message_id'";
+                        $result = mysqli_query($db_handle, $sql);
+                        if (!$result) {
+                            echo "Erreur: $sql <br>" . mysqli_error($db_handle);
+                        } else {
+                            $_SESSION['current_conversation'] = $friend_id;
+                            header("Location: ../Messagerie/");
+                            ob_end_flush(); 
+                            exit;
+                        }
+                    }
                     //! Envoyer le message
                     if (isset($_POST['message'])) {
+                        $friend_id = mysqli_real_escape_string($db_handle, $_POST['friend_id']);
                         $message = mysqli_real_escape_string($db_handle, $_POST['message']);
                         $sql = "INSERT INTO Messages (Sender_ID, Convers_ID, Content) VALUES ('$id', (SELECT Convers_ID FROM Messagerie WHERE (ID1 = '$id' AND ID2 = '$friend_id') OR (ID1 = '$friend_id' AND ID2 = '$id')), '$message')";
                         $result = mysqli_query($db_handle, $sql);
@@ -211,7 +248,7 @@
         var currentMessageCount = <?php echo mysqli_num_rows($result); ?>; // Le nombre actuel de messages
         setInterval(function() {
             $.ajax({
-                url: 'functions.php', // L'URL de votre fichier PHP
+                url: '../Auth/functions.php', // L'URL de votre fichier PHP
                 type: 'post',
                 data: {
                     'check_new_msg': true, // Une variable pour indiquer que vous voulez vérifier les nouveaux messages

@@ -1,9 +1,10 @@
 <?php
     session_start();
     
-    //! POUR FELIX : 
-    $page_to_send_to_once_connected = "../Main/accueil_main.php"; //? Page vers laquelle on redirige l'utilisateur une fois connecté
+    //? Page vers laquelle on redirige l'utilisateur une fois connecté
+    $page_to_send_to_once_connected = "../Main/accueil_main.php"; 
     
+    //! Fonction pour se connecter à la BDD ECEin
     function connect_to_db() {
         $database = "ECEin";  
         $db_handle = mysqli_connect('localhost', 'root', '' );  
@@ -11,6 +12,7 @@
         return $db_handle;
     }
     
+    //! Fonction pour générer un token et un nouveau cookie
     function update_token_of_cookie($db_handle){
         if (isset($_COOKIE['token'])) {
             $token2 = bin2hex(random_bytes(8));
@@ -27,6 +29,7 @@
         }
     }
     
+    //! Fonction pour générer un cookie
     function set_distinct_cookie($token){
         $cookieSet = setcookie("token", $token, [
             'expires' => time() + 86400,
@@ -39,6 +42,7 @@
         return $cookieSet;
     }
     
+    //! Fonction pour vérifier si l'utilisateur possède un cookie ou une session
     function cookie_or_session(){
         $token = "";
         if (isset($_COOKIE['token'])) {
@@ -49,10 +53,11 @@
         return $token;
     }
     
+    //! Fonction pour vérifier si l'utilisateur est connecté et récupérer son ID et son email
     function check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle($type = "normal"){
-        //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
-        //!Sinon, on l'envoie vers la page de connexion
-        //! Mais si l'utilisateur est déjà sur la page de connexion, on le laisse dessus
+        //? Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
+        //? Sinon, on l'envoie vers la page de connexion
+        //? Mais si l'utilisateur est déjà sur la page de connexion, on le laisse dessus
         $token = cookie_or_session(); //? Fonction pour récupérer le token si il existe
         $id = $email = $db_handle = "";
         if (!empty($token)) {  //! Le token existe -> potentiellement connecté
@@ -86,16 +91,17 @@
         }
     }
     
+    //! Fonction pour gérer l'action du bouton de déconnexion
     function logout_button_POST(){
         if (isset($_POST['logout'])) {
             // Détruit la session
             session_unset();
             session_destroy();
             
-            // Supprime le cookie
+            // Supprime le cookie et en crée un nouveau de temps négatif
             if (isset($_COOKIE['token'])) {
                 unset($_COOKIE['token']);
-                setcookie('token', '', time() - 3600, '/'); // empty value and old timestamp
+                setcookie('token', '', time() - 3600, '/');
             }
             
             // Redirige vers la page d'inscription
@@ -104,7 +110,8 @@
         }
     }
     
-    function check_if_new_msg_in_conv($db_handle, $id, $friend_id){
+    //! Fonction pour compter le nombre de messages dans la conversation
+    function check_if_new_msg_in_conv($db_handle, $id, $friend_id){ 
         //Compter le nombre de messages dans la conversation
         $sql = "SELECT COUNT(*) AS nb_msg FROM Messages 
                 WHERE Convers_ID = (
