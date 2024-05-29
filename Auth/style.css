@@ -23,3 +23,17 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.alert {
+    margin-bottom: 0;
+}
+
+.alert-success {
+    background-color: #dbf1ee;
+    color: #2b8a3e;
+}
+
+.alert-warning {
+    background-color: #fff4d9;
+    color: #aa6d00;
+}

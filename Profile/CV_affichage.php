@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="CV.css">
   <link rel="stylesheet" href="../Main/Site.css">
 </head>
 
+<?php
+    $user_id = $_GET['user_id'];
+?>
+
 <body>
-    <?php $xml = Creation_XML(); ?>
+    <?php 
+    include '../Profile/CV.php';
+    $xml = Creation_XML($user_id); ?>
     <!-- div size of A4 paper -->
     <div style="width: 21cm; height: 29.7cm; margin: 30px auto; border: 1px solid #D3D3D3; background: white; padding: 20px;">
         <div class="container">
-            <div class="leftPanel">
+            <div class="Colonne_Gauche">
                 <img src="<?php echo $xml->User->Photo; ?>" />
                 <div class="details">
                     <div >
@@ -40,7 +47,7 @@
                             <?php
                             foreach ($xml->Projects->children() as $project) {
                                 echo '<p>';
-                                echo '<span class="bolded white">';
+                                echo '<span style="color: white;">';
                                 echo $project->Nom;
                                 echo '</span>';
                                 echo '<br>';
@@ -48,6 +55,7 @@
                                 echo '<br>';
                                 echo $project->Debut . ' - ' . $project->Fin;
                                 echo '</p>';
+                                echo '<br>';
                             }
                             ?>
                         </div>
@@ -57,12 +65,12 @@
 
 
 
-            <div class="rightPanel">
+            <div class="Colonne_Droite">
                 <div>
-                    <h1>
+                    <h1 style="font-size: 1.2cm; text-transform: uppercase; ">
                         <?php echo $xml->User->Prenom . ' ' . $xml->User->Nom; ?>
                     </h1>
-                    <div class="smallText">
+                    <div>
                         <h3>
                             <?php
                                 $last_education = $xml->Education->Edu[count($xml->Education->Edu) - 1];
@@ -72,22 +80,18 @@
                     </div>
                 </div>
                 <div>
-                    <h2>
-                        About me
-                    </h2>
-                    <div class="smallText">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis, justo sed feugiat pulvinar., quam ipsum tincidunt enim, ac gravida est metus sit amet neque. Curabitur ut arcu ut nunc finibus accumsan id id elit.
-                        </p>
-                        <p>
-                            Vivamus non magna quis neque viverra finibus quis a tortor.
-                        </p>
+                    <div>
+                        <?php $paragraph = Description_CV();
+                        echo '<p style="font-size: 0.45cm;">' . $paragraph . '</p>';
+                        ?>
                     </div>
                 </div>
                 <br>
-                <div class="workExperience">
+                <hr style="border-top: 3px solid darkslateblue; margin-left:-27px;">
+                <div class="Exp_Pro">
+                    
                     <h2>
-                        Work experience
+                        Expérience professionnelle
                     </h2>
                     <ul>
                         <?php
@@ -130,9 +134,10 @@
                     </ul>
                 </div>
                 <br>
-                <div class="workExperience">
+                <hr style="border-top: 3px solid darkslateblue; margin-left:-27px;">
+                <div class="Exp_Pro">
                     <h2>
-                        Education
+                        Formation
                     </h2>
                     <ul>
                         <?php
@@ -174,4 +179,75 @@
     </div>
 
 </body>
+
+<?php
+function Description_CV() {
+    $database = "ecein";
+    $db_handle = mysqli_connect('localhost', 'root', '');
+    $db_found = mysqli_select_db($db_handle, $database);
+
+    $user_id = 1;
+
+    $xml = simplexml_load_file("../Profile/CV.xml") or die("Error: Cannot create object");
+
+    $Prenom = $xml->User->Prenom;
+    $Nom = $xml->User->Nom;
+    $email = $xml->User->Mail;
+    $country = $xml->User->Pays;
+    $education = $xml->Education->Edu;
+    $projects = $xml->Projects->Project;
+    $experience = $xml->Experience->Exp;
+
+    $EducationEntreprise = $education->Enterprise;
+    $EducationTypeFormation = $education->Type_formation;
+    $EducationDebut = date("F Y", strtotime($education->Debut));
+    $EducationFin = date("F Y", strtotime($education->Fin));
+    if ($education->Fin > date('Y-m-d')) {
+        $EducationPosition = 'etudiant';
+    } else {
+        $EducationPosition = 'diplômé';
+    }
+
+    $ProjetNom = $projects->Nom;
+    $ProjetDebut = date("F Y", strtotime($projects->Debut));
+    if ($projects->Fin > date('Y-m-d')) {
+        $ProjetFin = '';
+        $ProjetDebut = 'depuis ' . $ProjetDebut;
+    } else {
+        $ProjetFin = 'à ' . date("F Y", strtotime($projects->Fin));
+        $ProjetDebut = 'de ' . $ProjetDebut;
+    }
+
+    $Experience = $experience[0];
+    $Exp_Position = $Experience->Position;
+    $Exp_Entrprise = $Experience->Enterprise;
+    $Exp_Debut = date("F Y", strtotime($Experience->Debut));
+    if ($Experience->Fin > date('Y-m-d')) {
+        $Exp_Fin = '';
+        $Exp_Debut = 'depuis ' . $Exp_Debut;
+    } else {
+        $Exp_Fin = 'à ' . date("F Y", strtotime($Experience->Fin));
+        $Exp_Debut = 'de ' . $Exp_Debut;
+    }
+
+    $paragraph = "Etant $EducationPosition en $EducationTypeFormation à $EducationEntreprise, je suis actuellement à la recherche d'une opportunité professionnelle. 
+    J'ai récemment acquis une expérience professionnelle significative en tant que $Exp_Position chez $Exp_Entrprise de $Exp_Debut$Exp_Fin.";
+
+    if ($EducationPosition == 'diplômé') {
+        $paragraph .= " J'ai récemment terminé mon projet de fin d'études intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.";
+    } 
+    if ($ProjetFin > date('Y-m-d')) {
+        $paragraph .= " Je suis actuellement en train de travailler sur un projet intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.
+        Ce projet se fait dans le cadre de mon cursus en $EducationTypeFormation à $EducationEntreprise.";
+    } else {
+        $paragraph .= " J'ai récemment travaillé sur un projet intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.
+        Ce projet s'est fait dans le cadre de mon cursus en $EducationTypeFormation à $EducationEntreprise.";
+    }
+
+    return $paragraph;
+
+}
+?>
+
 </html>
+

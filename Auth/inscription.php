@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-  <head>
+    <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,7 @@
     <body class="d-flex align-items-center py-4 bg-body-tertiary">    
     <main class="form-signin w-100 m-auto">
         <form action="" method="post">
-            <img class="mb-4" src="logo.png" alt="" width="72" height="72">
+            <img class="mb-4" src="../Photos/EngineerIN_logo.png" alt="" width="300" height="72">
             <h1 class="h3 mb-3 fw-normal">Inscription</h1>
             <div class="form-floating">
                 <input type="email" class="form-control" id="floatingInput" name="floatingInput" placeholder="name@example.com">
@@ -37,24 +37,23 @@
             </div>
             <button class="btn btn-primary w-100 py-2" type="submit">Inscription</button>
             <?php
+                include 'functions.php';
+                
                 if (isset($_SESSION['error_message'])) {
                     echo "<br><br>";
                     echo $_SESSION['error_message'];
                     unset($_SESSION['error_message']); // Pour ne pas afficher le même message d'erreur plusieurs fois
                 }
             ?>
-            <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
         </form>
-        <a href="connexion.php">Déjà un compte ? Connexion</a>
+        <a href="/ING2S2-WEB/Auth/">Déjà un compte ? Connexion</a>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>
 
 <?php
-
-    include 'functions.php';
-    
     $email = $password = "";
     $remember = false;
 
@@ -90,8 +89,9 @@
         $token = bin2hex(random_bytes(8));
         
         //!Vérifier si le mail existe déjà
-        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
         $db_handle = connect_to_db();
+        $email = mysqli_real_escape_string($db_handle, $email);
+        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
         $result = mysqli_query($db_handle, $sql);
         if (mysqli_num_rows($result) > 0) {
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Email déjà utilisé</div>";

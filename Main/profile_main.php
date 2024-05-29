@@ -1,4 +1,11 @@
 <!-- profile_main.php -->
+<?php
+    include '../Auth/functions.php';
+    //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
+    list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+    //! Checker si l'utilisateur a appuyé sur le bouton de déconnexion
+    logout_button_POST();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +21,7 @@
 
 <body>
     <!-- Ajout du header -->
-    <?php include 'Header.html'; ?>
+    <?php include 'Header.php'; ?>
     <br>
 
     <!-- Creation du fichier XML -->
