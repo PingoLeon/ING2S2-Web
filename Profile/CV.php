@@ -48,7 +48,7 @@ function Creation_XML() {
   $result_projects = $conn->query($sql_projects);
 
   // Fetch posts details
-  $sql_posts = "SELECT * FROM Posts WHERE User_ID = $user_id ORDER BY Date DESC";
+  $sql_posts = "SELECT * FROM Posts WHERE User_ID = $user_id ORDER BY DatePublication DESC";
   $result_posts = $conn->query($sql_posts);
 
   // Create XML document
@@ -125,7 +125,7 @@ function Creation_XML() {
       $postElement = $xml->createElement("Post");
 
       $postElement->appendChild($xml->createElement("Post_ID", $post['Post_ID']));
-      $postElement->appendChild($xml->createElement("Date", $post['Date']));
+      $postElement->appendChild($xml->createElement("Date", $post['DatePublication']));
       $postElement->appendChild($xml->createElement("Photo", $post['Photo']));
       $postElement->appendChild($xml->createElement("Texte", $post['Texte']));
 
@@ -141,7 +141,7 @@ function Creation_XML() {
   $conn->close();
 
   //Creation of the CV in HTML based on the XML file
-  $xml = simplexml_load_file("CV.xml") or die("Error: Cannot create object");
+  $xml = simplexml_load_file("../Profile/CV.xml") or die("Error: Cannot create object");
 
   $user_id = $xml->User->UserID;
   $prenom = $xml->User->Prenom;

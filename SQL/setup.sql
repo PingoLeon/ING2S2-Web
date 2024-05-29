@@ -32,9 +32,11 @@ CREATE TABLE IF NOT EXISTS Posts (
     Post_ID INT PRIMARY KEY AUTO_INCREMENT,
     User_ID INT,
     Enterprise_ID INT,
-    Date DATETIME,
+    DatePublication DATETIME,
     Photo VARCHAR(255),
     Texte TEXT,
+    Titre VARCHAR(255),
+    Lieu VARCHAR(255),
     FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID),
     FOREIGN KEY (Enterprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
@@ -71,8 +73,6 @@ CREATE TABLE IF NOT EXISTS Messages (
     FOREIGN KEY (Convers_ID) REFERENCES Messagerie(Convers_ID),
     FOREIGN KEY (Sender_ID) REFERENCES Utilisateur(User_ID)
 );
-
-USE ECEin;
 
 INSERT INTO Messagerie (ID1, ID2)
 VALUES (2, 4),
