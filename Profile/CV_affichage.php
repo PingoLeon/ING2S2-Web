@@ -7,10 +7,14 @@
   <link rel="stylesheet" href="../Main/Site.css">
 </head>
 
+<?php
+    $user_id = $_GET['user_id'];
+?>
+
 <body>
     <?php 
     include '../Profile/CV.php';
-    $xml = Creation_XML(); ?>
+    $xml = Creation_XML($user_id); ?>
     <!-- div size of A4 paper -->
     <div style="width: 21cm; height: 29.7cm; margin: 30px auto; border: 1px solid #D3D3D3; background: white; padding: 20px;">
         <div class="container">

@@ -1,3 +1,5 @@
+</html>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +100,9 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a href="deconnexion.php" class="button_1">Deconnexion</a>
+                    <form method="post">
+                        <button class="button_1" type="submit" name="logout">Déconnexion</button>  
+                    </form>
                 </div>
             </div>
 
@@ -117,7 +121,7 @@
                     <a href="notifications_main.php" class="button_1">Notifications</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="messagerie_main.php" class="button_1">Messagerie</a>
+                    <a href="../Messagerie/" class="button_1">Messagerie</a>
                 </div>
                 <div class="col-md-2">
                     <a href="emplois_main.php" class="button_1">Emplois</a>

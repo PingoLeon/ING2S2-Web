@@ -12,12 +12,6 @@
 <body>
 
 <?php
-$database = "ecein";
-$db_handle = mysqli_connect('localhost', 'root', '');
-$db_found = mysqli_select_db($db_handle, $database);
-
-$user_id = 1;
-
 $sql = "SELECT * FROM utilisateur WHERE User_ID = '$user_id'";
 $result = mysqli_query($db_handle, $sql);
 $data = mysqli_fetch_assoc($result);
@@ -42,7 +36,7 @@ echo '<div class="container" id="main_bloc_profile">';
             echo '<tr><h3 style="color: black;">' . $email . '</h3></tr>';
             echo '<tr><h3 style="color: black;">' . $pays . '</h3></tr>';
             echo '<br>';
-            echo '<tr><a href="../Profile/CV_affichage.php" class="btn btn-primary">Générer un CV</a></tr>';
+            echo "<tr><a href='../Profile/CV_affichage.php?user_id=$user_id' class='btn btn-primary'>Générer un CV</a></tr>";
             echo '</table>';
         echo '</div>';
         echo '<div class="col-md-1">';
