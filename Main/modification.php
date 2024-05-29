@@ -27,7 +27,7 @@ $db_found = mysqli_select_db($db_handle, $database);
 
 $user_id = 1;
 
-echo '<h1>Modification</h1>';
+echo '<br>';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -65,7 +65,7 @@ if (isset($_GET['id'])) {
         Suppression_Experience($db_handle, $user_id);
     }
     
-    elseif ($id == 'posts') {
+    elseif ($id == 'post') {
         Edit_Posts($db_handle);
     } elseif ($id == 'post_add') {
         Ajout_Post($db_handle, $user_id);
@@ -105,8 +105,6 @@ function Edit_Education($db_handle) {
 }
 
 function Edit_Title($db_handle, $user_id) {
-    echo '<h2>Edit Title</h2>';
-    // Add your code to edit title here
     //the title is the basic profile, the name, surname, etc.
     //The user can change his name, email, country or profile picture by uploading a new one from his computer
     echo '<div class="container" id="main_bloc_profile">';
@@ -185,8 +183,25 @@ function Edit_Experiences($db_handle) {
 }
 
 function Edit_Posts($db_handle) {
-    echo '<h2>Edit Posts</h2>';
-    // Add your code to edit posts here
+    echo '<div class="container" id="main_bloc_profile">';
+        echo '<br>';
+        echo '<div class="row">';
+            echo '<div class="col-md-10"><h2 style="color: black; text-align: left;">Modifier les Posts</h2></div>';
+        echo '</div>';
+        echo '<br>';
+        echo '<div class="row">';
+            echo '<div class="col-md-4">';
+                echo '<a href="modification.php?id=post_add" class="btn btn-primary">Ajouter un post</a>';
+            echo '</div>';
+            echo '<div class="col-md-4">';
+                echo '<a href="modification.php?id=post_modify" class="btn btn-primary">Modifier un post</a>';
+            echo '</div>';
+            echo '<div class="col-md-4">';
+                echo '<a href="modification.php?id=post_delete" class="btn btn-primary">Supprimer un post</a>';
+            echo '</div>';
+        echo '</div>';
+        echo '<br>';
+    echo '</div>';
 }
 
 
@@ -509,6 +524,85 @@ function Suppression_Experience($db_handle, $user_id) {
     echo '</div>';
 }
 
+function Ajout_Post($db_handle, $user_id) {
+    Edit_Posts($db_handle);
+    echo '<div class="container" id="main_bloc_profile">';
+        echo '<br>';
+        echo '<div class="row">';
+            echo '<div class="col-md-10">';
+                echo '<h2 style="color: black; text-align: left;">Ajouter un post</h2>';
+            echo '</div>';
+        echo '</div>';
+        echo '<br>';
+        echo '<form action="../Profile/Profile_add.php?id=post_add" method="post">';
+            //Ajout du titre du post
+            echo '<div class="form-group">';
+                echo '<label for="titre">Titre:</label>';
+                echo '<input type="text" class="form-control" id="titre" name="titre">';
+            echo '</div>';
+
+            echo '<div class="form-group">';
+                echo '<label for="lieu">Lieu:</label>';
+                echo '<input type="text" class="form-control" id="lieu" name="lieu">';
+            echo '</div>';
+
+            echo '<div class="form-group">';
+                echo '<label for="texte">Texte:</label>';
+                echo '<textarea class="form-control" id="texte" name="texte" rows="3"></textarea>';
+            echo '</div>';
+
+            echo '<div class="form-group">';
+            echo '<label for="photo">Photo:</label>';
+            echo '<input type="file" class="form-control" id="photo" name="photo">';
+            echo '</div>';
+
+            echo '<button type="submit" class="btn btn-primary">Ajouter</button>';
+        echo '</form>';
+        echo '<br>';
+    echo '</div>';
+}
+
+function Modification_Post($db_handle, $user_id) {
+    Edit_Posts($db_handle);
+    //Creation du formulaire pour modifier un post
+    //Recuperation des donnees de tout les posts de l'utilisateur
+    $sql = "SELECT * FROM Posts WHERE User_ID = '$user_id'";
+    $result = mysqli_query($db_handle, $sql);
+    echo '<div class="container" id="main_bloc_profile">';
+        echo '<br>';
+        echo '<div class="row">';
+            echo '<div class="col-md-10">';
+                echo '<h2 style="color: black; text-align: left;">Modifier un post</h2>';
+            echo '</div>';
+        echo '</div>';
+        echo '<br>';
+        echo '<form action="../Profile/Profile_add.php?id=post_modify" method="post">';
+            echo '<div class="form-group">';
+                echo '<label for="titre">Titre:</label>';
+                echo '<select class="form-control" id="titre" name="titre">';
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        echo '<option value="' . $data['Titre'] . '">' . $data['Titre'] . '</option>';
+                    }
+                echo '</select>';
+            echo '</div>';
+            echo '<div class="form-group">';
+                echo '<label for="lieu">Lieu:</label>';
+                echo '<input type="text" class="form-control" id="lieu" name="lieu">';
+            echo '</div>';
+            echo '<div class="form-group">';
+                echo '<label for="texte">Texte:</label>';
+                //Display the text of the post the user wants to modify
+                echo '<textarea class="form-control" id="texte" name="texte" rows="3"></textarea>';
+            echo '</div>';
+            echo '<div class="form-group">';
+                echo '<label for="photo">Photo:</label>';
+                echo '<input type="file" class="form-control" id="photo" name="photo">';
+            echo '</div>';
+            echo '<button type="submit" class="btn btn-primary">Modifier</button>';
+        echo '</form>';
+        echo '<br>';
+    echo '</div>';
+}
 
 
 

@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS ECEIn;
 USE ECEIn;
 
-DROP TABLE IF EXISTS `commentaires`, `education`, `enterprise`, `events`, `experience`, `likes`, `messagerie`, `messages`, `offre_emploi`, `posts`, `projets`, `reseau`, `utilisateur`;
+DROP TABLE IF EXISTS `commentaires`, `education`, `informations`,  `enterprise`, `events`, `experience`, `likes`, `messagerie`, `messages`, `offre_emploi`, `posts`, `projets`, `reseau`, `utilisateur`;
 
 
 CREATE TABLE IF NOT EXISTS Utilisateur (
@@ -14,7 +14,10 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
     Token VARCHAR(255) NOT NULL,
     Photo VARCHAR(255) NOT NULL,
     Pays VARCHAR(100) NOT NULL,
-    Statut_Admin INT NOT NULL
+    Statut_Admin INT NOT NULL,
+    Statut_Utilisateur INT NOT NULL,
+    Entreprise_ID INT,
+    FOREIGN KEY (Entreprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
 
 
@@ -25,16 +28,29 @@ CREATE TABLE IF NOT EXISTS Enterprise (
     Pays VARCHAR(255),
     Industrie VARCHAR(255),
     Nom_Entreprise VARCHAR(255) NOT NULL,
-    Tuteur VARCHAR(255)
+    Tuteur VARCHAR(255),
+    FOREIGN KEY (Nom_Entreprise) REFERENCES Informations(Nom_Entreprise)
 );
+
+CREATE TABLE IF NOT EXISTS Informations (
+    Information_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Site_Web VARCHAR(255),
+    Texte_Intro TEXT,
+    Taille VARCHAR(255),
+    Quartier_General VARCHAR(255),
+    Annee_Fondation DATE,
+    Lieu VARCHAR(255)
+)
 
 CREATE TABLE IF NOT EXISTS Posts (
     Post_ID INT PRIMARY KEY AUTO_INCREMENT,
     User_ID INT,
     Enterprise_ID INT,
-    Date DATETIME,
+    DatePublication DATETIME,
     Photo VARCHAR(255),
     Texte TEXT,
+    Titre VARCHAR(255),
+    Lieu VARCHAR(255),
     FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID),
     FOREIGN KEY (Enterprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
@@ -71,8 +87,6 @@ CREATE TABLE IF NOT EXISTS Messages (
     FOREIGN KEY (Convers_ID) REFERENCES Messagerie(Convers_ID),
     FOREIGN KEY (Sender_ID) REFERENCES Utilisateur(User_ID)
 );
-
-USE ECEin;
 
 INSERT INTO Messagerie (ID1, ID2)
 VALUES  (1, 2),
@@ -227,11 +241,11 @@ CREATE TABLE IF NOT EXISTS Reseau (
     Lst_ID INT
 );
 
-INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Token, Photo, Pays, Statut_Admin) 
-VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France', 1),
-       (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0),
-       (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0),
-       (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0);
+INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Token, Photo, Pays, Statut_Admin, Statut_Utilisateur, Entreprise_ID) 
+VALUES (1, 'fcadene@gmail.com', 'Cadene', 'Felix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France', 1, 0, 0),
+       (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0, 1, 0),
+       (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0, 2, 1),
+       (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0, 2, 2);
 
 INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation, Enterprise_ID)
 VALUES (1, 1, '2022-09-01', '2027-06-01', 'Etudiant', 'Ingenieur', 2);
@@ -242,17 +256,25 @@ VALUES (1, 1, '2022-09-01', '2024-06-01', 'ECE_CUP', 1);
 INSERT INTO Experience (Exp_ID, User_ID, Debut, Fin, Position, Type_Contrat, Enterprise_ID)
 VALUES (1, 1, '2023-12-01', '2024-01-01', 'Stagiaire au Cabinet du Maire', 'Stage', 1);
 
-INSERT INTO Enterprise (Enterprise_ID, Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
-VALUES (1, 'Entreprise/logo1', 'France', 'Administration', 'Mairie de Paris', 'Anne Hidalgo');
-
 INSERT INTO Experience (User_ID, Debut, Fin, Position, Type_Contrat, Enterprise_ID)
 VALUES (1, '2023-09-01', '2024-06-01', 'Ambassadeur', 'Contrat', 2);
 
 INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
-VALUES ('Entreprise/logo2', 'France', 'Ingenieur', 'ECE Paris', 'Vanessa');
+VALUES
+('logoece.png', 'France', 'Education', 'ECE Paris', 'Dr. Xian Fernand'),
+('logotechcorp.png', 'France', 'Technologie', 'TechCorp', 'Mme. Sophie Martin'),
+('logomarketingplus.png', 'France', 'Marketing', 'MarketingPlus', 'Mr. Kamel Leclerc'),
+('logofinancegroup.png', 'France', 'Finance', 'FinanceGroup', 'Mme. Ben Zacomi'),
+('logoitworld.png', 'France', 'Informatique', 'ITWorld', 'Mr. Thomas Petit');
 
-INSERT INTO Enterprise (Logo, Pays, Industrie, Nom_Entreprise, Tuteur)
-VALUES ('Entreprise/logo3', 'France', 'Ingenieur', 'ESILV', 'Bobby');
+INSERT INTO Offre_Emploi (Enterprise_ID, Intitule, Debut, Fin, Position, Type_Contrat, Texte)
+VALUES
+(1, 'Enseignant Permanent', '01-09-2024', '31-08-2025', 'Enseignant Senior en Mathématiques', 'Permanent', 'logoece.png', 'Nous recherchons un enseignant senior en mathématiques dédié pour rejoindre notre équipe de manière permanente. Le candidat doit avoir une solide formation en mathématiques et une expérience en enseignement.'),
+(3, 'Stage en Marketing', '01-06-2024', '01-12-2024', 'Stagiaire en Marketing', 'Stage', 'logomarketingplus.png', 'Notre entreprise partenaire offre un stage de six mois en marketing. C\'est une excellente opportunité pour acquérir de l\'expérience pratique dans un environnement dynamique.'),
+(2, 'Développeur Logiciel', '01-07-2024', '30-06-2025', 'Développeur Logiciel Junior', 'Temporaire', 'logotechcorp.png', 'Rejoignez notre équipe technique en tant que Développeur Logiciel Junior pour un contrat d\'un an. Vous travaillerez sur des projets passionnants et acquerrez une expérience précieuse en développement logiciel.'),
+(4, 'Apprentissage en Finance', '01-09-2024', '01-06-2026', 'Apprenti en Finance', 'Apprentissage', 'logofinancegroup.png', 'Une opportunité d\'apprentissage en finance est disponible à FinanceGroup. Ce programme est conçu pour les personnes souhaitant démarrer une carrière en finance.'),
+(5, 'Chargé de Cours à Temps Partiel', '01-10-2024', '30-06-2025', 'Chargé de Cours en Informatique', 'Temps Partiel', 'logoitworld.png', 'Nous recherchons un chargé de cours à temps partiel en informatique pour enseigner des cours de premier cycle. Le candidat idéal aura une expérience dans l\'industrie et une passion pour l\'enseignement.');
+
 
 /*
 SELECT Utilisateur.Nom, Utilisateur.Prenom, Projets.Nom, Education.Nom, Experience.Position, Enterprise.Nom_Entreprise

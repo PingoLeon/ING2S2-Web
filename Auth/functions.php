@@ -31,7 +31,7 @@
         $cookieSet = setcookie("token", $token, [
             'expires' => time() + 86400,
             'path' => '/',
-            'domain' => $_SERVER['HTTP_HOST'],
+            'domain' => $_SERVER['localhost'],
             'secure' => true,
             'httponly' => true,
             'samesite' => 'Strict',

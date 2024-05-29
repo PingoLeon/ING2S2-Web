@@ -14,7 +14,7 @@
 
 <body>
     <!-- Ajout du header -->
-    <?php include 'Header.html'; ?>
+    <?php include 'Header_new.html'; ?>
     <br>
 
     <!-- Creation du fichier XML -->
