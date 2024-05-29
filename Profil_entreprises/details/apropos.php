@@ -31,21 +31,22 @@
         <h5>Taille de l'entreprise</h5>
         <p>10 001 employés et plus</p>
         <p>171 475 membres associés Membres associés</p><br>
-        <h5>Siège social</h5>
-        <p>Cupertino, California</p><br>
         <h5>Année de création</h5>
-        <p>1976</p><br>
-        <h5>Spécialisations</h5>
-        <p>Innovative Product Development, World-Class Operations, Retail et Telephone Support</p>
+        <p>1976</p>
         <br><br>   
 
-
-
-        LIEUUUUUUUU
         
         </div></div></div>
 
-
+        <div class="container" id="background" style="padding : 15px">
+            <div class="container" id="main_bloc">
+                <div class="row">
+                    <h1 style="margin:15px">Lieux(1)</h1>
+                    <br><br>
+                    <div id="map" style="width: 100%; height: 100vh;">
+                        <iframe src="https://www.openstreetmap.org/#map=19/48.82338/2.29221" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    </div></div></div>
 
 </body>
 
