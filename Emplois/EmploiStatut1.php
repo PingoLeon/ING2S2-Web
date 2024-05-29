@@ -57,7 +57,7 @@
         <h2>Notifications des Emplois Disponibles</h2>
         <div class="row">
             <?php
-            // Connexion
+            
             $servername = "localhost";
             $username = "root";
             $password = "";
