@@ -22,7 +22,11 @@ body {
     z-index: 0; 
 }
 
-#ban { position: absolute; top: 140px; right:900px; z-index: 1; }
+#ban { 
+    position: absolute; 
+    top: 170px; 
+    right:900px; 
+    z-index: 1;  }
 
 
 .nav-bar {
