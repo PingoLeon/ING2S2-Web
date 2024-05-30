@@ -147,10 +147,19 @@ CREATE TABLE IF NOT EXISTS Offre_Emploi (
     FOREIGN KEY (Enterprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
 
-CREATE TABLE IF NOT EXISTS Reseau (
+CREATE TABLE IF NOT EXISTS Relations (
     ID INT PRIMARY KEY AUTO_INCREMENT,
-    Lst_ID INT
+    UID1 INT,
+    UID2 INT
 );
+
+INSERT INTO Relations (UID1, UID2)
+VALUES  (1, 2),
+        (1, 3),
+        (1, 4),
+        (2, 3),
+        (2, 4),
+        (3, 4);
 
 -- Sample data insertion
 INSERT INTO Utilisateur (User_ID, Mail, Nom, Prenom, Username, MDP, Token, Photo, Pays, Statut_Admin, Statut_Utilisateur, Entreprise_ID) 
