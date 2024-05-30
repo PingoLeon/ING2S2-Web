@@ -111,7 +111,7 @@
     }
     
     //! Fonction pour compter le nombre de messages dans la conversation
-    function check_if_new_msg_in_conv($db_handle, $id, $friend_id){ 
+    function check_if_new_msg_in_conv($db_handle, $id, $friend_id, $current_message_count){ 
         //Compter le nombre de messages dans la conversation
         $sql = "SELECT COUNT(*) AS nb_msg FROM Messages 
                 WHERE Convers_ID = (
@@ -121,14 +121,20 @@
         $result = mysqli_query($db_handle, $sql);
         $row = mysqli_fetch_assoc($result);
         $nb_msg = $row['nb_msg'];
+        if ($nb_msg > $current_message_count) {
+            $_SESSION['current_conversation'] = $friend_id;
+            echo "reload";
+            exit;
+        }
         return $nb_msg;
     }
     
 if (isset($_POST['check_new_msg'])) {
     $id = $_POST['id'];
     $friend_id = $_POST['friend_id'];
+    $current_message_count = $_POST['current_message_count'];
     $db_handle = connect_to_db();
-    echo check_if_new_msg_in_conv($db_handle, $id, $friend_id);
+    echo check_if_new_msg_in_conv($db_handle, $id, $friend_id, $current_message_count);
     exit;
 }
     
