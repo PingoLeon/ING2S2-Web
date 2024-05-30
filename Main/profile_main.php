@@ -10,6 +10,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" href="Site.css">
+    <link rel = "stylesheet" type = "text/css" href = "Header.css">
 </head>
 
 <body>
