@@ -54,7 +54,7 @@
     }
     
     //! Fonction pour vérifier si l'utilisateur est connecté et récupérer son ID et son email
-    function check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle($type = "normal"){
+    function check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle($type = "normal", $page_to_send_to_once_connected = "../Main/accueil_main.php"){
         //? Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
         //? Sinon, on l'envoie vers la page de connexion
         //? Mais si l'utilisateur est déjà sur la page de connexion, on le laisse dessus
@@ -70,8 +70,8 @@
                 $id = $row['User_ID'];
                 if ($type == "normal") { //!Il est connecté et on le laisse sur la page
                     return array($id, $email, $db_handle);
-                }else if ($type == "connexion"){ //! Il est connecté et on le redirige vers la page d'accueil
-                    header('Location: index.php');
+                }else if ($type == "connexion"){ //! Il est connecté et on le redirige vers la page d'accueil       
+                    header("Location: $page_to_send_to_once_connected");
                 }
             }else{//! Le token n'existe pas dans la BDD -> pas connecté
                 if ($type == "normal") { //? On redirige l'utilisateur vers la page de connexion
@@ -111,7 +111,7 @@
     }
     
     //! Fonction pour compter le nombre de messages dans la conversation
-    function check_if_new_msg_in_conv($db_handle, $id, $friend_id){ 
+    function check_if_new_msg_in_conv($db_handle, $id, $friend_id, $current_message_count){ 
         //Compter le nombre de messages dans la conversation
         $sql = "SELECT COUNT(*) AS nb_msg FROM Messages 
                 WHERE Convers_ID = (
@@ -121,14 +121,20 @@
         $result = mysqli_query($db_handle, $sql);
         $row = mysqli_fetch_assoc($result);
         $nb_msg = $row['nb_msg'];
+        if ($nb_msg > $current_message_count) {
+            $_SESSION['current_conversation'] = $friend_id;
+            echo "reload";
+            exit;
+        }
         return $nb_msg;
     }
     
 if (isset($_POST['check_new_msg'])) {
     $id = $_POST['id'];
     $friend_id = $_POST['friend_id'];
+    $current_message_count = $_POST['current_message_count'];
     $db_handle = connect_to_db();
-    echo check_if_new_msg_in_conv($db_handle, $id, $friend_id);
+    echo check_if_new_msg_in_conv($db_handle, $id, $friend_id, $current_message_count);
     exit;
 }
     
