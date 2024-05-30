@@ -54,7 +54,7 @@
     }
     
     //! Fonction pour vérifier si l'utilisateur est connecté et récupérer son ID et son email
-    function check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle($type = "normal"){
+    function check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle($type = "normal", $page_to_send_to_once_connected = "../Main/accueil_main.php"){
         //? Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
         //? Sinon, on l'envoie vers la page de connexion
         //? Mais si l'utilisateur est déjà sur la page de connexion, on le laisse dessus
@@ -70,8 +70,8 @@
                 $id = $row['User_ID'];
                 if ($type == "normal") { //!Il est connecté et on le laisse sur la page
                     return array($id, $email, $db_handle);
-                }else if ($type == "connexion"){ //! Il est connecté et on le redirige vers la page d'accueil
-                    header('Location: index.php');
+                }else if ($type == "connexion"){ //! Il est connecté et on le redirige vers la page d'accueil       
+                    header("Location: $page_to_send_to_once_connected");
                 }
             }else{//! Le token n'existe pas dans la BDD -> pas connecté
                 if ($type == "normal") { //? On redirige l'utilisateur vers la page de connexion
