@@ -12,10 +12,9 @@ body {
     margin-top: 10px;
 }
 
-
-.image{
+#image {
     border-collapse: collapse;
-    padding: 10px;
+    width: 15%;
 }
 
 #hg { 
@@ -24,9 +23,10 @@ body {
 
 #ban { 
     position: absolute; 
-    top: 170px; 
-    right:900px; 
-    z-index: 1;  }
+    top: 23%; 
+    right:70%; 
+    z-index: 1;  
+}
 
 
 .nav-bar {
