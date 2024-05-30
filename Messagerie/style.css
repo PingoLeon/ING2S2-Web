@@ -27,6 +27,33 @@ body {
     margin-right: 15px;
 }
 
+
+
+/* Mise en forme de la boîte à message */
+#conversation{
+    height: 100%;
+    overflow-y: scroll;
+    padding: 10px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.message-container-right{
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-bottom: 10px;
+}
+
+.message-container-left {
+    display: flex;
+    justify-content: flex-start;
+    align-self: flex-start;
+    margin-bottom: 10px;
+}
+
 .message-right {
     background-color: #3F74EE; /* couleur de fond pour les messages de l'utilisateur */
     text-align: right;
@@ -44,7 +71,6 @@ body {
 
 .message-right, .message-left {
     border-radius: 20px;
-    margin-bottom: 10px;
     padding: 10px;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -56,15 +82,19 @@ body {
     max-width: 50vh;
 }
 
-#conversation{
-    height: 100%;
-    overflow-y: scroll;
-    padding: 10px;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.button-delete-msg{
+    background: transparent;
+    border: none;
 }
+.button-delete-msg svg {
+    visibility: hidden; /* Cacher l'icône par défaut */
+}
+
+.button-delete-msg:hover svg {
+    visibility: visible; /* Afficher l'icône au survol */
+}
+
+
 
 
 #conversation::-webkit-scrollbar {
@@ -100,7 +130,6 @@ body {
     margin-top:80%;
 
 }
-
 
 #barre-laterale{
     width: 280px; 
