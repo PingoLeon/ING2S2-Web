@@ -3,6 +3,14 @@ body {
     height: 100%;
 }
 
+/* Barre Latérale */
+#barre-laterale{
+    width: 280px; 
+    background-color: #0000; 
+    border-right: 1px solid #8a8585;
+    border-color: black;
+}
+
 .btn-whatsapp {
     background-color: #fff;
     color: white;
@@ -25,6 +33,12 @@ body {
 .btn-whatsapp img {
     float: left;
     margin-right: 15px;
+}
+
+#action-buttons-messagerie{
+    position:relative;
+    margin-top:80%;
+
 }
 
 
@@ -94,9 +108,6 @@ body {
     visibility: visible; /* Afficher l'icône au survol */
 }
 
-
-
-
 #conversation::-webkit-scrollbar {
     width: 10px;
     
@@ -125,15 +136,4 @@ body {
     height: 100%; /* Assurez-vous que la barre latérale a une hauteur définie */
 }
 
-#action-buttons-messagerie{
-    position:relative;
-    margin-top:80%;
 
-}
-
-#barre-laterale{
-    width: 280px; 
-    background-color: #0000; 
-    border-right: 1px solid #8a8585;
-    border-color: black;
-}

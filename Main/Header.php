@@ -109,13 +109,13 @@
             <br>
             <div class="row">
                 <div class="col-md-2">
-                    <a href="accueil_main.php" class="button_1">Accueil</a>
+                    <a href="../Main/accueil_main.php" class="button_1">Accueil</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="reseau_main.php" class="button_1">Mon reseau</a>
+                    <a href="../Relations/" class="button_1">Mon reseau</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="profile_main.php" class="button_1">Vous</a>
+                    <a href="../Main/profile_main.php" class="button_1">Vous</a>
                 </div>
                 <div class="col-md-2">
                     <a href="notifications_main.php" class="button_1">Notifications</a>
