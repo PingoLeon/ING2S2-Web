@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+    
+<?php
+    include '../Auth/functions.php';
+    //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
+    list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+    logout_button_POST();
+
+    $sql = "SELECT Nom, Prenom, Photo FROM utilisateur WHERE User_ID = '$user_id'";
+    $result = mysqli_query($db_handle, $sql);
+    $user = mysqli_fetch_assoc($result);
+    $username = $user['Nom'] . ' ' . $user['Prenom'];
+?>
+
+
 
 <head>
     <meta charset="utf-8">
@@ -7,7 +21,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="Site.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Header</title>
     
@@ -26,7 +39,7 @@
         }
 
         header {
-            height: 80px; /* Increase the height of the header */
+            height: 80px;
             width: 100%;
             background: #fff;
             box-shadow: 0px 2px 5px 5px rgba(204, 202, 202, 0.5);
@@ -40,18 +53,13 @@
             align-items: center;
             width: 92%;
             margin: 0 auto;
+            position: relative;
         }
 
         .nav-left .logo img {
-            width: 220px; /* Increase the width of the logo */
+            width: 220px;
             height: auto;
             margin-left: -10px;
-        }
-
-        .nav-left .search-icon {
-            width: 35px; /* Increase the size of the search icon */
-            text-align: center;
-            color: rgb(44, 42, 42);
         }
 
         .nav-right {
@@ -69,18 +77,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0 15px; /* Increase padding for more spacing */
+            padding: 0 15px;
             position: relative;
         }
 
         .nav-right .nav-menus i {
-            font-size: 25px; /* Increase the size of the icons */
+            font-size: 25px;
             color: #706e6e;
             margin-bottom: 3px;
         }
 
         .nav-right .nav-menus p {
-            font-size: 16px; /* Increase the font size of the text */
+            font-size: 16px;
             color: #706e6e;
             margin: 0;
         }
@@ -106,6 +114,84 @@
             bottom: -10px;
             left: 0;
         }
+
+        .sub-menu-wrap {
+            position: absolute;
+            top: 120%;
+            right: -30%;
+            width: 320px;
+            max-height: 0px;
+            overflow: hidden;
+            transition: max-height 0.5s;
+            z-index: 999;
+        }
+
+        .sub-menu-wrap.open-menu {
+            max-height: 400px;
+        }
+
+        .sub-menu {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info h2 {
+            font-weight: 500;
+        }
+
+        .user-info img {
+            width: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .sub-menu hr {
+            border: 0;
+            height: 1px;
+            width: 100%;
+            background: #ccc;
+            margin: 15px 0 10px;
+        }
+
+        .sub-menu-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #525252;
+            margin: 12px 0;
+        }
+
+        .sub-menu-link p {
+            width: 100%;
+        }
+
+        .sub-menu-link img {
+            width: 50px;
+            background:#e5e5e5;
+            border-radius: 50%;
+            padding: 8px;
+            margin-right: 15px;
+        }
+
+        .sub-menu-link span {
+            font-size: 22px;
+            transition: transform 0.5s;
+        }
+
+        .sub-menu-link:hover span {
+            transform: translateX(5px);
+        }
+
+        .sub-menu-link:hover p {
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -126,42 +212,87 @@
                 </div>
                 <div class="nav-menus">
                     <a href="../MonReseau/MonReseau.html">
-                    <i class="fa-solid fa-users"></i>
-                    <p>Mon Reseau</p>
+                        <i class="fa-solid fa-users"></i>
+                        <p>Mon Reseau</p>
                     </a>
                 </div>
                 <div class="nav-menus">
                     <a href="../Emplois/Emplois.html">
-                    <i class="fa-solid fa-briefcase"></i>
-                    <p>Emplois</p>
+                        <i class="fa-solid fa-briefcase"></i>
+                        <p>Emplois</p>
                     </a>
                 </div>
                 <div class="nav-menus">
                     <a href="../Messagerie/index.php">
-                    <i class="fa-solid fa-message"></i>
-                    <p>Messagerie</p>
+                        <i class="fa-solid fa-message"></i>
+                        <p>Messagerie</p>
                     </a>
                 </div>
                 <div class="nav-menus">
                     <a href="../Notifications/Notifications.html">
-                    <i class="fa-solid fa-bell"></i>
-                    <p>Notification</p>
+                        <i class="fa-solid fa-bell"></i>
+                        <p>Notification</p>
                     </a>
                 </div>
                 <div class="nav-menus">
-                    <a href="../Profile/profile_main.php">
-                    <i class="fa-solid fa-user"></i>
-                    <p>Vous</p>
-                    </a>
+                    <div onclick="toggleMenu(event)">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Vous</p>
+                    </div>
+                    <div class="sub-menu-wrap" id="subMenu">
+                        <div class="sub-menu">
+                            <div class="user-info">
+                                <?php
+                                    echo '<img src="' . $user['Photo'] . '" alt="Photo de profil">';
+                                    echo '<h2>' . $username . '</h2>';
+                                ?>
+                            </div>
+                            <hr>
+                            <a href="profile_main.php" class="sub-menu-link">
+                                <i class="fa-solid fa-user"></i>
+                                <p>Mon Profil</p>
+                                <span>></span>
+                            </a>
+                            <a href="#" class="sub-menu-link">
+                                <i class="fa-solid fa-gear"></i>
+                                <p>Parametres</p>
+                                <span>></span>
+                            </a>
+                            <a href="#" class="sub-menu-link">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <p>Support et Aide</p>
+                                <span>></span>
+                            </a>
+                            <a href="#" class="sub-menu-link">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                                <p>Deconnexion</p>
+                                <span>></span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="nav-menus">
                     <i class="fa-solid fa-border-none"></i>
                     <p>For Business <i class="fa-solid fa-caret-down"></i></p>
                 </div>
-                <a class="sponsor" href=""><b>Sponsorisez notre<br>futur Engineering+ !!<b></a>
+                <a class="sponsor" href=""><b>Sponsorisez notre<br>futur EngineerIN+ !!<b></a>
             </div>
         </nav>
     </header>
+
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        function toggleMenu(event) {
+            event.stopPropagation();
+            subMenu.classList.toggle("open-menu");
+        }
+
+        document.addEventListener('click', function(event) {
+            if (!subMenu.contains(event.target) && !event.target.closest('.nav-menus div')) {
+                subMenu.classList.remove('open-menu');
+            }
+        });
+    </script>
 </body>
 
 </html>
