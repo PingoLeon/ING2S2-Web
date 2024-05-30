@@ -121,7 +121,7 @@
         $result = mysqli_query($db_handle, $sql);
         $row = mysqli_fetch_assoc($result);
         $nb_msg = $row['nb_msg'];
-        if ($nb_msg > $current_message_count) {
+        if ($nb_msg != $current_message_count) {
             $_SESSION['current_conversation'] = $friend_id;
             echo "reload";
             exit;
