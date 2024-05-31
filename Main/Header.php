@@ -99,7 +99,7 @@
                                 ?>
                             </div>
                             <hr>
-                            <a href="profile_main.php" class="sub-menu-link">
+                            <a href="../Main/profile_main.php" class="sub-menu-link">
                                 <i class="fa-solid fa-user"></i>
                                 <p>Mon Profil</p>
                                 <span>></span>

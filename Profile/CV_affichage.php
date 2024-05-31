@@ -74,7 +74,14 @@
                         <h3>
                             <?php
                                 $last_education = $xml->Education->Edu[count($xml->Education->Edu) - 1];
-                                echo $last_education->Type_formation;
+                                $last_education = $xml->Education->Edu[count($xml->Education->Edu) - 1];
+                                if ($last_education != null && $last_education->type_formation == NULL){
+                                    $last_education->type_formation = '';
+                                }
+                                if ($last_education != null) {
+                                    echo $last_education->Type_formation;
+                                }
+                                
                             ?>
                         </h3>
                     </div>
@@ -200,8 +207,15 @@ function Description_CV() {
 
     $EducationEntreprise = $education->Enterprise;
     $EducationTypeFormation = $education->Type_formation;
-    $EducationDebut = date("F Y", strtotime($education->Debut));
-    $EducationFin = date("F Y", strtotime($education->Fin));
+    $EducationTypeFormation = $education->Type_formation;
+    if ($education == null || $education->Debut == NULL || $education->Fin == NULL) {
+        $EducationDebut = '';
+        $EducationFin = '';
+        $EducationPosition = '';
+    } else {
+        $EducationDebut = date("F Y", strtotime($education->Debut));
+        $EducationFin = date("F Y", strtotime($education->Fin));
+    }
     if ($education->Fin > date('Y-m-d')) {
         $EducationPosition = 'etudiant';
     } else {
@@ -209,39 +223,56 @@ function Description_CV() {
     }
 
     $ProjetNom = $projects->Nom;
-    $ProjetDebut = date("F Y", strtotime($projects->Debut));
-    if ($projects->Fin > date('Y-m-d')) {
+    if ($projects->Debut == NULL || $projects->Fin == NULL || $projects == NULL) {
+        $ProjetDebut = '';
         $ProjetFin = '';
-        $ProjetDebut = 'depuis ' . $ProjetDebut;
     } else {
-        $ProjetFin = 'à ' . date("F Y", strtotime($projects->Fin));
-        $ProjetDebut = 'de ' . $ProjetDebut;
+        $ProjetDebut = date("F Y", strtotime($projects->Debut));
+        if ($projects->Fin > date('Y-m-d')) {
+            $ProjetFin = '';
+            $ProjetDebut = 'depuis ' . $ProjetDebut;
+        } else {
+            $ProjetFin = 'à ' . date("F Y", strtotime($projects->Fin));
+            $ProjetDebut = 'de ' . $ProjetDebut;
+        }
     }
 
     $Experience = $experience[0];
-    $Exp_Position = $Experience->Position;
-    $Exp_Entrprise = $Experience->Enterprise;
-    $Exp_Debut = date("F Y", strtotime($Experience->Debut));
-    if ($Experience->Fin > date('Y-m-d')) {
+    if ($Experience == null) {
+        $Exp_Position = '';
+        $Exp_Entrprise = '';
+        $Exp_Debut = '';
         $Exp_Fin = '';
-        $Exp_Debut = 'depuis ' . $Exp_Debut;
-    } else {
-        $Exp_Fin = 'à ' . date("F Y", strtotime($Experience->Fin));
-        $Exp_Debut = 'de ' . $Exp_Debut;
+    }else{
+        $Exp_Position = $Experience->Position;
+        $Exp_Entrprise = $Experience->Enterprise;
+        $Exp_Debut = date("F Y", strtotime($Experience->Debut));
+        if ($Experience->Fin > date('Y-m-d')) {
+            $Exp_Fin = '';
+            $Exp_Debut = 'depuis ' . $Exp_Debut;
+        } else {
+            $Exp_Fin = 'à ' . date("F Y", strtotime($Experience->Fin));
+            $Exp_Debut = 'de ' . $Exp_Debut;
+        }
     }
+    
+    
+    if ($EducationPosition == '' || $EducationTypeFormation == '' || $EducationEntreprise == '' || $ProjetNom == '' || $Exp_Position == '' || $Exp_Entrprise == '') {
+        $paragraph = '';
+    }else{
+        $paragraph = "Etant $EducationPosition en $EducationTypeFormation à $EducationEntreprise, je suis actuellement à la recherche d'une opportunité professionnelle. 
+        J'ai récemment acquis une expérience professionnelle significative en tant que $Exp_Position chez $Exp_Entrprise de $Exp_Debut$Exp_Fin.";
 
-    $paragraph = "Etant $EducationPosition en $EducationTypeFormation à $EducationEntreprise, je suis actuellement à la recherche d'une opportunité professionnelle. 
-    J'ai récemment acquis une expérience professionnelle significative en tant que $Exp_Position chez $Exp_Entrprise de $Exp_Debut$Exp_Fin.";
-
-    if ($EducationPosition == 'diplômé') {
-        $paragraph .= " J'ai récemment terminé mon projet de fin d'études intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.";
-    } 
-    if ($ProjetFin > date('Y-m-d')) {
-        $paragraph .= " Je suis actuellement en train de travailler sur un projet intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.
-        Ce projet se fait dans le cadre de mon cursus en $EducationTypeFormation à $EducationEntreprise.";
-    } else {
-        $paragraph .= " J'ai récemment travaillé sur un projet intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.
-        Ce projet s'est fait dans le cadre de mon cursus en $EducationTypeFormation à $EducationEntreprise.";
+        if ($EducationPosition == 'diplômé') {
+            $paragraph .= " J'ai récemment terminé mon projet de fin d'études intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.";
+        } 
+        if ($ProjetFin > date('Y-m-d')) {
+            $paragraph .= " Je suis actuellement en train de travailler sur un projet intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.
+            Ce projet se fait dans le cadre de mon cursus en $EducationTypeFormation à $EducationEntreprise.";
+        } else {
+            $paragraph .= " J'ai récemment travaillé sur un projet intitulé $ProjetNom, réalisé de $ProjetDebut$ProjetFin.
+            Ce projet s'est fait dans le cadre de mon cursus en $EducationTypeFormation à $EducationEntreprise.";
+        }
     }
 
     return $paragraph;
