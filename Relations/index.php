@@ -279,7 +279,6 @@
                     $sql = "DELETE FROM Relations WHERE (UID1 = '$user_id' AND UID2 = '$user_id_friend') OR (UID1 = '$user_id_friend' AND UID2 = '$user_id')";
                     $result = mysqli_query($db_handle, $sql);
                     if ($result) {
-                        $_SESSION['alert'] = 'Relation supprimée avec succès';
                         // Supprimer les messages et ensuite la messagerie
                         $sql_msg = "DELETE FROM Messages WHERE Convers_ID = (SELECT Convers_ID FROM Messagerie WHERE (ID1 = '$user_id' AND ID2 = '$user_id_friend') OR (ID1 = '$user_id_friend' AND ID2 = '$user_id'))";
                         $result_msg = mysqli_query($db_handle, $sql_msg);
@@ -301,9 +300,7 @@
                         $result = mysqli_query($db_handle, $sql);
                         $sql_msg = "INSERT INTO Messagerie (ID1, ID2) VALUES ('$user_id', '$user_id_friend')";
                         $result_msg = mysqli_query($db_handle, $sql_msg);
-                        if ($result && $result_msg) {
-                            $_SESSION['alert'] = 'Relation ajoutée avec succès';
-                        } else {
+                        if (!($result && $result_msg)) {
                             $_SESSION['alert'] = 'Erreur lors de l\'ajout de la relation';
                         }
                     }
