@@ -39,8 +39,6 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
     Pays VARCHAR(100),
     Entreprise_ID INT,
     FOREIGN KEY (Entreprise_ID) REFERENCES Enterprise(Enterprise_ID)
-    Entreprise_ID INT,
-    FOREIGN KEY (Entreprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
 
 CREATE TABLE IF NOT EXISTS Applications (
@@ -178,13 +176,13 @@ VALUES  (1, 2),
 -- Sample data insertion
 INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`, `Token`, `Photo`, `Pays`, `Entreprise_ID`) VALUES
 (1, 'fcadene@gmail.com', 'Cadene', 'Félix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France',-1),
-(2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '8fa7521521dd24b4', '../photos/photo2.png', 'France', 0),
+(2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0),
 (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0),
 (4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0),
 (5, 'admin@google.com', '', 'Bob', 'BobG', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo5.png', 'France', 8),
 (6, 'admin@axa.fr', 'Jesus', 'Rafael', 'RafaelJ', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo6.png', 'France', 7),
 (7, 'admin@esilv.fr', '🤓', '🤓', '🤓🤓', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo7.png', 'France', 9),
-(8, 'admin@apple.com', 'Bobby', 'Bobby', 'BobbyB', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo8.png', 'France', 6);
+(8, 'admin@apple.com', '', 'Bobby', 'BobbyB', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo8.png', 'France', 6);
 
 INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation, Enterprise_ID)
 VALUES (1, 1, '2022-09-01', '2027-06-01', 'Etudiant', 'Ingenieur', 1);
@@ -195,16 +193,6 @@ VALUES (1, 1, '2022-09-01', '2024-06-01', 'ECE_CUP', 1);
 INSERT INTO Experience (Exp_ID, User_ID, Debut, Fin, Position, Type_Contrat, Enterprise_ID)
 VALUES (1, 1, '2023-09-01', '2024-06-01', 'Ambassadeur', 'Contrat', 1);
 
-INSERT INTO `enterprise` (`Enterprise_ID`, `Logo`, `Banniere`, `Pays`, `Industrie`, `Nom_Entreprise`, `Tuteur`, `Information_ID`) VALUES
-(1, 'logo1.png', 'banniere1.png', 'France', 'Education', 'ECE Paris', 'Dr. Xian Fernand', 1),
-(2, 'logo2.png', 'banniere2.png', 'France', 'Technologie', 'TechCorp', 'Mme. Sophie Martin', 2),
-(3, 'logo3.png', 'banniere3.png', 'France', 'Marketing', 'MarketingPlus', 'Mr. Kamel Leclerc', 3),
-(4, 'logo4.png', 'banniere4.png', 'France', 'Finance', 'FinanceGroup', 'Mme. Ben Zacomi', 4),
-(5, 'logo5.png', 'banniere5.png', 'France', 'Informatique', 'ITWorld', 'Mr. Thomas Petit', 5),
-(6, 'logo6.png', 'banniere6.png', 'France', 'Technologie', 'Apple', 'Steve Jobs', 6),
-(7, 'logo7.png', 'banniere7.png', 'France', 'Assurance', 'Axa', 'Claude Bébéar', 7),
-(8, 'logo8.png', 'banniere8.png', 'France', 'Informatique', 'Google', 'Sergey Brin', 8),
-(9, 'logo9.png', 'banniere9.png', 'France', 'Education', 'Esilv', 'Pascal Pinot', 9);
 INSERT INTO `enterprise` (`Enterprise_ID`, `Logo`, `Banniere`, `Pays`, `Industrie`, `Nom_Entreprise`, `Tuteur`, `Information_ID`) VALUES
 (1, 'logo1.png', 'banniere1.png', 'France', 'Education', 'ECE Paris', 'Dr. Xian Fernand', 1),
 (2, 'logo2.png', 'banniere2.png', 'France', 'Technologie', 'TechCorp', 'Mme. Sophie Martin', 2),
