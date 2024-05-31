@@ -22,7 +22,7 @@
 
     <div class="container mt-5">
         <h2>Créer une Nouvelle Offre d'Emploi</h2>
-        <form action="CreationOffreEmploi.php" method="POST" enctype="multipart/form-data">
+        <form action="CreationOffre.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nomEntreprise">Nom de l'Entreprise</label>
                 <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" required>
