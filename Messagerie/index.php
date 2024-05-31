@@ -51,6 +51,7 @@
                 
                 <!-- Sélection des Conversations -->
                 <div class="fw-bold text-black mb-2 overflow-auto">CONVERSATIONS</div>
+                <div id="select-conversation" class="d-flex flex-column overflow-auto">
                 <?php                        
                     //! Fetch tous les mails qui ont une conversation avec la personne connectée
                     $sql = "SELECT User_ID, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
@@ -73,7 +74,7 @@
                         }
                     } 
                 ?>
-                
+                </div>
                 <!-- Déconnexion et Retour au Menu -->
                 <div id="action-buttons-messagerie">
                     <form method="post">
@@ -91,7 +92,6 @@
                     </form>
                 </div>
             </div>
-            
             <!-- Conteneur de messages -->
             <div id="box-conversation" class="d-flex flex-column flex-grow-1 p-3 bg-light">
                 <!-- Conteneur d'informations sur l'ami -->
@@ -195,7 +195,10 @@
                                 }
                             }
                         }else{
-                            echo "<div class='alert alert-warning' role='alert'>Pas de messages</div>";
+                            echo "  <div style='height: 100vh; display: flex; align-items: center; justify-content: center;'>
+                                        <div class='alert alert-danger' role='alert'>Aucun message :/</div>
+                                    </div>
+                                ";
                         }
                     ?>
                 </div>
