@@ -605,7 +605,7 @@ function Modification_Post($db_handle, $user_id) {
 
 
 function Entreprise($db_handle) {
-    $sql = "SELECT Nom_Entreprise FROM Enterprise";
+    $sql = "SELECT Nom_Entreprise FROM Entreprise";
     $result = mysqli_query($db_handle, $sql);
     echo '<label for="entreprise">Nom de l\'entreprise:</label>';
     echo '<select class="form-control" id="entreprise" name="entreprise">';

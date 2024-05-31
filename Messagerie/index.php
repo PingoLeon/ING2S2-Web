@@ -8,30 +8,27 @@
     //! Checker si l'utilisateur a appuyé sur le bouton de déconnexion
     logout_button_POST();
 ?>
-
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EngineerIN</title>
+    <title>EngineerIN - Messagerie</title>
     
     <link rel="cano nical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <!-- Favicons -->
     <meta name="theme-color" content="#712cf9">
-    
-    <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
     
     <!-- Import d'Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
     </head>
+    <!-- Page principale de la messagerie -->
     <body class="d-flex flex-column">
         <div class="d-flex flex-row h-100">
+            
             <!--Barre latérale -->
             <div id="barre-laterale" class="p-3 flex-shrink-0">
                 <!-- Onglet personnel -->
@@ -51,8 +48,10 @@
                         <div class="text-muted" style="color: #24bd5d !important;">En ligne</div>
                     </div>
                 </div>
-                <!-- Conversations -->
+                
+                <!-- Sélection des Conversations -->
                 <div class="fw-bold text-black mb-2 overflow-auto">CONVERSATIONS</div>
+                <div id="select-conversation" class="d-flex flex-column overflow-auto">
                 <?php                        
                     //! Fetch tous les mails qui ont une conversation avec la personne connectée
                     $sql = "SELECT User_ID, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
@@ -75,7 +74,7 @@
                         }
                     } 
                 ?>
-                
+                </div>
                 <!-- Déconnexion et Retour au Menu -->
                 <div id="action-buttons-messagerie">
                     <form method="post">
@@ -93,7 +92,6 @@
                     </form>
                 </div>
             </div>
-            
             <!-- Conteneur de messages -->
             <div id="box-conversation" class="d-flex flex-column flex-grow-1 p-3 bg-light">
                 <!-- Conteneur d'informations sur l'ami -->
@@ -143,14 +141,13 @@
                                     }else{
                                         echo "Pas d'expérience actuelle";
                                     }
-                                ?>
-                                
+                                ?>      
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Conteneur de messages 2-->
+                <!-- Conteneur de messages -->
                 <div id="conversation" class="d-flex flex-column-reverse flex-grow-1 overflow-auto p-3">
                     <?php
                         $sql = "SELECT Sender_ID, Content, MSG_ID FROM Messages 
@@ -161,7 +158,7 @@
                                 ORDER BY MSG_ID DESC";
                         $result = mysqli_query($db_handle, $sql);
                         
-                        //!get the number of messages in the conversation
+                        //!Obtenir le nombre de messages dans la conversation
                         $msg_count = mysqli_num_rows($result);
                         
                         if (mysqli_num_rows($result) != 0) {
@@ -198,7 +195,10 @@
                                 }
                             }
                         }else{
-                            echo "<div class='alert alert-warning' role='alert'>Pas de messages</div>";
+                            echo "  <div style='height: 100vh; display: flex; align-items: center; justify-content: center;'>
+                                        <div class='alert alert-danger' role='alert'>Aucun message :/</div>
+                                    </div>
+                                ";
                         }
                     ?>
                 </div>
@@ -211,10 +211,8 @@
                             <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
                         </svg>
                     </button>
-                </form>
-                
+                </form>    
                 <?php
-                
                     //! Supprimer un message
                     if (isset($_POST['delete_message'])) {
                         $friend_id = mysqli_real_escape_string($db_handle, $_POST['friend_id']);
@@ -230,6 +228,7 @@
                             exit;
                         }
                     }
+                    
                     //! Envoyer le message
                     if (isset($_POST['message'])) {
                         $friend_id = mysqli_real_escape_string($db_handle, $_POST['friend_id']);
@@ -248,38 +247,37 @@
                 ?>
             </div>      
         </div>
-        <?php echo "$msg_count";?>
-
-        </body>
-        <script>
-            
-            // Focus sur la barre de message et récupération du contenu précédent
-            window.onload = function() {
-                var messageBar = document.getElementById("MessageBar");
-                messageBar.value = localStorage.getItem("messageBarContent") || "";
-                messageBar.focus();
-            };
-            
-            setInterval(function() {
-                $.ajax({
-                    url: '../Auth/functions.php',
-                    type: 'post',
-                    data: {
-                        'check_new_msg': true,
-                        'id': <?php echo $id; ?>,
-                        'friend_id': <?php echo $friend_id; ?>,
-                        'current_message_count': <?php echo $msg_count; ?>
-                    },
-                    success: function(response) {
-                        console.log("Response: " + response);
-                        if(response.trim() === "reload") {
-                            //Envoi du contenu de la barre de message dans le localStorage pour le récupérer après le rechargement et reload
-                            localStorage.setItem("messageBarContent", document.getElementById("MessageBar").value);
-                            location.reload();
-                        }
+    </body>
+    <script>
+        //! Fonctions JS pour gérer certaines parties dynamiques de la page
+        //? Focus sur la barre de message et récupération du contenu précédent
+        window.onload = function() {
+            var messageBar = document.getElementById("MessageBar");
+            messageBar.value = localStorage.getItem("messageBarContent") || "";
+            messageBar.focus();
+        };
+        
+        //? Rechargement de la page si un nouveau message est reçu ou supprimé
+        setInterval(function() {
+            $.ajax({
+                url: '../Auth/functions.php',
+                type: 'post',
+                data: {
+                    'check_new_msg': true,
+                    'id': <?php echo $id; ?>,
+                    'friend_id': <?php echo $friend_id; ?>,
+                    'current_message_count': <?php echo $msg_count; ?>
+                },
+                success: function(response) {
+                    console.log("Response: " + response);
+                    if(response.trim() === "reload") {
+                        //Envoi du contenu de la barre de message dans le localStorage pour le récupérer après le rechargement et reload
+                        localStorage.setItem("messageBarContent", document.getElementById("MessageBar").value);
+                        location.reload();
                     }
-                });
-            }, 1000); //Load les messages toute les secondes
-        </script>
+                }
+            });
+        }, 1000); //Load les messages toute les secondes
+    </script>
 </html>
     
