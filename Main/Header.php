@@ -1,3 +1,29 @@
+ <?php
+    include '../Auth/functions.php';
+    // Renvoyer l'utilisateur à la page de connexion s'il n'est pas connecté, sinon récupérer l'id et l'email
+    list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+    logout_button_POST();
+
+    // Fetch user information
+    $sql = "SELECT Nom, Prenom, Photo FROM utilisateur WHERE User_ID = '$user_id'";
+    $result = mysqli_query($db_handle, $sql);
+    $user = mysqli_fetch_assoc($result);
+    $username = $user['Nom'] . ' ' . $user['Prenom'];
+
+    // Fetch company information
+    $sql = "SELECT * FROM enterprise
+            JOIN utilisateur ON utilisateur.entreprise_ID = enterprise.enterprise_ID
+            WHERE utilisateur.User_ID = '$user_id'";
+    $result = mysqli_query($db_handle, $sql);
+    $entreprise_info = mysqli_fetch_assoc($result);
+
+    $Lien_Entreprise_Utilisateur = $entreprise_info !== NULL;
+    if ($Lien_Entreprise_Utilisateur) {
+        $entreprise_name = $entreprise_info['Nom_Entreprise'];
+        $entreprise_logo = $entreprise_info['Logo'];
+        $entreprise_logo = '../Profil_entreprises/logos/' . $entreprise_logo;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -43,6 +69,7 @@
                     </a>
                 </div>
                 <div class="nav-menus">
+
                     <a href="../Relations/">
                         <i class="fa-solid fa-users"></i>
                         <p>Mon Reseau</p>
@@ -103,25 +130,34 @@
                         </div>
                     </div>
                 </div>
+                <?php elseif (!$Lien_Entreprise_Utilisateur): ?>
                 <div class="nav-menus">
-                    <i class="fa-solid fa-border-none"></i>
-                    <p>For Business <i class="fa-solid fa-caret-down"></i></p>
+                    <a href="#">
+                        <i class="fa-solid fa-border-none"></i>
+                        <p>For Business</p>
+                    </a>
                 </div>
+                <?php endif; ?>
                 <a class="sponsor" href=""><b>Sponsorisez notre<br>futur EngineerIN+ !!<b></a>
             </div>
         </nav>
     </header>
-
     <script>
-        let subMenu = document.getElementById("subMenu");
-        function toggleMenu(event) {
+        function toggleMenu(event, menuId) {
             event.stopPropagation();
-            subMenu.classList.toggle("open-menu");
+            document.querySelectorAll('.sub-menu-wrap').forEach(menu => {
+                if (menu.id !== menuId) {
+                    menu.classList.remove('open-menu');
+                }
+            });
+            document.getElementById(menuId).classList.toggle('open-menu');
         }
 
         document.addEventListener('click', function(event) {
-            if (!subMenu.contains(event.target) && !event.target.closest('.nav-menus div')) {
-                subMenu.classList.remove('open-menu');
+            if (!event.target.closest('.nav-menus div')) {
+                document.querySelectorAll('.sub-menu-wrap').forEach(menu => {
+                    menu.classList.remove('open-menu');
+                });
             }
         });
     </script>

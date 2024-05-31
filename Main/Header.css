@@ -141,7 +141,7 @@ nav {
     margin: 12px 0;
 }
 
-.sub-menu-link p {
+.sub-menu-link p{
     width: 100%;
 }
 
@@ -157,6 +157,8 @@ nav {
     font-size: 22px;
     transition: transform 0.5s;
 }
+
+
 
 .sub-menu-link:hover span {
     transform: translateX(5px);
