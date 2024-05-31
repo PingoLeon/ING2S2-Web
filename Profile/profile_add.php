@@ -317,8 +317,11 @@ function Post_add($db_handle, $user_id) {
     $photo = isset($_POST["photo"]) ? $_POST["photo"] : "";
     $photo = "Photos/" . $photo;
     $photo = substr($photo, 0, -4);
+    //Recuperation de la date actuelle avec heure et minute
     $date = date("Y-m-d");
-
+    $date = $date . " " . date("H:i:s");
+    $date = date("Y-m-d H:i:s");
+    echo $date;
     if ($texte == "") {
         header('Location: ../Main/modification.php?id=post_add');
         return;
@@ -328,7 +331,7 @@ function Post_add($db_handle, $user_id) {
         $stmt->bind_param("isssss", $user_id, $date, $photo, $texte, $titre, $lieu);
 
         if ($stmt->execute()) {
-            header('Location: http://localhost:8080/ING2S2-WEB/Main/profile_main.php');
+            header('Location: ../Main/profile_main.php');
         } else {
             echo "Error: " . $stmt->error;
         }
