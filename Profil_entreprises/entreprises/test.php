@@ -1,10 +1,3 @@
-<?php
-include 'C:\wamp64\www\ING2S2-Web/Auth/functions.php';
-//! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
-list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-$user_id = $id;
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,26 +11,19 @@ $user_id = $id;
 
 <body>
 <?php 
-    $entre_id = 9;
-    $sql = 'SELECT * FROM enterprise, informations WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.'';
-    $result = mysqli_query($db_handle, $sql);
-    $data = mysqli_fetch_assoc($result);
-?>
-
+    include '../Profil_entreprises/entreprises/entreprise.php';
+    $xml = Creation_XML(); ?>
 
 <div class="container" id="background"> 
-    <div class="container" id="main_bloc" style="background-image: url('../../Profil_entreprises/bannieres/<?php echo $data['Banniere']; ?>');">
+    <div class="container" id="main_bloc">
         <div class="row">
-            <?php echo '<img id ="ban" class="image" src="../../Profil_entreprises/logos/'.$data['Logo'].'" alt="Logo">'; ?>
-        </div>
-        
-        <br><br><br><br><br><br><br><br><br><br>
+            <img src="<?php echo $xml->enterprise->Banniere; ?>" alt="banniere" style="width: 100%" style=" height: 10%"/>             
+            <img id ="ban" class="image" src="<?php echo $xml->enterprise->Logo; ?>" alt="Logo" style="width: 15%" style="background-color :white">
+        </div><br><br><br>
 
-        <?php
-        echo '<p style="background-color: white">'.$data['Intro'].'</p>'; ?>
-    
-        <?php //echo '<button onclick="window.location.href='.$data['Site_Web']'">Consulter le site web</button><br><br>'; 
-        echo '<button onclick="window.location.href=\''.$data['Site_Web'].'\'">Consulter le site web</button><br><br>'; ?>
+        <?php echo $xml->informations->Intro; ?><br><br>
+
+        <button onclick="window.location.href='<?php echo $xml ->informations->Site_Web; ?>'">Consulter le site web</button><br><br>
 
         
     <table>
@@ -80,11 +66,11 @@ $user_id = $id;
         $current_page = $_POST['OngletNavBar'];
 
         if ($current_page === "Accueil") {
-            include 'C:\wamp64\www\ING2S2-Web/Profil_entreprises/details/accueil1.php';
+            include 'C:/wamp64/www/ING2S2-WEB/Profil_entreprises/details/accueil1.php';
         } elseif ($current_page === "A propos") {
-            include '../../Profil_entreprises/details/apropos1.php';
+            include 'C:/wamp64/www/ING2S2-WEB/Profil_entreprises/details/apropos1.php';
         } elseif ($current_page === "Posts") {
-            include 'C:\wamp64\www\ING2S2-Web/Profil_entreprises/details/posts1.php';
+            include 'C:/wamp64/www/ING2S2-WEB/Profil_entreprises/details/posts1.php';
         }
     } else {
         $current_page = "Accueil";

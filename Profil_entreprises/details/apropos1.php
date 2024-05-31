@@ -17,19 +17,19 @@
     <div class="row">
         <br><br><br>
         <h1 style ="margin:15px">Présentation</h1>
-        <?php echo'<p style ="margin:15px"> '.$data['Informations'].' ';?></p>
+        <p style ="margin:15px"><?php echo $xml->informations->Information; ?></p>
     </div>
 
     <br><br>
         <h5>Site Web</h5>
-        <?php echo'<a href="'.$data['Site_Web'].'">'.$data['Site_Web'].'</a>';?><br><br>
+        <a href="<?php echo $xml->informations->Site_Web; ?>" >apple.com/careers</a><br><br>
 
         <h5>Taille de l'entreprise</h5>
-        <?php echo'<p>'.$data['Taille'].'';?></p><br>
-        <h5>Téléphone</h5>
-        <?php echo'<p>'.$data['Telephone'].'';?></p><br>
+        <p><?php echo $xml->informations->Taille; ?></p><br>
+        <h5>Telephone</h5>
+        <p><?php echo $xml->informations->Telephone; ?></p><br>
         <h5>Année de création</h5>
-        <?php echo'<p> '.$data['Annee_Fondation'].''; ?></p>
+        <p><?php echo $xml->informations->Anne_Fondation; ?></p>
 
         <br><br>   
 
@@ -42,10 +42,7 @@
                     <h1 style="margin:15px">Lieux(1)</h1>
                     <br><br>
                     <div id="map" style="width: 100%; height: 100vh;">
-                       
-                        <?php
-                        echo '<iframe src="'.$data['Lieu'].'" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>';
-                        ?>
+                        <iframe src="<?php echo $xml->informations->Lieu: ?>" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
                     </div>
                     </div></div></div>
 
