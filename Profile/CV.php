@@ -27,6 +27,9 @@ function Creation_XML($user_id) {
                     ORDER BY Education.Debut DESC";
   $result_education = $conn->query($sql_education);
 
+  //afficher les données de la table Education
+  echo 
+
   // Fetch experience details
   $sql_experience = "SELECT Experience.*, Enterprise.Nom_Entreprise, Enterprise.Logo 
                     FROM Experience 
