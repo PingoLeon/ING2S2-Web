@@ -1,17 +1,28 @@
-<div class="container" id="background" style="padding : 15px">
-    <div class="container" id="main_bloc">
-        <div class="row">
-            <br><br><br>
-            <h1 style="margin:15px">[#Evénement / #WelcomeDay]</h1>
-            <br>
-            <?php echo'<p style="margin:15px"> Avec les Welcome Day de l\'ECE, vivez une journée portes ouvertes qui sort de l\'ordinaire 🎉 <br><br>L\'ensemble de nos équipes pédagogiques et de nos étudiants viennent à votre rencontre afin de vous faire découvrir l\'école, avec des animations, de la musique, de la street-food, lors d\'une journée unique ✨ '; ?></p>
-            </p>
-            <?php echo'<p style="margin:15px"> 📍📅 Retrouvez-nous du 15 juin à 12h jusqu\'au 15 juin à 18h. '; ?></p>
-            </p>
-            <?php echo '<img class="image" src="../../Profil_entreprises/photo_events/photo1.png" style="margin: auto">'; ?>
+<?php
+//echo '$result = mysqli_query($db_handle, $sql);';
+$sql = 'SELECT * FROM events WHERE Enterprise_ID = '.$entre_id.' ORDER BY Date_publication DESC';
+$result = mysqli_query($db_handle, $sql);
+
+
+
+     
             
-        </div>
-    </div>
-</div>
+    while ($event = mysqli_fetch_assoc($result)) {
+        echo'<div class="container" id="background" style="padding: 15px">';
+        echo'<div class="container" id="main_bloc">';
+        echo'<div class="row">';
+        
+        echo '<i><p style="color:grey "> Publié le '. $event['Date_publication'] . '</p></i><br>';
+        echo '<h1 style="margin: 15px">' . $event['Intitulé'] . '</h1>';
+        echo '<p style="margin: 15px">' . $event['Texte'] . '</p>';
+        echo '<p style="margin: 15px">📍📅 Retrouvez-nous du ' . $event['Début'] . ' jusqu\'au ' . $event['Fin'] . '.</p>';
+        echo '<img class="image" src="../../Profil_entreprises/photo_events/' . $event['Photo'] . '" style="margin: auto; max-width: 100%; height: auto;">';
+        
+        echo'</div>';
+        echo'</div>';
+        echo'</div>';
+    }
+
+
+?>
 <br><br><br>
-</div>

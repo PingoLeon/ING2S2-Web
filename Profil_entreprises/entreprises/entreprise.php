@@ -18,8 +18,8 @@ $user_id = $id;
 
 <body>
 <?php 
-    $entre_id = 9;
-    $sql = 'SELECT * FROM enterprise, informations WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.'';
+    $entre_id = 4;
+    $sql = 'SELECT * FROM enterprise, informations, events WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.' AND events.Enterprise_ID = '.$entre_id.';';
     $result = mysqli_query($db_handle, $sql);
     $data = mysqli_fetch_assoc($result);
 ?>
@@ -36,7 +36,7 @@ $user_id = $id;
         <?php
         echo '<p style="background-color: white">'.$data['Intro'].'</p>'; ?>
     
-        <?php //echo '<button onclick="window.location.href='.$data['Site_Web']'">Consulter le site web</button><br><br>'; 
+        <?php  
         echo '<button onclick="window.location.href=\''.$data['Site_Web'].'\'">Consulter le site web</button><br><br>'; ?>
 
         
@@ -90,7 +90,6 @@ $user_id = $id;
         $current_page = "Accueil";
     }
 
-    $sql = "SELECT Content FROM Entreprises WHERE Nom = 'Apple' AND Onglet = '$current_page'";
 ?>
 
 </body>
