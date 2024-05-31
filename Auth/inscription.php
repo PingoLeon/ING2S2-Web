@@ -29,6 +29,20 @@
                 <input type="password" class="form-control" id="floatingPassword" name="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Mot de Passe</label>
             </div>
+            <div class="form-check text-start my-3" style="display: flex; flex-direction: column; align-items: flex-start;">
+                <div>
+                    <input class="form-check-input" type="radio" value="signin-user" id="signin-user" name="user-type">
+                    <label class="form-check-label" for="signin-user">
+                        Utilisateur
+                    </label>
+                </div>
+                <div>
+                    <input class="form-check-input" type="radio" value="signin-entreprise" id="signin-entreprise" name="user-type">
+                    <label class="form-check-label" for="signin-entreprise">
+                        Entreprise
+                    </label>
+                </div>
+            </div>         
             <div class="form-check text-start my-3">
                 <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault" name="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
@@ -62,19 +76,31 @@
 
     //! Vérification des données du formulaire
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
         if (isset($_POST["floatingInput"]) && !empty($_POST["floatingInput"])) {
             $email = $_POST["floatingInput"];
         }else{
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Email non renseigné</div>";
             header('Location: inscription.php');
             exit();
-        }if (isset($_POST["floatingPassword"]) && !empty($_POST["floatingPassword"])) {
+        }
+        
+        if (isset($_POST["floatingPassword"]) && !empty($_POST["floatingPassword"])) {
             $password = $_POST["floatingPassword"];
         }else{
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Mot de Passe non renseigné</div>";
             header('Location: inscription.php');
             exit();
         }
+        
+        if (isset($_POST["user-type"]) && !empty($_POST["user-type"])) {
+            $userType = $_POST["user-type"];
+        }else{
+            $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Type d'utilisateur non renseigné</div>";
+            header('Location: inscription.php');
+            exit();
+        }
+        
         if (isset($_POST["flexCheckDefault"])) {
             $remember = true;
         } else {
@@ -91,16 +117,26 @@
         //!Vérifier si le mail existe déjà
         $db_handle = connect_to_db();
         $email = mysqli_real_escape_string($db_handle, $email);
-        $sql = "SELECT * FROM Utilisateur WHERE Mail = '$email'";
+        $sql = "SELECT COUNT(User_ID) AS count FROM Utilisateur WHERE Mail = '$email'";
         $result = mysqli_query($db_handle, $sql);
-        if (mysqli_num_rows($result) > 0) {
+        $data = mysqli_fetch_assoc($result);
+        if ($data['count'] > 0) {
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Email déjà utilisé</div>";
             header('Location: inscription.php');
             exit();
         }
         
         //!Insérer les données dans la base de données
-        $sql = "INSERT INTO Utilisateur (Mail, MDP, Token) VALUES ('$email', '$password', '$token')";
+        if ($userType == 'signin-user') {
+            $userType = 1;
+        } else if ($userType == 'signin-entreprise') {
+            $userType = 2;
+        }else{
+            $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Type d'utilisateur inconnu</div>";
+            header('Location: inscription.php');
+            exit();
+        }
+        $sql = "INSERT INTO Utilisateur (Mail, MDP, Token, Statut_Utilisateur) VALUES ('$email', '$password', '$token', '$userType')";
         $result = mysqli_query($db_handle, $sql);
         if ($result === false) { //! Si la requête SQL a échoué, on affiche l'erreur
             mysqli_error($db_handle);

@@ -121,7 +121,7 @@
         $result = mysqli_query($db_handle, $sql);
         $row = mysqli_fetch_assoc($result);
         $nb_msg = $row['nb_msg'];
-        if ($nb_msg > $current_message_count) {
+        if ($nb_msg != $current_message_count) {
             $_SESSION['current_conversation'] = $friend_id;
             echo "reload";
             exit;
@@ -136,7 +136,26 @@ if (isset($_POST['check_new_msg'])) {
     $db_handle = connect_to_db();
     echo check_if_new_msg_in_conv($db_handle, $id, $friend_id, $current_message_count);
     exit;
-}
+}   
+
+    function fetch_data($user_id, $db_handle){
+        if (isset($_GET['sql']) && isset($_GET['id'])) {
+            $sql = $_GET['sql'];
+            $id = $_GET['id'];
+        
+            // Replace placeholder with actual ID
+            $sql = str_replace(':id', $id, $sql);
+        
+            $result = mysqli_query($db_handle, $sql);
+        
+            if ($result) {
+                $data = mysqli_fetch_assoc($result);
+                echo json_encode($data);
+            } else {
+                echo json_encode(['error' => 'Query failed']);
+            }
+        }
+    }
     
 
 ?>

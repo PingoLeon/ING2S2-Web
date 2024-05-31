@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
     Pays VARCHAR(100),
     Entreprise_ID INT,
     FOREIGN KEY (Entreprise_ID) REFERENCES Enterprise(Enterprise_ID)
+    Entreprise_ID INT,
+    FOREIGN KEY (Entreprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
 
 CREATE TABLE IF NOT EXISTS Applications (
@@ -156,10 +158,21 @@ CREATE TABLE IF NOT EXISTS Offre_Emploi (
     FOREIGN KEY (Enterprise_ID) REFERENCES Entreprise(Enterprise_ID)
 );
 
-CREATE TABLE IF NOT EXISTS Reseau (
+CREATE TABLE IF NOT EXISTS Relations (
     ID INT PRIMARY KEY AUTO_INCREMENT,
-    Lst_ID INT
+    UID1 INT,
+    UID2 INT
 );
+
+INSERT INTO Relations (UID1, UID2)
+VALUES  (1, 2),
+        (1, 3),
+        (1, 4),
+        (2, 3),
+        (2, 4),
+        (3, 4),
+        (2, 5),
+        (2, 6);
 
 
 -- Sample data insertion
@@ -192,6 +205,16 @@ INSERT INTO `enterprise` (`Enterprise_ID`, `Logo`, `Banniere`, `Pays`, `Industri
 (7, 'logo7.png', 'banniere7.png', 'France', 'Assurance', 'Axa', 'Claude Bébéar', 7),
 (8, 'logo8.png', 'banniere8.png', 'France', 'Informatique', 'Google', 'Sergey Brin', 8),
 (9, 'logo9.png', 'banniere9.png', 'France', 'Education', 'Esilv', 'Pascal Pinot', 9);
+INSERT INTO `enterprise` (`Enterprise_ID`, `Logo`, `Banniere`, `Pays`, `Industrie`, `Nom_Entreprise`, `Tuteur`, `Information_ID`) VALUES
+(1, 'logo1.png', 'banniere1.png', 'France', 'Education', 'ECE Paris', 'Dr. Xian Fernand', 1),
+(2, 'logo2.png', 'banniere2.png', 'France', 'Technologie', 'TechCorp', 'Mme. Sophie Martin', 2),
+(3, 'logo3.png', 'banniere3.png', 'France', 'Marketing', 'MarketingPlus', 'Mr. Kamel Leclerc', 3),
+(4, 'logo4.png', 'banniere4.png', 'France', 'Finance', 'FinanceGroup', 'Mme. Ben Zacomi', 4),
+(5, 'logo5.png', 'banniere5.png', 'France', 'Informatique', 'ITWorld', 'Mr. Thomas Petit', 5),
+(6, 'logo6.png', 'banniere6.png', 'France', 'Technologie', 'Apple', 'Steve Jobs', 6),
+(7, 'logo7.png', 'banniere7.png', 'France', 'Assurance', 'Axa', 'Claude Bébéar', 7),
+(8, 'logo8.png', 'banniere8.png', 'France', 'Informatique', 'Google', 'Sergey Brin', 8),
+(9, 'logo9.png', 'banniere9.png', 'France', 'Education', 'Esilv', 'Pascal Pinot', 9);
 
 INSERT INTO `offre_emploi` (`Job_ID`, `Enterprise_ID`, `Intitule`, `Debut`, `Fin`, `Position`, `Type_Contrat`, `Photo`, `Texte`) VALUES
 (1, 1, 'Enseignant Permanent', '2024-09-01', '2025-08-31', 'Enseignant Senior en Mathématiques', 'Permanent', NULL, 'Nous recherchons un enseignant senior en mathématiques dédié pour rejoindre notre équipe de manière permanente. Le candidat doit avoir une solide formation en mathématiques et une expérience en enseignement.'),
@@ -202,12 +225,13 @@ INSERT INTO `offre_emploi` (`Job_ID`, `Enterprise_ID`, `Intitule`, `Debut`, `Fin
 
 
 INSERT INTO Messagerie (ID1, ID2)
-VALUES (1, 2),
+VALUES  (1, 2),
         (1, 4),
         (1, 3),
         (2, 4),
         (2, 3),
-        (3, 4);
+        (2, 5),
+        (2, 6);
 
 INSERT INTO Messages (Convers_ID, Sender_ID, Content)
 VALUES  (1, 1, 'Salut Leon, comment vas-tu ?'),
