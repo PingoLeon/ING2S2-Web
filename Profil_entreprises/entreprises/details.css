@@ -27,6 +27,7 @@ body {
     left: 10%;
     max-width: 15%;  /* Ajustez cette valeur pour changer la taille du logo */
     border: 4px solid white;  /* Bordure blanche autour du logo */
+    background-color: white;
 }
 
 .nav-bar {
@@ -41,4 +42,15 @@ body {
     text-decoration: none;
     color: #fff;
     font-family: Arial, sans-serif;
+}
+
+.dark-mode body {
+    background-color: #222;
+    color: #ddd;
+}
+
+.dark-mode #main_bloc {
+    background-color: #333;
+    color: #ddd;
+    box-shadow: none;
 }

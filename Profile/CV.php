@@ -25,10 +25,11 @@ function Creation_XML($user_id) {
                     JOIN Enterprise ON Education.Enterprise_ID = Enterprise.Enterprise_ID 
                     WHERE Education.User_ID = $user_id 
                     ORDER BY Education.Debut DESC";
-    $result_education = $conn->query($sql_education);
 
-    // Fetch experience details
-    $sql_experience = "SELECT Experience.*, Enterprise.Nom_Entreprise, Enterprise.Logo 
+  $result_education = $conn->query($sql_education); 
+
+  // Fetch experience details
+  $sql_experience = "SELECT Experience.*, Enterprise.Nom_Entreprise, Enterprise.Logo 
                     FROM Experience 
                     JOIN Enterprise ON Experience.Enterprise_ID = Enterprise.Enterprise_ID 
                     WHERE Experience.User_ID = $user_id 

@@ -28,7 +28,7 @@
     <br>
 
     <!-- Ajout des informations AJOUTE du profil -->
-    <?php include '../Profile/Profile_add.php'; ?>
+
 
     <!-- Ajout des informations du profil -->
     <?php include '../Profile/Profile_posts.php'; ?>

@@ -12,7 +12,20 @@
 <body>
     <?php include 'Header.php'; ?>
 
+    <div class="container" id="background">
+        <br>
+        <div class="container" id="main_bloc">
+            <div class="row">
+                
+            </div>
 
+            <br><br><br><br><br><br><br><br><br><br>
+        </div>
+
+        
+    
+        
+    </div>
 
 
     
