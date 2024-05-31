@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,41 @@
     <script src="modal.js"></script>
 </head>
 
+<style>
+    .card {
+        margin: 5px;
+    }
+    
+    .fixed-height {
+        height: 63vh;
+    }
+    
+    .my-card-text {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #6c757d;
+    
+    }   
+    
+    .container.background, header.background {
+        filter: blur(8px);
+    }
+    
+    .nomprenom {
+        margin-top: 5vh;
+        font-weight: bold;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.close-custom').click(function(){
+            $('#profileModalCustom').css('display', 'none');
+        });
+    });
+</script>
+
 <body>
     <!-- Ajout du header -->
     <?php include '../Main/Header.php'; ?>
@@ -29,6 +65,8 @@
             <div class="col-md-9">
                 <div class="row">
                     <?php
+                    $true_or_falsebutton1 = 'true';
+                    $true_or_falsebutton2 = 'false';
                     //! Récupérer les User_ID des relations de l'utilisateur
                     $sql = "SELECT U.User_ID, U.Mail, U.Prenom, U.Nom, U.Photo, U.Entreprise_ID
                             FROM Relations AS R
@@ -96,10 +134,12 @@
                             echo "</h5>";
                         }
                         echo "
-                                    <p class='card-text'>$poste</p>
+                                    <span class='my-card-text'>$poste</span>
                                     </div>
                                     <div class='card-footer bg-transparent border-top-0 mt-auto'>
-                                        <button class='btn btn-primary btn-block' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = $user_id_user', $user_id_user, profileModalContent)\">Voir profil</button>
+                                    ";       
+                            echo "<button class='btn btn-primary btn-block' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = ' + $user_id_user, $user_id_user,$true_or_falsebutton1, profileModalContent)\">Voir profil </button>";
+                            echo " 
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +177,7 @@
                             $entreprise_id = $data_user['Entreprise_ID'];
                             
                             //! Récupérer l'expérience actuelle de l'utilisateur
-                            if ($entreprise_id != 0 OR $entreprise_id != -1){
+                            if ($entreprise_id != 0 AND $entreprise_id != -1){
                                 $sql_entreprise = "SELECT Nom_Entreprise FROM enterprise WHERE Enterprise_ID = '$entreprise_id'";
                                 $result_entreprise = mysqli_query($db_handle, $sql_entreprise);
                                 $row = mysqli_fetch_assoc($result_entreprise);
@@ -189,9 +229,10 @@
                                 echo "</h5>";
                             }
                             echo "
-                                                <p class='card-text'>$poste</p>
-                                                <button class='btn btn-primary' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = $user_id_relation', $user_id_relation, profileModalContent)\">Voir profil</button>
-                                            </div>
+                                            <span class='my-card-text'>$poste</span>
+                                            ";       
+                            echo "<button class='btn btn-primary' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = ' + $user_id_relation, $user_id_relation,$true_or_falsebutton2, profileModalContent)\">Voir profil</button>";
+                            echo "          </div>
                                         </div>
                                     </div>
                                 </div>
@@ -204,32 +245,81 @@
     </div>
 
     
-    <div id="profileModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div id="modalContent"></div>
+    <div id="profileModalCustom" class="modal">
+    <div class="modal-content-custom">
+        <span class="close-custom">&times;</span>
+        <div id="modalContentCustom"></div>
     </div>
     </div>
+    
+    <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            /*if (isExistingRelation === false) {
+        addButton = `
+                    <div class="d-flex justify-content-center mt-3">
+                        <form method="post">
+                            <input type="hidden" name="user_id" value="${user_id}">
+                            <input type="submit" name="create_relation" value=" Créer une relation" class="btn btn-info btn-lg">
+                        </form>
+                    </div>
+        `;
+    }else{
+        addButton = `
+                    <div class="d-flex justify-content-center mt-3">
+                        <form method="post">
+                            <input type="hidden" name="user_id" value="${user_id}">
+                            <input type="submit" name="delete_relation" value=" Supprimer la relation" class="btn btn-danger btn-lg">
+                        </form>
+                    </div>
+        `;*/
+            if (isset($_POST["user_id"]) && !empty($_POST["user_id"])) {
+                $user_id_friend = $_POST["user_id"];
+                if (isset($_POST["delete_relation"])) {
+                    unset($_POST["delete_relation"]);
+                    $sql = "DELETE FROM Relations WHERE (UID1 = '$user_id' AND UID2 = '$user_id_friend') OR (UID1 = '$user_id_friend' AND UID2 = '$user_id')";
+                    $result = mysqli_query($db_handle, $sql);
+                    if ($result) {
+                        $_SESSION['alert'] = 'Relation supprimée avec succès';
+                        // Supprimer les messages et ensuite la messagerie
+                        $sql_msg = "DELETE FROM Messages WHERE Convers_ID = (SELECT Convers_ID FROM Messagerie WHERE (ID1 = '$user_id' AND ID2 = '$user_id_friend') OR (ID1 = '$user_id_friend' AND ID2 = '$user_id'))";
+                        $result_msg = mysqli_query($db_handle, $sql_msg);
+                        
+                        $sql_msg = "DELETE FROM Messagerie WHERE (ID1 = '$user_id' AND ID2 = '$user_id_friend') OR (ID1 = '$user_id_friend' AND ID2 = '$user_id')";
+                        $result_msg = mysqli_query($db_handle, $sql_msg);
+                        
+                    } else {
+                        $_SESSION['alert'] = 'Erreur lors de la suppression de la relation';
+                    }
+                } else if (isset($_POST["create_relation"])) {
+                    unset($_POST["create_relation"]);
+                    $sql = "SELECT * FROM Relations WHERE (UID1 = '$user_id' AND UID2 = '$user_id_friend') OR (UID1 = '$user_id_friend' AND UID2 = '$user_id')";
+                    $result = mysqli_query($db_handle, $sql);
+                    if (mysqli_num_rows($result) != 0) {
+                        $_SESSION['alert'] = 'Relation déjà existante';
+                    } else {
+                        $sql = "INSERT INTO Relations (UID1, UID2) VALUES ('$user_id', '$user_id_friend')";
+                        $result = mysqli_query($db_handle, $sql);
+                        $sql_msg = "INSERT INTO Messagerie (ID1, ID2) VALUES ('$user_id', '$user_id_friend')";
+                        $result_msg = mysqli_query($db_handle, $sql_msg);
+                        if ($result && $result_msg) {
+                            $_SESSION['alert'] = 'Relation ajoutée avec succès';
+                        } else {
+                            $_SESSION['alert'] = 'Erreur lors de l\'ajout de la relation';
+                        }
+                    }
+                }
+                
+                header("Location: index.php");
+                exit;
+            }
+        }
+        
+        if (isset($_SESSION['alert'])) {
+            echo "<script>alert('{$_SESSION['alert']}');</script>";
+            unset($_SESSION['alert']);
+        }
+    ?>
 
     
 </body>
-
-
-<style>
-    .card {
-        margin: 5px;
-    }
-    
-    .fixed-height {
-        height: 63vh;
-    }
-</style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('.close').click(function(){
-            $('#profileModal').css('display', 'none');
-        });
-    });
-</script>
+</html>

@@ -50,46 +50,57 @@
                 </div>
                 
                 <!-- Sélection des Conversations -->
-                <div class="fw-bold text-black mb-2 overflow-auto">CONVERSATIONS</div>
-                <div id="select-conversation" class="d-flex flex-column overflow-auto">
-                <?php                        
-                    //! Fetch tous les mails qui ont une conversation avec la personne connectée
-                    $sql = "SELECT User_ID, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
-                    $result = mysqli_query($db_handle, $sql);
-                    if (mysqli_num_rows($result) != 0) {
-                        while($row = mysqli_fetch_assoc($result)){
-                            $friend_id = $row['User_ID'];
-                            $friend_photo = $row['Photo'];
-                            $friend_name = $row['Nom'];
-                            $friend_first_name = $row['Prenom'];
-                            echo "<form method='post'>";
-                            echo "<input type='hidden' name='friend_id' value='$friend_id'>";
-                            echo "<input type='hidden' name='friend_photo' value='$friend_photo'>";
-                            echo "<input type='hidden' name='friend_nom' value='$friend_name'>";
-                            echo "<input type='hidden' name='friend_prenom' value='$friend_first_name'>";
-                            echo "<button type='submit' class='btn btn-whatsapp'>";
-                            echo "<img src='".$friend_photo."' alt='Avatar' class='rounded-circle' style='border: 1px solid #000; border-color: black;' width='50' height='50'>";
-                            echo "$friend_first_name $friend_name</button>";
-                            echo "</form><br>";                        
-                        }
-                    } 
-                ?>
-                </div>
-                <!-- Déconnexion et Retour au Menu -->
-                <div id="action-buttons-messagerie">
-                    <form method="post">
-                        <button class="btn btn-info w-100 py-2" style="margin-bottom: 6px" type="submit" name="menu">Retour au Menu</button>
-                        <?php
-                            if (isset($_POST['menu'])) {
-                                header('Location: ../Main/accueil_main.php');
-                                ob_end_flush(); 
-                                exit;
+                <div class="fw-bold text-black mb-2">CONVERSATIONS</div>
+                <div class="box-selection-action">
+                    <div id="select-conversation" class="d-flex flex-column overflow-auto">
+                    <?php                        
+                        //! Fetch tous les mails qui ont une conversation avec la personne connectée
+                        $sql = "SELECT User_ID, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
+                        $result = mysqli_query($db_handle, $sql);
+                        $no_relationship = false;
+                        if (mysqli_num_rows($result) != 0) {
+                            while($row = mysqli_fetch_assoc($result)){
+                                $friend_id = $row['User_ID'];
+                                $friend_photo = $row['Photo'];
+                                $friend_name = $row['Nom'];
+                                $friend_first_name = $row['Prenom'];
+                                echo "<form method='post'>";
+                                echo "<input type='hidden' name='friend_id' value='$friend_id'>";
+                                echo "<input type='hidden' name='friend_photo' value='$friend_photo'>";
+                                echo "<input type='hidden' name='friend_nom' value='$friend_name'>";
+                                echo "<input type='hidden' name='friend_prenom' value='$friend_first_name'>";
+                                echo "<button type='submit' class='btn btn-whatsapp'>";
+                                echo "<img src='".$friend_photo."' alt='Avatar' class='rounded-circle' style='border: 1px solid #000; border-color: black;' width='50' height='50'>";
+                                echo "$friend_first_name $friend_name</button>";
+                                echo "</form><br>";                        
                             }
-                        ?>
-                    </form>
-                    <form method="post">
-                        <button class="btn btn-danger w-100 py-2" type="submit" name="logout">Déconnexion</button>
-                    </form>
+                        }else{
+                            echo "  <div style='height: 100vh; display: flex; align-items: center; justify-content: center;'>
+                                        <div class='alert alert-danger' role='alert'>Aucune conversation :/</div>
+                                    </div>
+                                ";
+                            $no_relationship = true;
+                            $friend_id = '';
+                        }
+                    
+                    ?>
+                    </div>
+                    <!-- Déconnexion et Retour au Menu -->
+                    <div id="action-buttons-messagerie">
+                        <form method="post">
+                            <button class="btn btn-info w-100 py-2" style="margin-bottom: 6px" type="submit" name="menu">Retour au Menu</button>
+                            <?php
+                                if (isset($_POST['menu'])) {
+                                    header('Location: ../Main/accueil_main.php');
+                                    ob_end_flush(); 
+                                    exit;
+                                }
+                            ?>
+                        </form>
+                        <form method="post">
+                            <button class="btn btn-danger w-100 py-2" type="submit" name="logout">Déconnexion</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             <!-- Conteneur de messages -->
@@ -100,23 +111,39 @@
                         <img src="
                         <?php
                             $friend_id = isset($_POST['friend_id']) ? $_POST['friend_id'] : "$friend_id";
-                            if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé)
-                                $friend_id = $_SESSION['current_conversation'];
-                                unset($_SESSION['current_conversation']);
+                            if ($no_relationship){
+                                echo "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+                            }else{
+                                if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé)
+                                    $friend_id = $_SESSION['current_conversation'];
+                                    unset($_SESSION['current_conversation']);
+                                }
+                                $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$friend_id'";
+                                $result = mysqli_query($db_handle, $sql);
+                                $friend_first_name = "";
+                                $friend_name = "";
+                                if (mysqli_num_rows($result) != 0) {
+                                    $row = mysqli_fetch_assoc($result);
+                                    echo $row['Photo'];
+                                    $friend_name = $row['Nom'];
+                                    $friend_first_name = $row['Prenom'];
+                                }
                             }
-                            $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$friend_id'";
-                            $result = mysqli_query($db_handle, $sql);
-                            if (mysqli_num_rows($result) != 0) {
-                                $row = mysqli_fetch_assoc($result);
-                                echo $row['Photo'];
-                                $friend_name = $row['Nom'];
-                                $friend_first_name = $row['Prenom'];
-                            }
+                            
+                            
                         ?>
                         " alt="Avatar" class="rounded-circle" style="border: 1px solid #000; border-color: black;" width="50" height="50">
                         <div class="ms-3">
                             <!-- Nom de l'ami -->
-                            <div class="fw-bold"><?php echo "$friend_first_name $friend_name"; ?></div>
+                            <div class="fw-bold">
+                                <?php 
+                                    if ($friend_id === ''){
+                                        $friend_first_name = "";
+                                        $friend_name = "";
+                                    }
+                                    echo "$friend_first_name $friend_name"; 
+                                ?>
+                            </div>
                             <!-- Statut de l'ami -->
                             <div class="text-muted">
                                 <?php
@@ -127,7 +154,11 @@
                                         $date = date("Y-m-d");
                                         $Enterprise_ID = $row['Enterprise_ID'];
                                         if ($date > $row['Fin']) {
-                                            echo "Pas d'expérience actuelle";
+                                            if (!$no_relationship){
+                                                echo "Pas d'expérience actuelle";
+                                            }else{
+                                                echo "";
+                                            }
                                         } else {
                                             echo $row['Position'];
                                             $sql = "SELECT Nom_Entreprise FROM Enterprise WHERE Enterprise_ID = '$Enterprise_ID'";
@@ -139,7 +170,11 @@
                                             }
                                         } 
                                     }else{
-                                        echo "Pas d'expérience actuelle";
+                                        if (!$no_relationship){
+                                            echo "Pas d'expérience actuelle";
+                                        }else{
+                                            echo "";
+                                        }
                                     }
                                 ?>      
                             </div>
@@ -160,8 +195,7 @@
                         
                         //!Obtenir le nombre de messages dans la conversation
                         $msg_count = mysqli_num_rows($result);
-                        
-                        if (mysqli_num_rows($result) != 0) {
+                        if ($msg_count != 0) {
                             while($row = mysqli_fetch_assoc($result)){
                                 $sender_id = $row['Sender_ID'];
                                 $content = $row['Content'];
