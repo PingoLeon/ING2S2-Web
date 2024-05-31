@@ -86,6 +86,15 @@ function profileModalContent(data, user_id_relation, isExistingRelation) {
                         </form>
                     </div>
         `;
+    }else if (isExistingRelation === true){
+        addButton = `
+                    <div class="d-flex justify-content-center mt-3">
+                        <form method="post">
+                            <input type="hidden" name="user_id" value="${user_id}">
+                            <input type="submit" name="delete_relation" value=" Supprimer la relation" class="btn btn-danger btn-lg">
+                        </form>
+                    </div>
+        `;
     }
 
     return `

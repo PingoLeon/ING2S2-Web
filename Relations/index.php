@@ -254,21 +254,58 @@
     
     <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            /*if (isExistingRelation === false) {
+        addButton = `
+                    <div class="d-flex justify-content-center mt-3">
+                        <form method="post">
+                            <input type="hidden" name="user_id" value="${user_id}">
+                            <input type="submit" name="create_relation" value=" Créer une relation" class="btn btn-info btn-lg">
+                        </form>
+                    </div>
+        `;
+    }else{
+        addButton = `
+                    <div class="d-flex justify-content-center mt-3">
+                        <form method="post">
+                            <input type="hidden" name="user_id" value="${user_id}">
+                            <input type="submit" name="delete_relation" value=" Supprimer la relation" class="btn btn-danger btn-lg">
+                        </form>
+                    </div>
+        `;*/
             if (isset($_POST["user_id"]) && !empty($_POST["user_id"])) {
                 $user_id_friend = $_POST["user_id"];
-                $sql = "SELECT * FROM Relations WHERE (UID1 = '$user_id' AND UID2 = '$user_id_friend') OR (UID1 = '$user_id_friend' AND UID2 = '$user_id')";
-                $result = mysqli_query($db_handle, $sql);
-                if (mysqli_num_rows($result) != 0) {
-                    $_SESSION['alert'] = 'Relation déjà existante';
-                } else {
-                    $sql = "INSERT INTO Relations (UID1, UID2) VALUES ('$user_id', '$user_id_friend')";
+                if (isset($_POST["delete_relation"])) {
+                    unset($_POST["delete_relation"]);
+                    $sql = "DELETE FROM Relations WHERE (UID1 = '$user_id' AND UID2 = '$user_id_friend') OR (UID1 = '$user_id_friend' AND UID2 = '$user_id')";
                     $result = mysqli_query($db_handle, $sql);
-                    $sql_msg = "INSERT INTO Messagerie (ID1, ID2) VALUES ('$user_id', '$user_id_friend')";
-                    $result_msg = mysqli_query($db_handle, $sql_msg);
-                    if ($result && $result_msg) {
-                        $_SESSION['alert'] = 'Relation ajoutée avec succès';
+                    if ($result) {
+                        $_SESSION['alert'] = 'Relation supprimée avec succès';
+                        // Supprimer les messages et ensuite la messagerie
+                        $sql_msg = "DELETE FROM Messages WHERE Convers_ID = (SELECT Convers_ID FROM Messagerie WHERE (ID1 = '$user_id' AND ID2 = '$user_id_friend') OR (ID1 = '$user_id_friend' AND ID2 = '$user_id'))";
+                        $result_msg = mysqli_query($db_handle, $sql_msg);
+                        
+                        $sql_msg = "DELETE FROM Messagerie WHERE (ID1 = '$user_id' AND ID2 = '$user_id_friend') OR (ID1 = '$user_id_friend' AND ID2 = '$user_id')";
+                        $result_msg = mysqli_query($db_handle, $sql_msg);
+                        
                     } else {
-                        $_SESSION['alert'] = 'Erreur lors de l\'ajout de la relation';
+                        $_SESSION['alert'] = 'Erreur lors de la suppression de la relation';
+                    }
+                } else if (isset($_POST["create_relation"])) {
+                    unset($_POST["create_relation"]);
+                    $sql = "SELECT * FROM Relations WHERE (UID1 = '$user_id' AND UID2 = '$user_id_friend') OR (UID1 = '$user_id_friend' AND UID2 = '$user_id')";
+                    $result = mysqli_query($db_handle, $sql);
+                    if (mysqli_num_rows($result) != 0) {
+                        $_SESSION['alert'] = 'Relation déjà existante';
+                    } else {
+                        $sql = "INSERT INTO Relations (UID1, UID2) VALUES ('$user_id', '$user_id_friend')";
+                        $result = mysqli_query($db_handle, $sql);
+                        $sql_msg = "INSERT INTO Messagerie (ID1, ID2) VALUES ('$user_id', '$user_id_friend')";
+                        $result_msg = mysqli_query($db_handle, $sql_msg);
+                        if ($result && $result_msg) {
+                            $_SESSION['alert'] = 'Relation ajoutée avec succès';
+                        } else {
+                            $_SESSION['alert'] = 'Erreur lors de l\'ajout de la relation';
+                        }
                     }
                 }
                 

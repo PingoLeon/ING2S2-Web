@@ -196,9 +196,6 @@
                         //!Obtenir le nombre de messages dans la conversation
                         $msg_count = mysqli_num_rows($result);
                         if ($msg_count != 0) {
-                            echo $msg_count;
-                            echo "<br>";
-                            echo "friend_id: $friend_id<br>";
                             while($row = mysqli_fetch_assoc($result)){
                                 $sender_id = $row['Sender_ID'];
                                 $content = $row['Content'];
