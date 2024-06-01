@@ -5,7 +5,7 @@
             <br><br><br>
             <h1 style="margin:15px">Informations sur l'entreprise</h1>
             <br>
-            <p style="margin:15px"><?php echo $xml->informations->Informations; ?></p>
+            <?php echo'<p style="margin:15px"> '.$data['Informations'].''; ?></p>
             </p>
         </div>
     </div>

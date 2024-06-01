@@ -1,143 +1,176 @@
-</html>
+<?php
+include '../Auth/functions.php';
+// Renvoyer l'utilisateur à la page de connexion s'il n'est pas connecté, sinon récupérer l'id et l'email
+list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+logout_button_POST();
 
+// Fetch user information
+$sql = "SELECT Nom, Prenom, Photo FROM utilisateur WHERE User_ID = '$user_id'";
+$result = mysqli_query($db_handle, $sql);
+$user = mysqli_fetch_assoc($result);
+$username = $user['Nom'] . ' ' . $user['Prenom'];
+
+// Fetch company information
+$sql = "SELECT * FROM enterprise
+        JOIN utilisateur ON utilisateur.entreprise_ID = enterprise.enterprise_ID
+        WHERE utilisateur.User_ID = '$user_id'";
+$result = mysqli_query($db_handle, $sql);
+$entreprise_info = mysqli_fetch_assoc($result);
+
+$Lien_Entreprise_Utilisateur = $entreprise_info !== NULL;
+if ($Lien_Entreprise_Utilisateur) {
+    $entreprise_name = $entreprise_info['Nom_Entreprise'];
+    $entreprise_logo = $entreprise_info['Logo'];
+    $entreprise_logo = '../Profil_entreprises/logos/' . $entreprise_logo;
+    $entre_id = $entreprise_info['Enterprise_ID'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="Site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Header</title>
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
-    <script>
-        function openImageModal() {
-            const modal = document.getElementById("imageModal");
-            const span = document.getElementsByClassName("close")[0];
-            const modalText = document.getElementById("modalText");
-
-            // Call the JavaScript function to generate the text
-            const text = generateModalText();
-            modalText.innerHTML = text;
-
-            // Display the modal
-            modal.style.display = "block";
-
-            // Close the modal when the user clicks on <span> (x)
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            // Close the modal when the user clicks anywhere outside of the modal
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        }
-
-        function generateModalText() {
-            // Replace this with your dynamic text generation logic
-            //The logo is displayed
-            text1 = "<img src='../Photos/EngineerIN_logo.png' alt='ECE Paris' style='width: 100%;'>"
-            text2 = "<h2>EngineerIN: Social Media Professionnel de l'ECE Paris</h2><br>"
-            text3 = "<p>Nous sommes une platforme de reseau social pour les etudiants de l'ECE Paris.</p>"
-            text4 = "<p>Cree par un groupe de 4 etudiants, notre objectif est de faciliter la communication entre les etudiants et des employeurs potentiels. On peut y trouver des offres d'emplois, des evenements des entreprises que vous aimez mais surtout, vous pouvez generer votre propre profil.</p>"
-            return text1 + text2 + text3 + text4;
-        }
-    </script>
+    <link rel="stylesheet" type="text/css" href="../Main/Header.css">
 </head>
-
 <body>
-    <div class="container" id="background">
-        <div class="container" id="main_bloc">
-            <div class="row">
-                <div class="col-md-6">
-                    <nav>
-                        <a class="navbar-brand" href="accueil_main.php"><b>EngineerIN: Social Media Professionnel de l'ECE Paris</b></a>
-                    </nav>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <div class="logo">
+                    <img src="../Photos/EngineerIN_logo.png" alt="ECE Paris">
                 </div>
-                <div class="col-md-4">
-                    <a href="#" onclick="openImageModal()">
-                        <img src="../Photos/EngineerIN_logo.png" alt="ECE Paris" style="width: 60%;">
+            </div>
+            <div class="nav-right">
+                <div class="nav-menus">
+                    <a href="../Main/accueil_main.php">
+                        <i class="fa-solid fa-house"></i>
+                        <p>Home</p>
                     </a>
                 </div>
-                <div class="col-md-2">
-                    <form method="post">
-                        <button class="button_1" type="submit" name="logout">Déconnexion</button>  
-                    </form>
+                <div class="nav-menus">
+                    <a href="../Relations/">
+                        <i class="fa-solid fa-users"></i>
+                        <p>Mon Reseau</p>
+                    </a>
                 </div>
+                <div class="nav-menus">
+                    <a href="../Emplois/Emplois.html">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <p>Emplois</p>
+                    </a>
+                </div>
+                <div class="nav-menus">
+                    <a href="../Messagerie/">
+                        <i class="fa-solid fa-message"></i>
+                        <p>Messagerie</p>
+                    </a>
+                </div>
+                <div class="nav-menus">
+                    <a href="../Notifications/Notifications.html">
+                        <i class="fa-solid fa-bell"></i>
+                        <p>Notification</p>
+                    </a>
+                </div>
+                <div class="nav-menus">
+                    <div onclick="toggleMenu(event, 'userSubMenu')">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Vous</p>
+                    </div>
+                    <div class="sub-menu-wrap" id="userSubMenu">
+                        <div class="sub-menu">
+                            <div class="user-info">
+                                <?php
+                                    echo '<img src="' . $user['Photo'] . '" alt="Photo de profil">';
+                                    echo '<h2>' . $username . '</h2>';
+                                ?>
+                            </div>
+                            <hr>
+                            <a href="../Main/profile_main.php" class="sub-menu-link">
+                                <i class="fa-solid fa-user"></i>
+                                <p>Mon Profil</p>
+                                <span>></span>
+                            </a>
+                            <a href="../Parametres/Settings&Privacy.php" class="sub-menu-link">
+                                <i class="fa-solid fa-gear"></i>
+                                <p>Parametres</p>
+                                <span>></span>
+                            </a>
+                            <a href="mailto:contact@engineerIN.fr" class="sub-menu-link">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <p>Support et Aide</p>
+                                <span>></span>
+                            </a>
+                            <a href="#" class="sub-menu-link">
+                                <form id="logoutForm" method="post" style="display: inline;">
+                                    <button type="submit" name="logout" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; outline: inherit; display: flex; align-items: center; width: 100%;">
+                                        <i class="fa-solid fa-circle-xmark" style="margin-right: 10px;"></i>
+                                        <p style="margin-left: 40%; flex-grow: 1;">Deconnexion</p>
+                                        <span style="margin-left: 40%;">></span>
+                                    </button>
+                                </form>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php if ($Lien_Entreprise_Utilisateur): ?>
+                <div class="nav-menus">
+                    <div onclick="toggleMenu(event, 'businessSubMenu')">
+                        <i class="fa-solid fa-border-none"></i>
+                        <p>For Business <i class="fa-solid fa-caret-down"></i></p>
+                    </div>
+                    <div class="sub-menu-wrap" id="businessSubMenu">
+                        <div class="sub-menu">
+                            <div class="user-info">
+                                <?php
+                                    echo '<img src="' . $entreprise_logo . '" alt="Logo de l\'entreprise">';
+                                    echo '<h2>' . $entreprise_name . '</h2>';
+                                ?>
+                            </div>
+                            <hr>
+                            <a href="../Profil_entreprises/entreprise.php?enterprise_id=<?php echo $entre_id; ?>" class="sub-menu-link">
+                                <i class="fa-solid fa-link"></i>
+                                <p>Business Link</p>
+                                <span>></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php elseif (!$Lien_Entreprise_Utilisateur): ?>
+                <div class="nav-menus">
+                    <a href="#">
+                        <i class="fa-solid fa-border-none"></i>
+                        <p>For Business</p>
+                    </a>
+                </div>
+                <?php endif; ?>
+                <a class="sponsor" href=""><b>Sponsorisez notre<br>futur EngineerIN+ !!<b></a>
             </div>
+        </nav>
+    </header>
 
-            <br>
-            <div class="row">
-                <div class="col-md-2">
-                    <a href="../Main/accueil_main.php" class="button_1">Accueil</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="../Relations/" class="button_1">Mon reseau</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="../Main/profile_main.php" class="button_1">Vous</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="notifications_main.php" class="button_1">Notifications</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="../Messagerie/" class="button_1">Messagerie</a>
-                </div>
-                <div class="col-md-2">
-                    <a href="../Emplois/EmploiAccueil.php" class="button_1">Emplois</a>
-                </div>
-            </div>
-            <br>
-        </div>
-    </div>
+    <script>
+        function toggleMenu(event, menuId) {
+            event.stopPropagation();
+            document.querySelectorAll('.sub-menu-wrap').forEach(menu => {
+                if (menu.id !== menuId) {
+                    menu.classList.remove('open-menu');
+                }
+            });
+            document.getElementById(menuId).classList.toggle('open-menu');
+        }
 
-    <!-- Modal Structure -->
-    <div id="imageModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="modalText"></p>
-        </div>
-    </div>
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.nav-menus div')) {
+                document.querySelectorAll('.sub-menu-wrap').forEach(menu => {
+                    menu.classList.remove('open-menu');
+                });
+            }
+        });
+    </script>
 </body>
-
 </html>

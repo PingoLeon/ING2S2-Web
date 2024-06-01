@@ -34,9 +34,12 @@ function Rechercher_Experience($db_handle, $user_id) {
     return $result;
 }
 
+//Sql qui reprend tout les donnees de entreprise et de informations 
+$sql = "SELECT * FROM Entreprise, Informations WHERE Entreprise.ID_Entreprise = Informations.ID_Entreprise";
+
 function Affichage_Experience($data) {
     echo '<div class="col-md-2">';
-        echo '<img src="../' . $data['Logo'] . '.png" alt="Logo de l\'entreprise" width="100" height="100">';
+        echo '<img src="../Profil_entreprises/logos/' . $data['Logo'] . '" alt="Logo de l\'entreprise" width="100" height="100">';
     echo '</div>';
     echo '<div class="col-md-10">';
         echo '<table>';

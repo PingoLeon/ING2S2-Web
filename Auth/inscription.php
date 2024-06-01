@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
     <head>
@@ -15,8 +16,23 @@
 
     <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
+    
+    <script>
+        window.onload = toggleDiv;
+        function toggleDiv() {
+            var entrepriseRadio = document.getElementById('signin-entreprise');
+            var hiddenSectionChoice = document.getElementById('hiddenSectionChoice');
+
+            if (entrepriseRadio.checked) {
+                hiddenSectionChoice.style.display = 'block'; // Affiche le div si le bouton "Entreprise" est coché
+            } else {
+                hiddenSectionChoice.style.display = 'none'; // Cache le div si le bouton "Entreprise" n'est pas coché
+            }
+            
+        }
+    </script>
     </head>
-    <body class="d-flex align-items-center py-4 bg-body-tertiary">    
+    <body class="d-flex align-items-center py-2 bg-body-tertiary">    
     <main class="form-signin w-100 m-auto">
         <form action="" method="post">
             <img class="mb-4" src="../Photos/EngineerIN_logo.png" alt="" width="300" height="72">
@@ -31,36 +47,57 @@
             </div>
             <div class="form-check text-start my-3" style="display: flex; flex-direction: column; align-items: flex-start;">
                 <div>
-                    <input class="form-check-input" type="radio" value="signin-user" id="signin-user" name="user-type">
+                    <input class="form-check-input" type="radio" value="signin-user" id="signin-user" name="user-type" onclick="toggleDiv()" checked>
                     <label class="form-check-label" for="signin-user">
                         Utilisateur
                     </label>
                 </div>
                 <div>
-                    <input class="form-check-input" type="radio" value="signin-entreprise" id="signin-entreprise" name="user-type">
+                    <input class="form-check-input" type="radio" value="signin-entreprise" id="signin-entreprise" name="user-type" onclick="toggleDiv()">
                     <label class="form-check-label" for="signin-entreprise">
                         Entreprise
                     </label>
                 </div>
-            </div>         
+            </div>    
+            <div id="hiddenSectionChoice" style="display: none;">
+                <label for="entreprise">Nom de l'entreprise:</label>
+                <select class="form-control" id="entreprise" name="entreprise">   
+                    <div class="form-group">
+                        <?php
+                            include '../Auth/functions.php';
+                            //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
+                            $db_handle = connect_to_db();
+                            
+                            
+                            $sql = "SELECT Enterprise_ID, Nom_Entreprise FROM Enterprise";
+                            $result = mysqli_query($db_handle, $sql);
+                            while ($data = mysqli_fetch_assoc($result)) {
+                                echo '<option value="' . $data['Enterprise_ID'] . '">' . $data['Nom_Entreprise'] . '</option>';
+                            }
+                        ?>
+                    </div>
+                </select>
+                <label class="small-text">Votre entreprise n'est pas dans la liste ? <a href="mailto:contact@engineerIN.fr">Contactez-nous !</a></label>
+            </div>        
             <div class="form-check text-start my-3">
                 <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault" name="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
                 Rester connecté
                 </label>
             </div>
-            <button class="btn btn-primary w-100 py-2" type="submit">Inscription</button>
-            <?php
-                include 'functions.php';
-                
+            <button class="btn btn-primary w-100" type="submit">Inscription</button>
+            </form>
+            <?php          
+                //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
+                list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle('connexion');
                 if (isset($_SESSION['error_message'])) {
                     echo "<br><br>";
                     echo $_SESSION['error_message'];
                     unset($_SESSION['error_message']); // Pour ne pas afficher le même message d'erreur plusieurs fois
                 }
             ?>
-            <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>
-        </form>
+            <p class="mt-5 mb-3 text-body">&copy; 2024</p>
+        
         <a href="/ING2S2-WEB/Auth/">Déjà un compte ? Connexion</a>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -70,10 +107,7 @@
 <?php
     $email = $password = "";
     $remember = false;
-
-    //! Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
-    list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle('connexion');
-
+    
     //! Vérification des données du formulaire
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
@@ -81,6 +115,7 @@
             $email = $_POST["floatingInput"];
         }else{
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Email non renseigné</div>";
+            ob_end_flush();
             header('Location: inscription.php');
             exit();
         }
@@ -89,6 +124,7 @@
             $password = $_POST["floatingPassword"];
         }else{
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Mot de Passe non renseigné</div>";
+            ob_end_flush();
             header('Location: inscription.php');
             exit();
         }
@@ -97,6 +133,7 @@
             $userType = $_POST["user-type"];
         }else{
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Type d'utilisateur non renseigné</div>";
+            ob_end_flush();
             header('Location: inscription.php');
             exit();
         }
@@ -122,40 +159,44 @@
         $data = mysqli_fetch_assoc($result);
         if ($data['count'] > 0) {
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Email déjà utilisé</div>";
-            header('Location: inscription.php');
+            ob_end_flush();
+            header('Location: ../Main/inscription.php');
             exit();
         }
         
         //!Insérer les données dans la base de données
         if ($userType == 'signin-user') {
-            $userType = 1;
+            $entreprise = 0;
         } else if ($userType == 'signin-entreprise') {
-            $userType = 2;
-        }else{
-            $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Type d'utilisateur inconnu</div>";
-            header('Location: inscription.php');
-            exit();
+            $entreprise = $_POST["entreprise"];
         }
-        $sql = "INSERT INTO Utilisateur (Mail, MDP, Token, Statut_Utilisateur) VALUES ('$email', '$password', '$token', '$userType')";
+        $sql = "INSERT INTO Utilisateur (Mail, MDP, Token, Entreprise_ID) VALUES ('$email', '$password', '$token', '$entreprise')";
         $result = mysqli_query($db_handle, $sql);
         if ($result === false) { //! Si la requête SQL a échoué, on affiche l'erreur
             mysqli_error($db_handle);
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Erreur lors de la connexion</div>";
+            ob_end_flush();
             header('Location: inscription.php');
             exit();
         } else {
             if ($remember) { //!Si l'utilisateur a coché la case "Rester connecté", on crée un cookie, sinon on crée une session
                 $cookieSet = set_distinct_cookie($token);
                 if ($cookieSet) {
+                    
                     header('Location: '. $page_to_send_to_once_connected);
+                    exit();
                 } else {
+                    
                     $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Erreur lors de la création du cookie</div>";
-                    header('Location: inscription.php');
+                    ob_end_flush();
+                    header('Location: ../Main/inscription.php');
                     exit();
                 }
             }else{ //! Sinon on crée une session
+                
                 $_SESSION["token"] = $token;
                 header('Location: '. $page_to_send_to_once_connected);
+                exit();
             }  
         }
     }

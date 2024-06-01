@@ -7,6 +7,7 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="modal.css"> <!-- Link to your modal styles -->
 <link rel="stylesheet" href="../Main/Site.css"> <!-- Link to your profile styles -->
+<link rel="stylesheet" href="../Main/Header.css"> <!-- Link to your header styles -->
 <script src="modal.js"></script> <!-- Link to your modal script -->
 </head>
 <body>
@@ -21,7 +22,6 @@ $nom = $data['Nom'];
 $email = $data['Mail'];
 $pays = $data['Pays'];
 $photo = $data['Photo'];
-$admin = $data['Statut_Admin'];
 
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
@@ -47,13 +47,6 @@ echo '<div class="container" id="main_bloc_profile">';
         echo '</div>';
     echo '</div>';
     echo '<br>';
-    echo '<div class = "row">';
-        echo '<div class="col-md-2">';
-            //Button for settings - sends user to settings.php page
-            echo '<i class="fa fa-cog" aria-hidden="false" style="width: 0.5cm; text-align: center;"></i>';
-            echo '<a href="Settings.php">Paramètres</a>';
-        echo '</div>';
-    echo '</div>';
 
     echo '<br>';
 echo '</div>';

@@ -1,4 +1,10 @@
 <!-- ProfileEducation.php -->
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="../Main/Site.css">
+</html>
+
 <?php
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
@@ -36,7 +42,9 @@ function Recherche_Education($db_handle, $user_id) {
 
 function Affichage_Education($data) {
     echo '<div class="col-md-2">';
-        echo '<img src="../' . $data['Logo'] . '.png" alt="Logo de l\'entreprise" width="100" height="100">';
+        //Remove the ".png" extension from the logo
+        $photo = explode(".", $data['Logo']);
+        echo '<img src="../Profil_entreprises/logos/' . $data['Logo'] . '" alt="Logo de l\'entreprise" width="100" height="100">';
     echo '</div>';
     echo '<div class="col-md-10">';
         echo '<table>';

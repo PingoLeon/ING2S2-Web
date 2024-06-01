@@ -4,11 +4,44 @@ body {
 }
 
 /* Barre Latérale */
-#barre-laterale{
-    width: 280px; 
-    background-color: #0000; 
+#barre-laterale {
+    width: 280px;
+    height: 100%;
+    background-color: #0000;
     border-right: 1px solid #8a8585;
     border-color: black;
+    display: flex;
+    flex-direction: column;
+}
+
+.box-selection-action {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+#select-conversation {
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+#select-conversation::-webkit-scrollbar {
+    width: 10px;
+}
+
+#select-conversation::-webkit-scrollbar-track {
+    background: transparent; /* Renders the track transparent */
+}
+
+#select-conversation::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+#select-conversation::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .btn-whatsapp {
@@ -25,7 +58,7 @@ body {
 }
 
 .btn-whatsapp:hover {
-    background-color: white; 
+    background-color: white;
     color: #25D366;
     border: 1px solid #25D366;
 }
@@ -35,11 +68,11 @@ body {
     margin-right: 15px;
 }
 
-#action-buttons-messagerie{
-    position:relative;
-    margin-top:80%;
-
+#action-buttons-messagerie {
+    margin-top: auto;
+    padding-top:  2vh;
 }
+
 
 
 
@@ -133,7 +166,7 @@ body {
 .sidebar {
     display: flex;
     flex-direction: column;
-    height: 100%; /* Assurez-vous que la barre latérale a une hauteur définie */
+    height: 100%;
 }
 
 
