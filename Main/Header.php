@@ -1,5 +1,4 @@
 <?php
-
 include '../Auth/functions.php';
 // Renvoyer l'utilisateur à la page de connexion s'il n'est pas connecté, sinon récupérer l'id et l'email
 list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();

@@ -1,3 +1,11 @@
+<?php
+include '../Auth/functions.php';
+//! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
+list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+logout_button_POST();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,16 +19,14 @@
 </head>
 
 <body>
-    
-    <?php include '../Main/Header.php'; 
-    
-    ?>
+    <?php include '../Main/Header.php'; ?>
 
     <div class="container mt-5">
         <h2>Notifications des Emplois Disponibles</h2>
         <div class="row">
             <?php
             
+
             $servername = "localhost";
             $username = "root";
             $password = "";
@@ -53,7 +59,7 @@
                     echo '<p>Fin: ' . $row["Fin"] . '</p>';
                     echo '<p>Position: ' . $row["Position"] . '</p>';
                     echo '<p>Type de Contrat: ' . $row["Type_Contrat"] . '</p>';
-                    echo '<form action="Valide_Application.php" method="POST">';
+                    echo '<form action="PostulerOffre.php" method="POST">';
                     echo '<input type="hidden" name="job_id" value="' . $row["Job_ID"] . '">';
                     echo '<button type="submit" class="btn btn-primary mt-3">Postuler pour cette offre</button>';
                     echo '</form>';
