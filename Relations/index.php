@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <!-- Lien Boostrap, JQuery -->
     <link rel="cano nical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -42,6 +42,16 @@
         margin-top: 5vh;
         font-weight: bold;
     }
+    
+    .mood {
+        font-size: 0.8em;
+        background-color: #4158D0;
+        background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+
+        color: transparent;
+        -webkit-background-clip: text; 
+        background-clip: text;
+    }
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -70,6 +80,7 @@
                 $nom = $data['Nom'];
                 $photo = $data['Photo'];
                 $entreprise_id = $data['Entreprise_ID'];
+                $mood = $data['Mood'];
                 $sql_entreprise = "SELECT Nom_Entreprise FROM enterprise WHERE Enterprise_ID = '$entreprise_id'";
                 $result_entreprise = mysqli_query($db_handle, $sql_entreprise);
                 $row = mysqli_fetch_assoc($result_entreprise);
@@ -118,6 +129,8 @@
                                         echo "</h5>";
                                     }
                                 ?>
+                                <span class="my-card-text"><i class='mood'><?php echo $mood; ?></i></span>
+                                <br>
                                 <span class="my-card-text"><?php echo $poste; ?></span>
                             </div>
                             <div class="card-footer bg-transparent border-top-0 mt-auto">
@@ -139,7 +152,7 @@
                     $true_or_falsebutton1 = 'true';
                     $true_or_falsebutton2 = 'false';
                     //! Récupérer les User_ID des relations de l'utilisateur
-                    $sql = "SELECT U.User_ID, U.Mail, U.Prenom, U.Nom, U.Photo, U.Entreprise_ID
+                    $sql = "SELECT U.User_ID, U.Mail, U.Prenom, U.Nom, U.Photo, U.Entreprise_ID, U.Mood
                             FROM Relations AS R
                             JOIN Utilisateur AS U ON (R.UID1 = U.User_ID OR R.UID2 = U.User_ID)
                             WHERE (R.UID1 = '$user_id' OR R.UID2 = '$user_id')
@@ -153,6 +166,7 @@
                         $nom = $data_user['Nom'];
                         $photo = $data_user['Photo'];
                         $entreprise_id = $data_user['Entreprise_ID'];
+                        $mood = $data_user['Mood'];
                         
                         //! Récupérer l'expérience actuelle de l'utilisateur
                         if ($entreprise_id != 0 AND $entreprise_id != -1){
@@ -204,7 +218,8 @@
                         }else{
                             echo "</h5>";
                         }
-                        echo "
+                        echo "      
+                                    <span class='my-card-text'><i class='mood'>$mood</i></span><br>
                                     <span class='my-card-text'>$poste</span>
                                     </div>
                                     <div class='card-footer bg-transparent border-top-0 mt-auto'>
@@ -234,7 +249,7 @@
                     $relations = array_diff($relations, array($user_id));
                     $relations = implode("', '", $relations);
                     //aller chercher les relations des relations
-                    $sql = "SELECT U.User_ID, U.Mail, U.Prenom, U.Nom, U.Photo, U.Entreprise_ID
+                    $sql = "SELECT U.User_ID, U.Mail, U.Prenom, U.Nom, U.Photo, U.Entreprise_ID, U.Mood
                             FROM Relations AS R
                             JOIN Utilisateur AS U ON (R.UID1 = U.User_ID OR R.UID2 = U.User_ID)
                             WHERE (R.UID1 IN ('$relations') OR R.UID2 IN ('$relations'))
@@ -249,6 +264,7 @@
                         $nom = $data_user['Nom'];
                         $photo = $data_user['Photo'];
                         $entreprise_id = $data_user['Entreprise_ID'];
+                        $mood = $data_user['Mood'];
                         $sql_friend = "SELECT Prenom, Nom FROM Utilisateur WHERE User_ID IN (SELECT UID1 FROM Relations WHERE UID2 = '$user_id_user' UNION SELECT UID2 FROM Relations WHERE UID1 = '$user_id_user')";
                         $result_friend = mysqli_query($db_handle, $sql_friend);
                         $friend_name = "";
@@ -305,7 +321,8 @@
                         }else{
                             echo "</h5>";
                         }
-                        echo "
+                        echo "  
+                                    <span class='my-card-text'><i class='mood'>$mood</></span><br>
                                     <span class='my-card-text'>$poste</span>
                                     <br><br>
                                     <span class='my-card-text'>Ami de $friend_name</span>

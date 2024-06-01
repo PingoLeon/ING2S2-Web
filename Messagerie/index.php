@@ -11,6 +11,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
     <head>
+    <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EngineerIN - Messagerie</title>
@@ -34,17 +35,19 @@
                 <!-- Onglet personnel -->
                 <div class="d-flex flex-row align-items-center mb-3">
                     <img src="<?php
-                        $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$id'";
+                        $sql = "SELECT Photo, Nom, Prenom, Mood FROM Utilisateur WHERE User_ID = '$id'";
                         $result = mysqli_query($db_handle, $sql);
                         if (mysqli_num_rows($result) != 0) {
                             $row = mysqli_fetch_assoc($result);
                             echo $row['Photo'];
                             $nom = $row['Nom'];
                             $prenom = $row['Prenom'];
+                            $mood = $row['Mood'];
                         }
                     ?>" alt="Avatar" class="rounded-circle" style="border: 1px solid #000; border-color: black;" width="50" height="50">                
                     <div class="ms-3">
                         <div class="fw-bold text-black"><?php echo "$nom $prenom"; ?></div>
+                        <div class="text-muted mood"><?php echo $mood; ?></div>
                         <div class="text-muted" style="color: #24bd5d !important;">En ligne</div>
                     </div>
                 </div>
@@ -55,7 +58,7 @@
                     <div id="select-conversation" class="d-flex flex-column overflow-auto">
                     <?php                        
                         //! Fetch tous les mails qui ont une conversation avec la personne connectée
-                        $sql = "SELECT User_ID, Photo, Nom, Prenom FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
+                        $sql = "SELECT User_ID, Photo, Nom, Prenom, Mood FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
                         $result = mysqli_query($db_handle, $sql);
                         $no_relationship = false;
                         if (mysqli_num_rows($result) != 0) {
@@ -64,6 +67,7 @@
                                 $friend_photo = $row['Photo'];
                                 $friend_name = $row['Nom'];
                                 $friend_first_name = $row['Prenom'];
+                                $friend_mood = $row['Mood'];
                                 echo "<form method='post'>";
                                 echo "<input type='hidden' name='friend_id' value='$friend_id'>";
                                 echo "<input type='hidden' name='friend_photo' value='$friend_photo'>";
@@ -71,7 +75,7 @@
                                 echo "<input type='hidden' name='friend_prenom' value='$friend_first_name'>";
                                 echo "<button type='submit' class='btn btn-whatsapp'>";
                                 echo "<img src='".$friend_photo."' alt='Avatar' class='rounded-circle' style='border: 1px solid #000; border-color: black;' width='50' height='50'>";
-                                echo "$friend_first_name $friend_name</button>";
+                                echo "<div>$friend_first_name $friend_name<br><i class='mood'>$friend_mood</i></div></button>";
                                 echo "</form><br>";                        
                             }
                         }else{
@@ -118,15 +122,17 @@
                                     $friend_id = $_SESSION['current_conversation'];
                                     unset($_SESSION['current_conversation']);
                                 }
-                                $sql = "SELECT Photo, Nom, Prenom FROM Utilisateur WHERE User_ID = '$friend_id'";
+                                $sql = "SELECT Photo, Nom, Prenom, Mood FROM Utilisateur WHERE User_ID = '$friend_id'";
                                 $result = mysqli_query($db_handle, $sql);
                                 $friend_first_name = "";
                                 $friend_name = "";
+                                $friend_mood = "";
                                 if (mysqli_num_rows($result) != 0) {
                                     $row = mysqli_fetch_assoc($result);
                                     echo $row['Photo'];
                                     $friend_name = $row['Nom'];
                                     $friend_first_name = $row['Prenom'];
+                                    $friend_mood = $row['Mood'];
                                 }
                             }
                             
@@ -145,6 +151,14 @@
                                 ?>
                             </div>
                             <!-- Statut de l'ami -->
+                            <div class="text-muted mood">
+                                <?php 
+                                    if ($friend_id === ''){
+                                        $friend_mood = "";
+                                    }
+                                    echo $friend_mood; 
+                                ?>
+                            </div>
                             <div class="text-muted">
                                 <?php
                                     $sql = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$friend_id' ORDER BY Debut";
