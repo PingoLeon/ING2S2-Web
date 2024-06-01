@@ -101,7 +101,7 @@ if ($Lien_Entreprise_Utilisateur) {
                                 <p>Parametres</p>
                                 <span>></span>
                             </a>
-                            <a href="#" class="sub-menu-link">
+                            <a href="mailto:contact@engineerIN.fr" class="sub-menu-link">
                                 <i class="fa-solid fa-circle-info"></i>
                                 <p>Support et Aide</p>
                                 <span>></span>
