@@ -1,0 +1,121 @@
+
+.post-container {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.post-header img {
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.post-content {
+    margin-top: 10px;
+}
+
+.flag {
+height: 500px;
+width: 500px;
+position: absolute;
+}
+
+.azure{
+height: 30%;
+width: 70%;
+}
+.white {
+height: 70%;
+width: 70%;
+}
+
+
+.azure {
+background-color: #0077B5;
+}
+
+.white {
+background-color: white;
+}
+
+.comments-section {
+    margin-top: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.comment-left {
+    background-color: #eff3fc; /* couleur de fond pour les commentaires */
+    text-align: left;
+    margin-left: 2vh;
+    margin-right: auto;
+    color: #202124;
+    border-radius: 20px;
+    padding: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: inline-block;
+    max-width: 60%;
+    display: block;
+    clear: both;
+    position: relative;
+    max-width: 50vh;
+}
+
+.my-card-text {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #6c757d;
+    
+} 
+
+.show-comments-button {
+    background-color: #6f42c1;
+    color: #ffffff;
+    margin-bottom: 1vh;
+}
+
+.comments-container {
+    max-height: 50vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.comments-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px; /* Hauteur de l'effet de flou */
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0)); /* Dégradé de blanc semi-transparent à transparent */
+    pointer-events: none; /* Permet de cliquer à travers l'élément */
+}
+
+.comments-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.comments-container::-webkit-scrollbar-track {
+    background: transparent; /* rend la piste transparente */
+}
+
+.comments-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.comments-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.containerdepost {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}

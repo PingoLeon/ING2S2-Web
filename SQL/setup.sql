@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS Commentaires (
     Post_ID INT,
     User_ID INT,
     Texte TEXT,
+    DatePubli DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (Post_ID) REFERENCES Posts(Post_ID),
     FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID)
 );
@@ -244,9 +245,26 @@ INSERT INTO `applications` (`Applications_ID`, `job_id`, `user_id`, `application
 (8, 3, 2, '2024-05-30 14:57:52');
 
 INSERT INTO posts (Post_ID, User_ID, Enterprise_ID, DatePublication, Photo, Texte, Titre, Lieu) VALUES
+(1, 1, NULL, '2024-05-31 12:32:42', 'Photos/post1', 'POSTE #1', 'Enfin Ambassadeur', 'Paris'),
 (3, 3, NULL, '2024-05-31 15:32:42', 'Photos/photo7', 'Toujours', 'Leon me saoule', 'Versailles'),
 (2, 1, NULL, '2024-05-31 14:32:42', 'Photos/photo3', 'J\'aime Alara de tout mon coeur', 'J\'aime Leon', 'Paris'),
-(1, 1, NULL, '2024-05-31 12:32:42', 'Photos/post1', 'POSTE #1', 'Enfin Ambassadeur', 'Paris'),
 (5, 1, NULL, '2024-05-31 00:00:00', 'Photos/photo6', 'Demain je vais devoir faire la Journee Portes Ouvertes de l`ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. ', 'FINI CETTE MERDE', ''),
 (6, 1, NULL, '2024-05-31 22:38:08', 'Photos/Photo4', 'qqqqqqqqqqqqqqqqqqqqqqqqqqqq', 'Testing', 'Versailles'),
 (7, 1, NULL, '2024-05-31 22:39:10', 'Photos/edit', 'GIGA CHAD', 'Testing post #5', 'fr');
+
+INSERT INTO Commentaires(Post_ID, User_ID, Texte)
+VALUES  (1, 2, 'Félicitations pour ton nouveau poste !'),
+        (1, 1, 'Merci beaucoup ! Je suis très heureux de rejoindre l\'équipe.'),
+        (1, 2, 'Je suis sûr que tu vas faire un excellent travail.'),
+        (1, 1, 'J\'espère pouvoir contribuer positivement à l\'équipe.'),
+        (1, 2, 'Je n\'en doute pas. Tu as toutes les compétences nécessaires.'),
+        (1, 1, 'Merci pour ton soutien, Leon.'),
+        (1, 2, 'De rien, c\'est normal. Tu es un excellent collègue.'),
+        (1, 1, 'Merci, Leon. C\'est très gentil de ta part.'),
+        (1, 2, 'Pas de problème, Félix. Nous sommes une équipe.'),
+        (1, 1, 'Oui, c\'est vrai. Ensemble, nous pouvons accomplir de grandes choses.'),
+        (1, 2, 'Exactement. Nous sommes plus forts ensemble.'),
+        (1, 1, 'C\'est ça. Merci encore pour ton soutien, Leon.'),
+        (1, 2, 'De rien, Félix. C\'est un plaisir de travailler avec toi.'),
+        (1, 1, 'Merci, Leon. À bientôt !'),
+        (1, 2, 'À bientôt, Félix !');

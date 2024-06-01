@@ -254,24 +254,6 @@
     
     <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            /*if (isExistingRelation === false) {
-        addButton = `
-                    <div class="d-flex justify-content-center mt-3">
-                        <form method="post">
-                            <input type="hidden" name="user_id" value="${user_id}">
-                            <input type="submit" name="create_relation" value=" Créer une relation" class="btn btn-info btn-lg">
-                        </form>
-                    </div>
-        `;
-    }else{
-        addButton = `
-                    <div class="d-flex justify-content-center mt-3">
-                        <form method="post">
-                            <input type="hidden" name="user_id" value="${user_id}">
-                            <input type="submit" name="delete_relation" value=" Supprimer la relation" class="btn btn-danger btn-lg">
-                        </form>
-                    </div>
-        `;*/
             if (isset($_POST["user_id"]) && !empty($_POST["user_id"])) {
                 $user_id_friend = $_POST["user_id"];
                 if (isset($_POST["delete_relation"])) {
