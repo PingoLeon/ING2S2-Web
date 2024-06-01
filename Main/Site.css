@@ -42,3 +42,14 @@ body {
     margin-right: auto;
     margin-top: 10px;
 }
+
+.dark-mode body {
+    background-color: #222;
+    color: #ddd;
+}
+
+.dark-mode #main_bloc_profile,
+.dark-mode #main_bloc {
+    background-color: #333;
+    color: #ddd;
+}

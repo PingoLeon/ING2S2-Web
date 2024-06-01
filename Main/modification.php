@@ -1,4 +1,17 @@
-<?php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Accueil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
+    <link rel="stylesheet" type="text/css" href="Site.css">
+</head>
+</html>
+
+<?php include 'Header.php';
+
 /*
 Fichier: modification.php
 Projet: ECEin
@@ -18,11 +31,6 @@ Les fonctions meres sont les fonctions qui vont afficher les boutons pour ajoute
 
 Les sous-fonctions traitent les formulaires pour ajouter ou modifier une section du profil selon le choix de l'utilisateur.
 */
-
-include '../Auth/functions.php';
-//! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
-list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-$user_id = $id;
 
 echo '<br>';
 
@@ -601,11 +609,40 @@ function Modification_Post($db_handle, $user_id) {
     echo '</div>';
 }
 
+function Suppression_Post($db_handle, $user_id) {
+    Edit_Posts($db_handle);
+    //Creation du formulaire pour supprimer un post
+    //Recuperation des donnees de tout les posts de l'utilisateur
+    $sql = "SELECT * FROM Posts WHERE User_ID = '$user_id'";
+    $result = mysqli_query($db_handle, $sql);
+    echo '<div class="container" id="main_bloc_profile">';
+        echo '<br>';
+        echo '<div class="row">';
+            echo '<div class="col-md-10">';
+                echo '<h2 style="color: black; text-align: left;">Supprimer un post</h2>';
+            echo '</div>';
+        echo '</div>';
+        echo '<br>';
+        echo '<form action="../Profile/Profile_add.php?id=post_delete" method="post">';
+            echo '<div class="form-group">';
+                echo '<label for="titre">Titre:</label>';
+                echo '<select class="form-control" id="titre" name="titre">';
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        echo '<option value="' . $data['Titre'] . '">' . $data['Titre'] . '</option>';
+                    }
+                echo '</select>';
+            echo '</div>';
+            echo '<button type="submit" class="btn btn-primary">Supprimer</button>';
+        echo '</form>';
+        echo '<br>';
+    echo '</div>';
+}
+
 
 
 
 function Entreprise($db_handle) {
-    $sql = "SELECT Nom_Entreprise FROM Entreprise";
+    $sql = "SELECT Nom_Entreprise FROM Enterprise";
     $result = mysqli_query($db_handle, $sql);
     echo '<label for="entreprise">Nom de l\'entreprise:</label>';
     echo '<select class="form-control" id="entreprise" name="entreprise">';

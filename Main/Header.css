@@ -57,7 +57,7 @@ nav {
 .nav-right .nav-menus i {
     font-size: 25px;
     color: #706e6e;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 
 .nav-right .nav-menus p {
@@ -84,7 +84,7 @@ nav {
     height: 2px;
     background: #000;
     position: absolute;
-    bottom: -10px;
+    bottom: -12px;
     left: 0;
 }
 
@@ -166,4 +166,14 @@ nav {
 
 .sub-menu-link:hover p {
     font-weight: 600;
+}
+
+.dark-mode body {
+    background-color: #222;
+    color: #ddd;
+}
+
+.dark-mode header {
+    background-color: #333;
+    box-shadow: none;
 }
