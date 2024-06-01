@@ -9,7 +9,7 @@ $user_id = $id;
 <html>
 <head>
 <meta charset="utf-8">
-    <title>TEST</title>
+    <title>❤❤</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
@@ -18,7 +18,7 @@ $user_id = $id;
 
 <body>
 <?php 
-    $entre_id = 8;
+    $entre_id = 3;
     $sql = 'SELECT * FROM enterprise, informations, events WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.' AND events.Enterprise_ID = '.$entre_id.';';
     $result = mysqli_query($db_handle, $sql);
     $data = mysqli_fetch_assoc($result);
@@ -61,8 +61,11 @@ $user_id = $id;
                 </tr>
                 <tr>
                     <form method="post" action="">
-                        <input type="hidden" name="OngletNavBar" value="Posts">
-                        <button type="submit">Posts</button>
+                        <select name="OngletNavBar" onchange="this.form.submit()">
+                            <option value="">Events</option>
+                            <option value="Events_Semaine">Events de la semaine</option>
+                            <option value="Tous">Tous les events</option>
+                        </select>
                     </form>
                 </tr>
                 <tr>
@@ -89,6 +92,13 @@ $user_id = $id;
             include '../Profil_entreprises/details/apropos1.php';
         } elseif ($current_page === "Posts") {
             include '../Profil_entreprises/details/posts1.php';
+        }
+        elseif ($current_page === "Events_Semaine") {
+            include '../Profil_entreprises/details/events_semaine1.php';
+        }
+        elseif ($current_page === "Tous") {
+            include '../Profil_entreprises/details/posts1.php';
+            echo 'test';
         }
     } else {
         $current_page = "Accueil";
