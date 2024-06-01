@@ -162,17 +162,6 @@ CREATE TABLE IF NOT EXISTS Relations (
     UID2 INT
 );
 
-INSERT INTO Relations (UID1, UID2)
-VALUES  (1, 2),
-        (1, 3),
-        (1, 4),
-        (2, 3),
-        (2, 4),
-        (3, 4),
-        (2, 5),
-        (2, 6);
-
-
 -- Sample data insertion
 INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`, `Token`, `Photo`, `Pays`, `Entreprise_ID`) VALUES
 (1, 'fcadene@gmail.com', 'Cadene', 'Félix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France',-1),
@@ -182,7 +171,13 @@ INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`
 (5, 'admin@google.com', '', 'Bob', 'BobG', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo5.png', 'France', 8),
 (6, 'admin@axa.fr', 'Jesus', 'Rafael', 'RafaelJ', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo6.png', 'France', 7),
 (7, 'admin@esilv.fr', '🤓', '🤓', '🤓🤓', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo7.png', 'France', 9),
-(8, 'admin@apple.com', '', 'Bobby', 'BobbyB', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo8.png', 'France', 6);
+(8, 'admin@apple.com', 'Bobby', 'BobbyB','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo8.png', 'France', 6),
+(9, 'admin@ece.fr', 'Stephan', 'Francois','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo10.png', 'France', 1),
+(10, 'admin@techcorp.fr', 'Martin', 'Sophie','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo11.png', 'France', 2),
+(11, 'admin@marketingplus.fr', 'Leclerc', 'Kamel','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo12.png', 'France', 3),
+(12, 'admin@financegrp.fr', 'Zacomi', 'Ben','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo13.png', 'France', 4),
+(13, 'admin@itworld.fr', 'Petit', 'Thomas','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo14.png', 'France', 5);
+
 
 INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation, Enterprise_ID)
 VALUES (1, 1, '2022-09-01', '2027-06-01', 'Etudiant', 'Ingenieur', 1);
@@ -212,15 +207,6 @@ INSERT INTO `offre_emploi` (`Job_ID`, `Enterprise_ID`, `Intitule`, `Debut`, `Fin
 (5, 5, 'Chargé de Cours à Temps Partiel', '2024-10-01', '2025-06-30', 'Chargé de Cours en Informatique', 'Temps Partiel', NULL, 'Nous recherchons un chargé de cours à temps partiel en informatique pour enseigner des cours de premier cycle. Le candidat idéal aura une expérience dans l\'industrie et une passion pour l\'enseignement.');
 
 
-INSERT INTO Messagerie (ID1, ID2)
-VALUES  (1, 2),
-        (1, 4),
-        (1, 3),
-        (2, 4),
-        (2, 3),
-        (2, 5),
-        (2, 6);
-
 INSERT INTO Messages (Convers_ID, Sender_ID, Content)
 VALUES  (1, 1, 'Salut Leon, comment vas-tu ?'),
         (1, 2, 'Salut Felix, je vais bien merci et toi ?'),
@@ -230,42 +216,11 @@ VALUES  (1, 1, 'Salut Leon, comment vas-tu ?'),
         (1, 2, 'Oui, tout s\'est bien passé. Merci pour ton soutien.'),
         (1, 1, 'De rien, c\'est normal. N\'hésite pas si tu as besoin d\'aide.');
         
-INSERT INTO Messages (Convers_ID, Sender_ID, Content)
-VALUES  (2, 1, 'Salut Annabelle, comment vas-tu ?'),
-        (2, 4, 'Salut Felix, je vais bien merci et toi ?'),
-        (2, 1, 'Je vais bien aussi, merci. Comment se passe ta journée ?'),
-        (2, 4, 'Ma journée se passe bien, j\'ai eu une réunion importante ce matin.'),
-        (2, 1, 'C\'est super, j\'espère que ça s\'est bien passé.'),
-        (2, 4, 'Oui, tout s\'est bien passé. Merci pour ton soutien.'),
-        (2, 1, 'De rien, c\'est normal. N\'hésite pas si tu as besoin d\'aide.');
+INSERT INTO Relations (UID1, UID2)
+VALUES (1, 2);
 
-INSERT INTO Messages (Convers_ID, Sender_ID, Content)
-VALUES  (3, 1, 'Salut Alara, comment vas-tu ?'),
-        (3, 3, 'Salut Felix, je vais bien merci et toi ?'),
-        (3, 1, 'Je vais bien aussi, merci. Comment se passe ta journée ?'),
-        (3, 3, 'Ma journée se passe bien, j\'ai eu une réunion importante ce matin.'),
-        (3, 1, 'C\'est super, j\'espère que ça s\'est bien passé.'),
-        (3, 3, 'Oui, tout s\'est bien passé. Merci pour ton soutien.'),
-        (3, 1, 'De rien, c\'est normal. N\'hésite pas si tu as besoin d\'aide.');
-
-INSERT INTO Messages (Convers_ID, Sender_ID, Content)
-VALUES  (4, 2, 'Salut Annabelle, comment vas-tu ?'),
-        (4, 4, 'Salut Leon, je vais bien merci et toi ?'),
-        (4, 2, 'Je vais bien aussi, merci. Comment se passe ta journée ?'),
-        (4, 4, 'Ma journée se passe bien, j\'ai eu une réunion importante ce matin.'),
-        (4, 2, 'C\'est super, j\'espère que ça s\'est bien passé.'),
-        (4, 4, 'Oui, tout s\'est bien passé. Merci pour ton soutien.'),
-        (4, 2, 'De rien, c\'est normal. N\'hésite pas si tu as besoin d\'aide.');
-
-INSERT INTO Messages (Convers_ID, Sender_ID, Content)
-VALUES  (5, 2, 'Salut Alara, comment vas-tu ?'),
-        (5, 3, 'Salut Leon, je vais bien merci et toi ?'),
-        (5, 2, 'Je vais bien aussi, merci. Comment se passe ta journée ?'),
-        (5, 3, 'Ma journée se passe bien, j\'ai eu une réunion importante ce matin.'),
-        (5, 2, 'C\'est super, j\'espère que ça s\'est bien passé.'),
-        (5, 3, 'Oui, tout s\'est bien passé. Merci pour ton soutien.'),
-        (5, 2, 'De rien, c\'est normal. N\'hésite pas si tu as besoin d\'aide.');
-
+INSERT INTO Messagerie (ID1, ID2)
+VALUES (1, 2);
 
 INSERT INTO `informations` (`Information_ID`, `Intro`, `Site_Web`, `Informations`, `Taille`, `Telephone`, `Annee_Fondation`, `Lieu`) VALUES
 (1, 'Programmes d’administration de l’éducation Paris, île-de-france · 26 K abonnés · 15 K anciens élèves', 'https://www.ece.fr', 'L\'ECE école d\'ingénieurs multiprogrammes, multi-campus et multi-secteurs, spécialisée dans l\'ingénierie numérique, forme les ingénieurs et les experts en technologie du 21ème siècle, capables de relever les défis de la double révolution numérique et du développement durable.\r\n <br><br> \r\n Les nombreuses associations étudiantes et les voyages internationaux proposés aux étudiants leur offrent une expérience de premier ordre, ainsi qu\'une large ouverture sur le monde d\'aujourd\'hui et de demain.\r\n <br><br> ECE propose trois programmes d\'enseignement supérieur : le programme Grande Ecole d\'ingénieurs, le programme Bachelor et le programme MSc.', '51-200 employés', '+33 1 44 39 06 00', '1919-01-01', 'https://www.google.fr/maps/place/ECE++Ecole+d\'ingénieurs++Campus+de+Paris/@48.8516383,2.2847697,17z/data=!3m1!5s0x47e670049820700f:0x5e9c35374e6fe5df!4m10!1m2!2m1!1sece!3m6!1s0x47e6701b4f58251b:0x167f5a60fb94aa76!8m2!3d48.8512252!4d2.2885659!15sCgNlY2UiA4'),

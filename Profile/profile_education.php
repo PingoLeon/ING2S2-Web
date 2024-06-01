@@ -44,7 +44,7 @@ function Affichage_Education($data) {
     echo '<div class="col-md-2">';
         //Remove the ".png" extension from the logo
         $photo = explode(".", $data['Logo']);
-        echo '<img src="../PhotosEntreprises/' . $data['Logo'] . '" alt="Logo de l\'entreprise" width="100" height="100">';
+        echo '<img src="../Profil_entreprises/logos/' . $data['Logo'] . '" alt="Logo de l\'entreprise" width="100" height="100">';
     echo '</div>';
     echo '<div class="col-md-10">';
         echo '<table>';

@@ -47,13 +47,6 @@ echo '<div class="container" id="main_bloc_profile">';
         echo '</div>';
     echo '</div>';
     echo '<br>';
-    echo '<div class = "row">';
-        echo '<div class="col-md-2">';
-            //Button for settings - sends user to settings.php page
-            echo '<i class="fa fa-cog" aria-hidden="false" style="width: 0.5cm; text-align: center;"></i>';
-            echo '<a href="Settings.php">Paramètres</a>';
-        echo '</div>';
-    echo '</div>';
 
     echo '<br>';
 echo '</div>';

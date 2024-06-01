@@ -1,4 +1,9 @@
 <?php
+
+include '../Auth/functions.php';
+list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+
+
 $sql = "SELECT * FROM utilisateur WHERE User_ID = '$user_id'";
 $result = mysqli_query($db_handle, $sql);
 $data = mysqli_fetch_assoc($result);
@@ -357,6 +362,22 @@ function Post_modify($db_handle, $user_id) {
         }
 
         $stmt->close();
+    }
+}
+
+function Post_delete($db_handle, $user_id) {
+    //Recuperation des donnees du formulaire
+    $titre = isset($_POST["titre"]) ? $_POST["titre"] : "";
+
+    if ($titre == "") {
+        header('Location: ../Main/modification.php?id=post_delete');
+        return;
+    } else {
+        //Suppression de la premiere donnee dans la base de donnees
+        $sql = "DELETE FROM Posts WHERE Titre = '$titre' AND User_ID = '$user_id' LIMIT 1";
+        $result = mysqli_query($db_handle, $sql);
+        
+        header('Location: http://localhost:8080/ING2S2-WEB/Main/profile_main.php');
     }
 }
 
