@@ -22,6 +22,9 @@ $nom = $data['Nom'];
 $email = $data['Mail'];
 $pays = $data['Pays'];
 $photo = $data['Photo'];
+if ($photo == NULL) {
+    $photo = "../Photos/photo_placeholder.png";
+}
 
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
