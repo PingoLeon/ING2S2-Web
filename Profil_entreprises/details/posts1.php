@@ -2,11 +2,9 @@
 //echo '$result = mysqli_query($db_handle, $sql);';
 $sql1 = 'SELECT * FROM events WHERE Enterprise_ID = '.$entre_id.' ORDER BY Date_publication DESC';
 $result = mysqli_query($db_handle, $sql1);
-$event = mysqli_fetch_assoc($result);
 
-if (($event['Intitulé']!=NULL) && ($event['Début']!= '0000-00-00' )&&($event['Fin']!= '0000-00-00')&&($event['Texte']!=NULL)&&($event['Photo']!=NULL)&&($event['Date_publication']!=NULL)){
-
-    foreach ($result as $event) {
+while ($event = mysqli_fetch_assoc($result)) {
+    if (($event['Texte']!=NULL)&&($event['Photo']!=NULL)&&($event['Date_publication']!=NULL)){
         echo'<div class="container" id="background" style="padding: 15px">';
         echo'<div class="container" id="main_bloc">';
         echo'<div class="row">';
@@ -26,7 +24,6 @@ if (($event['Intitulé']!=NULL) && ($event['Début']!= '0000-00-00' )&&($event['
         echo'</div>';
         echo'</div>';
         echo'</div>';
-
     }
 }
 ?>
