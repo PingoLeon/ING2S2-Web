@@ -1,9 +1,10 @@
 <?php
     include '../Auth/functions.php';
-    //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
     list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-    //! Checker si l'utilisateur a appuyé sur le bouton de déconnexion
     logout_button_POST();
+
+    // Récupérer les offres d'emploi de l'entreprise de l'utilisateur
+    $job_offers = get_job_offers_by_company($db_handle, $user_id);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +58,32 @@
             </div>
             <button type="submit" class="btn btn-primary">Créer l'Offre</button>
         </form>
+
+        <h2 class="mt-5">Offres d'Emploi Existantes</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom de l'Entreprise</th>
+                    <th>Intitulé</th>
+                    <th>Date de Début</th>
+                    <th>Date de Fin</th>
+                    <th>Position</th>
+                    <th>Type de Contrat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($job_offers as $offer): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($offer['nomEntreprise']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['intitule']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['debut']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['fin']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['position']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['typeContrat']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
