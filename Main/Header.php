@@ -59,7 +59,7 @@ if ($Lien_Entreprise_Utilisateur) {
                     </a>
                 </div>
                 <div class="nav-menus">
-                    <a href="../Emplois/Emplois.html">
+                    <a href="../Emplois/EmploiAccueil.php">
                         <i class="fa-solid fa-briefcase"></i>
                         <p>Emplois</p>
                     </a>
