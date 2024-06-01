@@ -18,7 +18,7 @@ $user_id = $id;
 
 <body>
 <?php 
-    $entre_id = 5;
+    $entre_id = 7;
     $sql = 'SELECT * FROM enterprise, informations, events WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.' AND events.Enterprise_ID = '.$entre_id.';';
     $result = mysqli_query($db_handle, $sql);
     $data = mysqli_fetch_assoc($result);

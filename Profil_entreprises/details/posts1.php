@@ -12,7 +12,9 @@ if (($event['Intitulé']!=NULL) && ($event['Début']!= '0000-00-00' )&&($event['
         echo'<div class="row">';
         
         echo '<i><p style="color:grey "> Publié le '. $event['Date_publication'] . '</p></i><br>';
-        echo '<h1 style="margin: 15px">' . $event['Intitulé'] . '</h1>';
+        if($event['Intitulé']!=NULL){
+            echo '<h1 style="margin: 15px">' . $event['Intitulé'] . '</h1>';}
+        
         echo '<p style="margin: 15px">' . $event['Texte'] . '</p>';
         
         if (($event['Début']!= '0000-00-00' )&&($event['Fin']!= '0000-00-00')){
