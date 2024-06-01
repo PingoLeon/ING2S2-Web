@@ -76,7 +76,7 @@
                             }
                         }else{
                             echo "  <div style='height: 100vh; display: flex; align-items: center; justify-content: center;'>
-                                        <div class='alert alert-danger' role='alert'>Aucune conversation :/</div>
+                                        <div class='alert alert-danger' role='alert'>Aucune conversation :/<br> Ajoutez des relations pour commencer à discuter !</div>
                                     </div>
                                 ";
                             $no_relationship = true;
@@ -112,7 +112,7 @@
                         <?php
                             $friend_id = isset($_POST['friend_id']) ? $_POST['friend_id'] : "$friend_id";
                             if ($no_relationship){
-                                echo "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
+                                echo "../Photos/photo_placeholder.png";
                             }else{
                                 if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé)
                                     $friend_id = $_SESSION['current_conversation'];

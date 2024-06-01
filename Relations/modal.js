@@ -1,4 +1,4 @@
-function openModal(sql, user_id_relation, isExistingRelation, callback) {
+function openModal(sql, user_id_relation, isExistingRelation, display_button, callback) {
     const modal = document.getElementById("profileModalCustom");
     const span = document.getElementsByClassName("close-custom")[0];
     const modalContentCustom = document.getElementById("modalContentCustom");
@@ -9,7 +9,7 @@ function openModal(sql, user_id_relation, isExistingRelation, callback) {
     fetch(`fetch_data.php?sql=${encodeURIComponent(sql)}&id=${user_id_relation}`)
         .then(response => response.json())
         .then(data => {
-        modalContentCustom.innerHTML = callback(data, user_id_relation, isExistingRelation);
+        modalContentCustom.innerHTML = callback(data, user_id_relation, isExistingRelation, display_button);
         modal.style.display = "block";
         container.classList.add('background'); // Déjà existant
         header.classList.add('background'); // Ajouté
@@ -30,7 +30,7 @@ function openModal(sql, user_id_relation, isExistingRelation, callback) {
     }   
 }
 
-function profileModalContent(data, user_id_relation, isExistingRelation) {
+function profileModalContent(data, user_id_relation, isExistingRelation, display_button) {
     const prenom = data.user.Prenom;
     const nom = data.user.Nom;
     const mail = data.user.Mail;
@@ -77,24 +77,28 @@ function profileModalContent(data, user_id_relation, isExistingRelation) {
     }
     
     let addButton = '';
-    if (isExistingRelation === false) {
-        addButton = `
-                    <div class="d-flex justify-content-center mt-3">
-                        <form method="post">
-                            <input type="hidden" name="user_id" value="${user_id}">
-                            <input type="submit" name="create_relation" value=" Créer une relation" class="btn btn-info btn-lg">
-                        </form>
-                    </div>
-        `;
-    }else if (isExistingRelation === true){
-        addButton = `
-                    <div class="d-flex justify-content-center mt-3">
-                        <form method="post">
-                            <input type="hidden" name="user_id" value="${user_id}">
-                            <input type="submit" name="delete_relation" value=" Supprimer la relation" class="btn btn-danger btn-lg">
-                        </form>
-                    </div>
-        `;
+    if (display_button === false) {
+        addButton = '';
+    }else{
+        if (isExistingRelation === false) {
+            addButton = `
+                        <div class="d-flex justify-content-center mt-3">
+                            <form method="post">
+                                <input type="hidden" name="user_id" value="${user_id}">
+                                <input type="submit" name="create_relation" value=" Créer une relation" class="btn btn-info btn-lg">
+                            </form>
+                        </div>
+            `;
+        }else if (isExistingRelation === true){
+            addButton = `
+                        <div class="d-flex justify-content-center mt-3">
+                            <form method="post">
+                                <input type="hidden" name="user_id" value="${user_id}">
+                                <input type="submit" name="delete_relation" value=" Supprimer la relation" class="btn btn-danger btn-lg">
+                            </form>
+                        </div>
+            `;
+        }
     }
 
     return `

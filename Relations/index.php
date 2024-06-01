@@ -58,8 +58,79 @@
     <?php include '../Main/Header.php'; ?>
     
     <!-- Using Bootstrap -->
-    <h1 class="display-4 fw-normal text-body-emphasis p-3 pb-md-4 mx-auto text-center">Vos Relations</h1>
     <div class="container">
+        <h1 class="display-4 fw-normal text-body-emphasis p-3 pb-md-4 mx-auto text-center">Vous</h1>
+        <div class="row">
+            <!-- section personnelle -->
+            <?php 
+                $sql = "SELECT * FROM Utilisateur WHERE User_ID = '$user_id'";
+                $result = mysqli_query($db_handle, $sql);
+                $data = mysqli_fetch_assoc($result);
+                $prenom = $data['Prenom'];
+                $nom = $data['Nom'];
+                $photo = $data['Photo'];
+                $entreprise_id = $data['Entreprise_ID'];
+                $sql_entreprise = "SELECT Nom_Entreprise FROM enterprise WHERE Enterprise_ID = '$entreprise_id'";
+                $result_entreprise = mysqli_query($db_handle, $sql_entreprise);
+                $row = mysqli_fetch_assoc($result_entreprise);
+                isset($row['Nom_Entreprise']) ? $nom_entreprise = $row['Nom_Entreprise'] : $nom_entreprise = '';
+                $sql_poste = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$user_id' ORDER BY Debut";
+                $result_poste = mysqli_query($db_handle, $sql_poste);
+                if (mysqli_num_rows($result_poste) != 0) {
+                    $row_poste = mysqli_fetch_assoc($result_poste);
+                    $date_poste = date("Y-m-d");
+                    $Enterprise_ID = $row_poste['Enterprise_ID'];
+                    if ($date_poste > $row_poste['Fin']) {
+                        $poste = 'Pas en poste actuellement';
+                    } else {
+                        $poste = $row_poste['Position'];
+                        $sql_poste_2 = "SELECT Nom_Entreprise FROM Enterprise WHERE Enterprise_ID = '$Enterprise_ID'";
+                        $result_poste_2 = mysqli_query($db_handle, $sql_poste_2);
+                        if (mysqli_num_rows($result_poste_2) != 0) {
+                            $row_poste_2 = mysqli_fetch_assoc($result_poste_2);
+                            $poste .= ' chez ' . $row_poste_2['Nom_Entreprise'];
+                        }
+                    } 
+                } else {
+                    $poste = 'Pas en poste actuellement';
+                }
+            ?>
+            <div class="col-md-12">
+                <div class="card mb-3 border" style="display: flex;">
+                    <div class="row no-gutters">
+                        <div class="col-md-3">
+                            <img src="<?php echo $photo; ?>" class="card-img rounded-circle m-3" style="width: 200px; height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $prenom . ' ' . $nom; ?>
+                                <?php
+                                    if ($entreprise_id != 0 AND $entreprise_id != -1){
+                                        echo "
+                                            <div title='Admin de " . $nom_entreprise . "' style='display: inline-block;'>
+                                                <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-patch-check-fill' viewBox='0 0 16 16'>
+                                                    <path d='M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708'/>
+                                                </svg>
+                                            </div>
+                                        </h5>
+                                        ";
+                                    }else{
+                                        echo "</h5>";
+                                    }
+                                ?>
+                                <span class="my-card-text"><?php echo $poste; ?></span>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 mt-auto">
+                            <button class="btn btn-primary btn-block btn-sm d-inline-block mx-auto" style="width: 150px;" onclick="openModal('SELECT * FROM Utilisateur WHERE User_ID = <?php echo $user_id; ?>', <?php echo $user_id; ?>, true, false, profileModalContent)">Voir profil</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <h1 class="display-4 fw-normal text-body-emphasis p-3 pb-md-4 mx-auto text-center">Vos Relations</h1>
         <div class="row">
             <!-- Section for the vertical cards (Vos Relations) -->
             <div class="col-md-9">
@@ -138,7 +209,7 @@
                                     </div>
                                     <div class='card-footer bg-transparent border-top-0 mt-auto'>
                                     ";       
-                            echo "<button class='btn btn-primary btn-block' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = ' + $user_id_user, $user_id_user,$true_or_falsebutton1, profileModalContent)\">Voir profil </button>";
+                            echo "<button class='btn btn-primary btn-block' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = ' + $user_id_user, $user_id_user,$true_or_falsebutton1, true, profileModalContent)\">Voir profil </button>";
                             echo " 
                                     </div>
                                 </div>
@@ -147,6 +218,109 @@
                     }
                     ?>
                 </div>
+                
+                <h1 class="display-4 fw-normal text-body-emphasis p-3 pb-md-4 mx-auto text-center">Amis d'Amis</h1>
+                <div class="row">
+                    <?php
+                    //! Récupérer les User_ID des relations des relations de l'utilisateur
+                    $sql_get_relations = "SELECT UID1, UID2 FROM Relations WHERE UID1 = '$user_id' OR UID2 = '$user_id'";
+                    $result_get_relations = mysqli_query($db_handle, $sql_get_relations);
+                    $relations = array();
+                    while($data_relations = mysqli_fetch_assoc($result_get_relations)) {
+                        $relations[] = $data_relations['UID1'];
+                        $relations[] = $data_relations['UID2'];
+                    }
+                    $relations = array_unique($relations);
+                    $relations = array_diff($relations, array($user_id));
+                    $relations = implode("', '", $relations);
+                    //aller chercher les relations des relations
+                    $sql = "SELECT U.User_ID, U.Mail, U.Prenom, U.Nom, U.Photo, U.Entreprise_ID
+                            FROM Relations AS R
+                            JOIN Utilisateur AS U ON (R.UID1 = U.User_ID OR R.UID2 = U.User_ID)
+                            WHERE (R.UID1 IN ('$relations') OR R.UID2 IN ('$relations'))
+                            AND U.User_ID NOT IN ('$relations', '$user_id')
+                        ";
+                    $result = mysqli_query($db_handle, $sql); 
+                    while($data_user = mysqli_fetch_assoc($result)) {
+                        //! Nom et prénom de l'utilisateur
+                        $user_id_user = $data_user['User_ID'];
+                        $mail = $data_user['Mail'];
+                        $prenom = $data_user['Prenom'];
+                        $nom = $data_user['Nom'];
+                        $photo = $data_user['Photo'];
+                        $entreprise_id = $data_user['Entreprise_ID'];
+                        $sql_friend = "SELECT Prenom, Nom FROM Utilisateur WHERE User_ID IN (SELECT UID1 FROM Relations WHERE UID2 = '$user_id_user' UNION SELECT UID2 FROM Relations WHERE UID1 = '$user_id_user')";
+                        $result_friend = mysqli_query($db_handle, $sql_friend);
+                        $friend_name = "";
+                        if($data_friend = mysqli_fetch_assoc($result_friend)) {
+                            $friend_name = $data_friend['Prenom'] . " " . $data_friend['Nom'];
+                        }
+                        
+                        //! Récupérer l'expérience actuelle de l'utilisateur
+                        if ($entreprise_id != 0 AND $entreprise_id != -1){
+                            $sql_entreprise = "SELECT Nom_Entreprise FROM enterprise WHERE Enterprise_ID = '$entreprise_id'";
+                            $result_entreprise = mysqli_query($db_handle, $sql_entreprise);
+                            $row = mysqli_fetch_assoc($result_entreprise);
+                            $nom_entreprise = $row['Nom_Entreprise'];
+                        }
+                        $sql_poste = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$user_id_user' ORDER BY Debut";
+                        $result_poste = mysqli_query($db_handle, $sql_poste);
+                        if (mysqli_num_rows($result_poste) != 0) {
+                            $row_poste = mysqli_fetch_assoc($result_poste);
+                            $date_poste = date("Y-m-d");
+                            $Enterprise_ID = $row_poste['Enterprise_ID'];
+                            if ($date_poste > $row_poste['Fin']) {
+                                $poste = 'Pas en poste actuellement';
+                            } else {
+                                $poste = $row_poste['Position'];
+                                $sql_poste_2 = "SELECT Nom_Entreprise FROM Enterprise WHERE Enterprise_ID = '$Enterprise_ID'";
+                                $result_poste_2 = mysqli_query($db_handle, $sql_poste_2);
+                                if (mysqli_num_rows($result_poste_2) != 0) {
+                                    $row_poste_2 = mysqli_fetch_assoc($result_poste_2);
+                                    $poste .= ' chez ' . $row_poste_2['Nom_Entreprise'];
+                                }
+                            }
+                        } else {
+                            $poste = 'Pas en poste actuellement';
+                        }
+                        
+                        echo "
+                            <div class='col-md-3'>
+                                <div class='card mb-5 border fixed-height' style='width: 100%; display: flex; flex-direction: column;'>
+                                    <img src='$photo' class='card-img-top' style='width: 100%; max-height: 200px; object-fit: cover;'>
+                                    <div class='card-body' style='flex-grow: 1;'>
+                                        <h5 class='card-title
+                                        '>$prenom $nom";
+                                        
+                        //Vérifier dans la BDD Enterprise si l'utilisateur est une entreprise, si oui lui afficher un badge
+                        if ($entreprise_id != 0 AND $entreprise_id != -1){
+                            echo "
+                                <div title='Admin de " . $nom_entreprise . "' style='display: inline-block;'>
+                                    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-patch-check-fill' viewBox='0 0 16 16'>
+                                        <path d='M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708'/>
+                                    </svg>
+                                </div>
+                                </h5>
+                            ";
+                        }else{
+                            echo "</h5>";
+                        }
+                        echo "
+                                    <span class='my-card-text'>$poste</span>
+                                    <br><br>
+                                    <span class='my-card-text'>Ami de $friend_name</span>
+                                    </div>
+                                    <div class='card-footer bg-transparent border-top-0 mt-auto'>
+                                    ";       
+                            echo "<button class='btn btn-primary btn-block' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = ' + $user_id_user, $user_id_user,$true_or_falsebutton2, true, profileModalContent)\">Voir profil</button>";
+                            echo " 
+                                    </div>
+                                </div>
+                            </div>
+                        ";
+                    }
+                    ?>
+                </div> 
             </div>
             <!-- Section for the horizontal cards -->
             <div class="col-md-3">
@@ -231,7 +405,7 @@
                             echo "
                                             <span class='my-card-text'>$poste</span>
                                             ";       
-                            echo "<button class='btn btn-primary' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = ' + $user_id_relation, $user_id_relation,$true_or_falsebutton2, profileModalContent)\">Voir profil</button>";
+                            echo "<button class='btn btn-primary' onclick=\"openModal('SELECT * FROM Utilisateur WHERE User_ID = ' + $user_id_relation, $user_id_relation,$true_or_falsebutton2, true, profileModalContent)\">Voir profil</button>";
                             echo "          </div>
                                         </div>
                                     </div>
