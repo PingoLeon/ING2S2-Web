@@ -1,9 +1,3 @@
-<?php
-    include '../Auth/functions.php';
-    //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
-    list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-    logout_button_POST();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +12,21 @@
 <body>
     <?php include 'Header.php'; ?>
 
-
     <div class="container" id="background">
+        <br>
         <div class="container" id="main_bloc">
-            <h1 style="color: black;">Accueil</h1>
+            <div class="row">
+                
+            </div>
+
+            <br><br><br><br><br><br><br><br><br><br>
         </div>
+
+        
+    
+        
     </div>
+
 
     
     

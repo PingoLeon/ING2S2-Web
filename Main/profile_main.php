@@ -1,11 +1,3 @@
-<!-- profile_main.php -->
-<?php
-    include '../Auth/functions.php';
-    //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
-    list($user_id, $email, $db_handle,) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-    //! Checker si l'utilisateur a appuyé sur le bouton de déconnexion
-    logout_button_POST();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +9,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
     <title>Profile</title>
     <link rel="stylesheet" type="text/css" href="Site.css">
+    <link rel = "stylesheet" type = "text/css" href = "Header.css">
 </head>
 
 <body>
@@ -35,7 +28,7 @@
     <br>
 
     <!-- Ajout des informations AJOUTE du profil -->
-    <?php include '../Profile/Profile_add.php'; ?>
+
 
     <!-- Ajout des informations du profil -->
     <?php include '../Profile/Profile_posts.php'; ?>

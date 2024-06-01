@@ -1,8 +1,15 @@
+<?php
+include '../Auth/functions.php';
+//! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
+list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
+$user_id = $id;
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-    <title>bannière</title>
+    <title>TEST</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
@@ -10,17 +17,31 @@
 </head>
 
 <body>
+<?php 
+    $entre_id = 8;
+    $sql = 'SELECT * FROM enterprise, informations, events WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.' AND events.Enterprise_ID = '.$entre_id.';';
+    $result = mysqli_query($db_handle, $sql);
+    $data = mysqli_fetch_assoc($result);
+    if (mysqli_num_rows($result) == 0) {
+        echo "Aucune entreprise trouvée";
+        exit;
+    }
+?>
+
 
 <div class="container" id="background"> 
-    <div class="container" id="main_bloc">
+    <div class="container" id="main_bloc" style="background-image: url('../Profil_entreprises/bannieres/<?php echo $data['Banniere']; ?>');">
         <div class="row">
-            <img src="../../Profil_entreprises/bannieres/banniere1.png" alt="APPLE banniere" style="width: 100%" style=" height: 10%">             
-            <img id ="ban" class="image" src="../../Profil_entreprises/logos/logo1.png" alt="APPLE LOGO" style="width: 15%" style="background-color :white">
-        </div><br><br><br>
+            <?php echo '<img id ="ban" class="image" src="../Profil_entreprises/logos/'.$data['Logo'].'" alt="Logo">'; ?>
+        </div>
+        
+        <br><br><br><br><br><br><br><br><br><br>
 
-        Fabrication de produits informatiques et électroniques Cupertino, California <br><br>
-
-        <button onclick="window.location.href='https://www.apple.com/careers/us/'">Consulter le site web</button><br><br>
+        <?php
+        echo '<p style="background-color: white">'.$data['Intro'].'</p>'; ?>
+    
+        <?php  
+        echo '<button onclick="window.location.href=\''.$data['Site_Web'].'\'">Consulter le site web</button><br><br>'; ?>
 
         
     <table>
@@ -63,17 +84,16 @@
         $current_page = $_POST['OngletNavBar'];
 
         if ($current_page === "Accueil") {
-            include 'C:/wamp64/www/ING2S2-WEB/Profil_entreprises/details/accueil.php';
+            include '../Profil_entreprises/details/accueil1.php';
         } elseif ($current_page === "A propos") {
-            include 'C:/wamp64/www/ING2S2-WEB/Profil_entreprises/details/apropos.php';
+            include '../Profil_entreprises/details/apropos1.php';
         } elseif ($current_page === "Posts") {
-            include 'C:/wamp64/www/ING2S2-WEB/Profil_entreprises/details/posts.php';
+            include '../Profil_entreprises/details/posts1.php';
         }
     } else {
         $current_page = "Accueil";
     }
 
-    $sql = "SELECT Content FROM Entreprises WHERE Nom = 'Apple' AND Onglet = '$current_page'";
 ?>
 
 </body>

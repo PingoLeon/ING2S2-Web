@@ -37,3 +37,7 @@ body {
     background-color: #fff4d9;
     color: #aa6d00;
 }
+
+.small-text {
+    font-size: 11px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+}

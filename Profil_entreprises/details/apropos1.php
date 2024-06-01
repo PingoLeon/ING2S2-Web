@@ -8,6 +8,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
 
     <link rel="stylesheet" type="text/css" href="details.css">
+    <link rel="stylesheet" type="text/css" href="../Main/Header.css">
 </head>
 <body>
 
@@ -17,19 +18,19 @@
     <div class="row">
         <br><br><br>
         <h1 style ="margin:15px">Présentation</h1>
-        <p style ="margin:15px"><?php echo $xml->informations->Information; ?></p>
+        <?php echo'<p style ="margin:15px"> '.$data['Informations'].' ';?></p>
     </div>
 
     <br><br>
         <h5>Site Web</h5>
-        <a href="<?php echo $xml->informations->Site_Web; ?>" >apple.com/careers</a><br><br>
+        <?php echo'<a href="'.$data['Site_Web'].'">'.$data['Site_Web'].'</a>';?><br><br>
 
         <h5>Taille de l'entreprise</h5>
-        <p><?php echo $xml->informations->Taille; ?></p><br>
-        <h5>Telephone</h5>
-        <p><?php echo $xml->informations->Telephone; ?></p><br>
+        <?php echo'<p>'.$data['Taille'].'';?></p><br>
+        <h5>Téléphone</h5>
+        <?php echo'<p>'.$data['Telephone'].'';?></p><br>
         <h5>Année de création</h5>
-        <p><?php echo $xml->informations->Anne_Fondation; ?></p>
+        <?php echo'<p> '.$data['Annee_Fondation'].''; ?></p>
 
         <br><br>   
 
@@ -42,7 +43,10 @@
                     <h1 style="margin:15px">Lieux(1)</h1>
                     <br><br>
                     <div id="map" style="width: 100%; height: 100vh;">
-                        <iframe src="<?php echo $xml->informations->Lieu: ?>" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
+                       
+                        <?php
+                        echo '<iframe src="'.$data['Lieu'].'" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>';
+                        ?>
                     </div>
                     </div></div></div>
 
