@@ -1,10 +1,24 @@
 <?php
-    include '../Auth/functions.php';
-    //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
-    list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-    //! Checker si l'utilisateur a appuyé sur le bouton de déconnexion
-    logout_button_POST();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "ECEin";
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = ?"; // on 
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+// Fermer la connexion
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,13 +30,13 @@
     <link rel="stylesheet" type="text/css" href="SiteEmplois.css">
     <title>Notifications des Emplois Disponibles</title>
 </head>
-
 <body>
     <?php include '../Main/Header.php'; ?>
 
     <div class="container mt-5">
         <h2>Créer une Nouvelle Offre d'Emploi</h2>
-        <form action="CreationOffreEmploi.php" method="POST" enctype="multipart/form-data">
+        <form action="CreationOffre.php" method="POST" enctype="multipart/form-data">
+        <form action="CreationOffre.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nomEntreprise">Nom de l'Entreprise</label>
                 <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" required>
@@ -57,6 +71,32 @@
             </div>
             <button type="submit" class="btn btn-primary">Créer l'Offre</button>
         </form>
+
+        <h2 class="mt-5">Offres d'Emploi Existantes</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom de l'Entreprise</th>
+                    <th>Intitulé</th>
+                    <th>Date de Début</th>
+                    <th>Date de Fin</th>
+                    <th>Position</th>
+                    <th>Type de Contrat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($job_offers as $offer): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($offer['nomEntreprise']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['intitule']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['debut']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['fin']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['position']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['typeContrat']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

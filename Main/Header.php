@@ -1,5 +1,4 @@
 <?php
-
 include '../Auth/functions.php';
 // Renvoyer l'utilisateur à la page de connexion s'il n'est pas connecté, sinon récupérer l'id et l'email
 list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
@@ -60,7 +59,7 @@ if ($Lien_Entreprise_Utilisateur) {
                     </a>
                 </div>
                 <div class="nav-menus">
-                    <a href="../Emplois/Emplois.html">
+                    <a href="../Emplois/EmploiAccueil.php">
                         <i class="fa-solid fa-briefcase"></i>
                         <p>Emplois</p>
                     </a>
@@ -72,7 +71,7 @@ if ($Lien_Entreprise_Utilisateur) {
                     </a>
                 </div>
                 <div class="nav-menus">
-                    <a href="../Notifications/Notifications.html">
+                    <a href="../Notifications/Notifications.php">
                         <i class="fa-solid fa-bell"></i>
                         <p>Notification</p>
                     </a>
