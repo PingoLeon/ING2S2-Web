@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preferences du compte</title>
     <?php include '../Main/Header.php'; ?>
+    <link rel="stylesheet" type="text/css" href="../Main/Site.css">
+    <!-- Source: W3Schools -->
     <style>
         .sidenav {
         height: 100%;
@@ -42,40 +44,84 @@
 </head>
 
 <body>
+    <br>
 
     <div class="sidenav">
     <a href="Pref_cpt.php">Preferences du compte</a>
-    <a href="#">Identification et securite</a>
-    <a href="#">Visibilite</a>
-    <a href="#">Confidentialite des donnees</a>
-    <a href="#">Donnees relatives a la publicite</a>
-    <a href="#">Services EngineerIN</a>
-    <a href="#">Notifications</a>
+    <a href="Securite.php">Identification et securite</a>
+    <a href="Nos_services.php">Services EngineerIN</a>
     </div>
 
     <div class="main">
-        
-        <div id="main_bloc">
-            <h1>Informations de profil</h1>
-            <?php
-            $sql = "SELECT * FROM utilisateur WHERE User_ID = $user_id";
-            $result = mysqli_query($db_handle, $sql);
-            $data = mysqli_fetch_assoc($result);
+        <div class = "container">
+            <div id="main_bloc">
+                <h1>Informations de profil</h1>
+                <?php
+                $sql = "SELECT * FROM utilisateur WHERE User_ID = $user_id";
+                $result = mysqli_query($db_handle, $sql);
+                $data = mysqli_fetch_assoc($result);
 
-            $nom = $data['Nom'];
-            $prenom = $data['Prenom'];
-            $email = $data['Mail'];
-            $pays = $data['Pays'];
+                $nom = $data['Nom'];
+                $prenom = $data['Prenom'];
+                $email = $data['Mail'];
+                $pays = $data['Pays'];
 
-            //button if clicked, the name and surname is displayed
-            echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Modifier</button>';
-            echo '<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-            
-
-
-
-            ?>
-
+                //button if clicked, the name and surname is displayed
+                echo '<div class="row">';
+                    echo '<div class="col-md-6">';
+                        echo '<br><br><h4 style="text-align:left; margin-left: 10px;"><b>' . $nom . ' ' . $prenom . '</h4>';
+                        echo '<p style="text-align:left; margin-left: 10px;">' . $email . '</p>';
+                        echo '<p style="text-align:left; margin-left: 10px;">' . $pays . '</p></b>';
+                    echo '</div>';
+                    echo '<div class="col-md-6">';
+                        echo '<br><br><br><a href="../Main/profile_main.php" class="btn btn-primary" style="margin-left: 10px;">Voir plus</a>';
+                    echo '</div>';
+                echo '</div>';
+                ?>
+            </div>
+            <br>
+            <div id="main_bloc">
+                <h1>Preferences du compte</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 style="text-align:left; margin-left: 10px;"><b>Langue</b></h4>
+                        <p style="text-align:left; margin-left: 10px;">Francais</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 style="text-align:left; margin-left: 10px;"><b>Langue du contenu</b></h4>
+                        <p style="text-align:left; margin-left: 10px;">Francais</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 style="text-align:left; margin-left: 10px;"><b>Notifications</b></h4>
+                        <p style="text-align:left; margin-left: 10px;">Actives</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 style="text-align:left; margin-left: 10px;"><b>Theme</b></h4>
+                        <p style="text-align:left; margin-left: 10px;">Clair</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div id="main_bloc">
+                <h1>Abonnements et paiements</h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="#" style="text-align:left; margin-left: 25px;"><b>Essai EngineerinIN+<b></a>
+                    </div>                        
+                </div>
+            </div>
+            <br>
+            <div id="main_bloc">
+                <h1>Partenaires et services</h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="https://www.ece.fr/" style="text-align:left; margin-left: 25px;"><b>ECE<b></a>
+                    </div>                        
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>

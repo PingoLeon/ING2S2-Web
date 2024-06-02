@@ -20,6 +20,40 @@
         .row > .col-md-8 {
             padding: 10px;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(50%, 50%);
+            width: 50%;
+            height: 50%;
+            overflow: auto;
+            background-color: transparent;
+        }
+
+        .modal-content {
+            background-color: #bc2a2a;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
     <script>
         function toggleCommentsAndMessageBar(postId) {
@@ -68,15 +102,19 @@
             const modal = document.getElementById("imageModal");
             const span = document.getElementsByClassName("close")[0];
             const modalText = document.getElementById("modalText");
+
             // Call the JavaScript function to generate the text
             const text = generateModalText();
             modalText.innerHTML = text;
+
             // Display the modal
             modal.style.display = "block";
+
             // Close the modal when the user clicks on <span> (x)
             span.onclick = function () {
                 modal.style.display = "none";
             }
+
             // Close the modal when the user clicks anywhere outside of the modal
             window.onclick = function (event) {
                 if (event.target == modal) {
@@ -87,7 +125,7 @@
         function generateModalText() {
             // Replace this with your dynamic text generation logic
             //The logo is displayed
-            text1 = "<img src='../Photos/EngineerIN_logo.png' alt='ECE Paris' style='width: 100%;'>"
+            text1 = "<img src='../Photos/EngineerIN_logo.png' alt='ECE Paris' style='width: 40%;'>"
             text2 = "<h2>EngineerIN: Social Media Professionnel de l'ECE Paris</h2><br>"
             text3 = "<p>Nous sommes une platforme de reseau social pour les etudiants de l'ECE Paris.</p>"
             text4 = "<p>Cree par un groupe de 4 etudiants, notre objectif est de faciliter la communication entre les etudiants et des employeurs potentiels. On peut y trouver des offres d'emplois, des evenements des entreprises que vous aimez mais surtout, vous pouvez generer votre propre profil.</p>"
