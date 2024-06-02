@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS Posts (
     Texte TEXT,
     Titre VARCHAR(255),
     Lieu VARCHAR(255),
+    Visibility_Private BOOLEAN DEFAULT 1,
     FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID),
     FOREIGN KEY (Enterprise_ID) REFERENCES Entreprise(Enterprise_ID)
 );
@@ -245,13 +246,13 @@ INSERT INTO `applications` (`Applications_ID`, `job_id`, `user_id`, `application
 (7, 3, 0, '2024-05-30 14:57:33'),
 (8, 3, 2, '2024-05-30 14:57:52');
 
-INSERT INTO posts (Post_ID, User_ID, Enterprise_ID, DatePublication, Photo, Texte, Titre, Lieu) VALUES
-(1, 1, NULL, '2024-05-31 12:32:42', 'Photos/post1', 'POSTE #1', 'Enfin Ambassadeur', 'Paris'),
-(3, 3, NULL, '2024-05-31 15:32:42', 'Photos/photo7', 'Toujours', 'Leon me saoule', 'Versailles'),
-(2, 1, NULL, '2024-05-31 14:32:42', 'Photos/photo3', 'J\'aime Alara de tout mon coeur', 'J\'aime Leon', 'Paris'),
-(5, 1, NULL, '2024-05-31 00:00:00', 'Photos/photo6', 'Demain je vais devoir faire la Journee Portes Ouvertes de l`ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. ', 'FINI CETTE MERDE', ''),
-(6, 1, NULL, '2024-05-31 22:38:08', 'Photos/Photo4', 'qqqqqqqqqqqqqqqqqqqqqqqqqqqq', 'Testing', 'Versailles'),
-(7, 1, NULL, '2024-05-31 22:39:10', 'Photos/edit', 'GIGA CHAD', 'Testing post #5', 'fr');
+INSERT INTO posts (Post_ID, User_ID, Enterprise_ID, DatePublication, Photo, Texte, Titre, Lieu, Visibility_Private) VALUES
+(1, 1, NULL, '2024-05-31 12:32:42', 'Photos/post1', 'POSTE #1', 'Enfin Ambassadeur', 'Paris', 0),
+(3, 3, NULL, '2024-05-31 15:32:42', 'Photos/photo7', 'Toujours', 'Leon me saoule', 'Versailles', 0),
+(2, 1, NULL, '2024-05-31 14:32:42', 'Photos/photo3', 'J\'aime Alara de tout mon coeur', 'J\'aime Leon', 'Paris', 1),
+(5, 1, NULL, '2024-05-31 00:00:00', 'Photos/photo6', 'Demain je vais devoir faire la Journee Portes Ouvertes de l`ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. ', 'FINI CETTE MERDE', '', 1),
+(6, 1, NULL, '2024-05-31 22:38:08', 'Photos/Photo4', 'qqqqqqqqqqqqqqqqqqqqqqqqqqqq', 'Testing', 'Versailles', 1),
+(7, 1, NULL, '2024-05-31 22:39:10', 'Photos/edit', 'GIGA CHAD', 'Testing post #5', 'fr', 1);
 
 INSERT INTO Commentaires(Post_ID, User_ID, Texte)
 VALUES  (1, 2, 'Félicitations pour ton nouveau poste !'),
