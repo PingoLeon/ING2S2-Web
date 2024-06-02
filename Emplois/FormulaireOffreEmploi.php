@@ -15,6 +15,25 @@ if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->bind_result($entreprise_id);
+$stmt->fetch();
+$stmt->close();
+
+// Maintenant que vous avez l'ID de l'entreprise de l'utilisateur, vous pouvez sélectionner les offres d'emploi correspondantes
+$sql_offres = "SELECT * FROM offre_emploi WHERE Enterprise_ID = ?";
+$stmt_offres = $conn->prepare($sql_offres);
+if (!$stmt_offres) {
+    die("Prepare failed: " . $conn->error);
+}
+
+$stmt_offres->bind_param("i", $entreprise_id);
+$stmt_offres->execute();
+$result = $stmt_offres->get_result();
+$job_offers = $result->fetch_all(MYSQLI_ASSOC);
+$stmt_offres->close();
+
 $conn->close();
 ?>
 
