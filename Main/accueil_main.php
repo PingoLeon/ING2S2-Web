@@ -36,7 +36,6 @@
         .modal-content {
             background-color: #bc2a2a;
             margin: 15% auto;
-            padding: 20px;
             border: 1px solid #888;
             width: 80%;
         }
@@ -96,8 +95,7 @@
             text2 = "<h2>EngineerIN: Social Media Professionnel de l'ECE Paris</h2><br>"
             text3 = "<p>Nous sommes une platforme de reseau social pour les etudiants de l'ECE Paris.</p>"
             text4 = "<p>Cree par un groupe de 4 etudiants, notre objectif est de faciliter la communication entre les etudiants et des employeurs potentiels. On peut y trouver des offres d'emplois, des evenements des entreprises que vous aimez mais surtout, vous pouvez generer votre propre profil.</p>"
-            text5 = "<p>Bienvenue sur ECEIn, la plateforme de réseaux sociaux professionnelle exclusivement conçue pour la communauté ECE Paris. Que vous soyez étudiant en licence, master ou doctorat, apprenti en entreprise, étudiant à la recherche d'un stage, professeur ou salarié à la recherche de partenaires de recherche, ce site s'adresse à toute personne prenant sa vie professionnelle au sérieux, visant pour découvrir de nouvelles opportunités de carrière et se connecter avec les autres pour atteindre des objectifs professionnels.</p>"
-            return text1 + text2 + text3 + text4 + text5;
+            return text1 + text2 + text3 + text4;
         }
     </script>
 </head>
@@ -317,7 +315,7 @@
     <div id="imageModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p id="modalText"></p>
+            <p id="modalText" style="height:150%;"></p>
         </div>
     </div>
 
