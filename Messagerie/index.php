@@ -14,7 +14,7 @@
     <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EngineerIN - Messagerie</title>
+    <title>Messagerie - EngineerIN</title>
     
     <link rel="cano nical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
