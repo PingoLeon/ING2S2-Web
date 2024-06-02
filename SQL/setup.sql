@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS Posts (
     Titre VARCHAR(255),
     Lieu VARCHAR(255),
     Visibility_Private BOOLEAN DEFAULT 1,
+    Nb_likes int DEFAULT '0',
     FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID),
     FOREIGN KEY (Enterprise_ID) REFERENCES Entreprise(Enterprise_ID)
 );
@@ -165,6 +166,16 @@ CREATE TABLE IF NOT EXISTS Relations (
     UID1 INT,
     UID2 INT
 );
+
+CREATE TABLE IF NOT EXISTS `likes` (
+    `Like_ID` int NOT NULL AUTO_INCREMENT,
+    `Post_ID` int NOT NULL,
+    `User_ID` int NOT NULL,
+    `Date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`Like_ID`),
+    KEY `Post_ID` (`Post_ID`),
+    KEY `User_ID` (`User_ID`)
+)
 
 -- Sample data insertion
 INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`, `Token`, `Photo`, `Pays`, `Entreprise_ID`, `Mood`) VALUES
