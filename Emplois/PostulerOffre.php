@@ -1,37 +1,47 @@
 <?php
 include '../Auth/functions.php';
-// Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
 list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
 logout_button_POST();
 ?>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['job_id'])) {
-    $job_id = mysqli_real_escape_string($db_handle, $_POST['job_id']);
-
-    if (isset($user_id)) {
-        $current_date = date("Y-m-d"); // Getting the current date
-
-        $sql = "INSERT INTO Applications (Job_ID, User_ID, application_date) VALUES (?, ?, ?)";
-        $stmt = $db_handle->prepare($sql);
-
-        if ($stmt) {
-            $stmt->bind_param("iis", $job_id, $user_id, $current_date);
-            if ($stmt->execute()) {
-                $message = "Application soumise avec succès.";
-            } else {
-                $message = "Erreur lors de la soumission de l'application.";
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['job_id'])) {
+        
+        //$job_id = mysqli_real_escape_string($db_handle, $_POST['job_id']);
+        $entreprise_id = isset($_POST['entreprise_id']) ? $_POST['entreprise_id'] : '';
+        $titre = isset($_POST['titre']) ? $_POST['titre'] : '';
+        $message = "L'utilisateur <a href='mailto:" . $email . "'>" . $email . "</a> a postulé pour l'offre d'emploi " . $titre . ".\n\n";
+        $message = $db_handle->real_escape_string($message);
+        
+        //!Obtenir les IDS multiples de l'entreprise et envoyer un message à tous les admins
+        $sql = "SELECT User_ID FROM Utilisateur WHERE Entreprise_ID = '$entreprise_id'";
+        $result = mysqli_query($db_handle, $sql);
+        $admin_ids = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        if ($admin_ids) {
+            foreach ($admin_ids as $admin_id) {
+                $admin_id = $admin_id['User_ID'];
+                $sql = "SELECT Convers_ID FROM Messagerie WHERE (ID1 = -1 AND ID2 = '$admin_id') OR (ID1 = '$admin_id' AND ID2 = -1)";
+                $result = $db_handle->query($sql);
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $convers_id = $row['Convers_ID'];
+                    $convers_id = (string)$convers_id;
+                }
+                
+                //! Insérer le message dans la table Messages
+                $sql = "INSERT INTO Messages (Convers_ID, Sender_ID, Content) VALUES ('$convers_id', -1, '$message')";
+                $result = $db_handle->query($sql);
+                if ($result) {
+                    $message_success = "Votre candidature a été envoyée avec succès.";
+                } else {
+                    $message_success = "Erreur: " . $db_handle->error;
+                }
             }
-            $stmt->close();
-        } else {
-            $message = "Erreur lors de la préparation de la requête.";
         }
+        
     } else {
-        $message = "User ID manquant.";
+        $message = "Job ID manquant.";
     }
-} else {
-    $message = "Job ID manquant.";
-}
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['job_id'])) {
 <!-- The Modal -->
 <div id="myModal" class="modal">
     <div class="modal-content">
-        <p id="modalMessage"><?php echo $message; ?></p>
+        <p id="modalMessage"><?php echo $message_success; ?></p>
         <button onclick="window.location.href='../Main/accueil_main.php'">Revenir à la page d'accueil</button>
         <button onclick="window.location.href='PageOffreEmploi.php'">Voir les offres</button>
     </div>

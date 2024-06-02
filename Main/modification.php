@@ -120,6 +120,11 @@ function Edit_Title($db_handle, $user_id) {
         $result = mysqli_query($db_handle, $sql);
         $data = mysqli_fetch_assoc($result);
         $photo = $data['Photo'];
+        if ($photo == NULL) {
+            $photo = "../Photos/photo_placeholder.png";
+        }else{
+            $photo = $data['Photo'];
+        }
         //Form to change the user's information. If the user doesn't want to change one of the information, he can leave the field empty
         echo '<form action="../Profile/Profile_add.php?id=title" method="post">';
             echo '<div class="form-group">';

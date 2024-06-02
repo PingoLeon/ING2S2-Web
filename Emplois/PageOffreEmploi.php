@@ -31,9 +31,9 @@
             } 
 
             // Query to fetch job offers with Job_ID
-            $query = 'SELECT Offre_Emploi.Job_ID, Offre_Emploi.Intitule, Offre_Emploi.Debut, Offre_Emploi.Fin, Offre_Emploi.Position, Offre_Emploi.Type_Contrat, Offre_Emploi.Texte, Enterprise.Nom_Entreprise, Enterprise.Logo
-                      FROM Offre_Emploi
-                      JOIN Enterprise ON Offre_Emploi.Enterprise_ID = Enterprise.Enterprise_ID';
+            $query = '  SELECT Offre_Emploi.Job_ID, Offre_Emploi.Enterprise_ID, Offre_Emploi.Intitule, Offre_Emploi.Debut, Offre_Emploi.Fin, Offre_Emploi.Position, Offre_Emploi.Type_Contrat, Offre_Emploi.Texte, Enterprise.Nom_Entreprise, Enterprise.Logo
+                        FROM Offre_Emploi
+                        JOIN Enterprise ON Offre_Emploi.Enterprise_ID = Enterprise.Enterprise_ID';
 
             $result = $conn->query($query);
 
@@ -54,6 +54,9 @@
                     echo '<p>Type de Contrat: ' . $row["Type_Contrat"] . '</p>';
                     echo '<form action="PostulerOffre.php" method="POST">';
                     echo '<input type="hidden" name="job_id" value="' . $row["Job_ID"] . '">';
+                    echo '<input type="hidden" name="user_id" value="' . $user_id . '">';
+                    echo '<input type="hidden" name="entreprise_id" value="' . $row["Enterprise_ID"] . '">';
+                    echo '<input type="hidden" name="titre" value="' . $row["Intitule"] . '">';
                     echo '<button type="submit" class="btn btn-primary mt-3">Postuler pour cette offre</button>';
                     echo '</form>';
                     echo '</div></div></div></div>';

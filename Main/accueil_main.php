@@ -117,7 +117,11 @@
                     $nom = $data['Nom'];
                     $prenom = $data['Prenom'];
                     $photo = $data['Photo'];
-                    $photo = '../Photos/' . $photo . '';
+                    if ($photo == NULL) {
+                        $photo = "../Photos/photo_placeholder.png";
+                    }else{
+                        $photo = '../Photos/' . $photo . '';
+                    }
                     echo '<div class="flag" style="position: relative; margin-bottom: 20px;">';
                         echo '<div class="azure"></div>';
                         echo '<div style="position: absolute; bottom:50%; left: 150px; transform: translate(-50%, -50%); width: 50%;">';
@@ -145,7 +149,11 @@
                             $nom = $data['Nom'];
                             $prenom = $data['Prenom'];
                             $photo = $data['Photo'];
-                            $photo = '../Photos/' . $photo . '';
+                            if ($photo == NULL) {
+                                $photo = "../Photos/photo_placeholder.png";
+                            }else{
+                                $photo = '../Photos/' . $photo . '';
+                            }
 
                             //Div with on one side the profile picture in small, not flag. Next to it is a rounded-corner button to create a post
                             echo '<div class="flag" style="position: relative; margin-bottom: 20px; height:150px;">';

@@ -41,9 +41,11 @@ if ($Lien_Entreprise_Utilisateur) {
     <header>
         <nav>
             <div class="nav-left">
-                <div class="logo">
-                    <img src="../Photos/EngineerIN_logo.png" alt="ECE Paris">
-                </div>
+                <a href="../Main/accueil_main.php">
+                    <div class="logo">
+                        <img src="../Photos/EngineerIN_logo.png" alt="ECE Paris">
+                    </div>
+                </a>
             </div>
             <div class="nav-right">
                 <div class="nav-menus">
@@ -85,7 +87,12 @@ if ($Lien_Entreprise_Utilisateur) {
                         <div class="sub-menu">
                             <div class="user-info">
                                 <?php
-                                    echo '<img src="' . $user['Photo'] . '" alt="Photo de profil">';
+                                    if ($user['Photo'] == "") {
+                                        $user_photo_header = "../Photos/photo_placeholder.png";
+                                    } else {
+                                        $user_photo_header = $user['Photo'];
+                                    }
+                                    echo '<img src="' . $user_photo_header . '" alt="Photo de profil">';
                                     echo '<h2>' . $username . '</h2>';
                                 ?>
                             </div>

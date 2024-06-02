@@ -78,6 +78,11 @@
                 $prenom = $data['Prenom'];
                 $nom = $data['Nom'];
                 $photo = $data['Photo'];
+                if ($photo == NULL) {
+                    $photo = "../Photos/photo_placeholder.png";
+                }else{
+                    $photo = '../Photos/' . $photo . '';
+                }
                 $entreprise_id = $data['Entreprise_ID'];
                 $mood = $data['Mood'];
                 $sql_entreprise = "SELECT Nom_Entreprise FROM enterprise WHERE Enterprise_ID = '$entreprise_id'";
@@ -164,6 +169,11 @@
                         $prenom = $data_user['Prenom'];
                         $nom = $data_user['Nom'];
                         $photo = $data_user['Photo'];
+                        if ($photo == NULL) {
+                            $photo = "../Photos/photo_placeholder.png";
+                        }else{
+                            $photo = '../Photos/' . $photo . '';
+                        }
                         $entreprise_id = $data_user['Entreprise_ID'];
                         $mood = $data_user['Mood'];
                         
@@ -262,6 +272,11 @@
                         $prenom = $data_user['Prenom'];
                         $nom = $data_user['Nom'];
                         $photo = $data_user['Photo'];
+                        if ($photo == NULL) {
+                            $photo = "../Photos/photo_placeholder.png";
+                        }else{
+                            $photo = '../Photos/' . $photo . '';
+                        }
                         $entreprise_id = $data_user['Entreprise_ID'];
                         $mood = $data_user['Mood'];
                         $sql_friend = "SELECT Prenom, Nom FROM Utilisateur WHERE User_ID IN (SELECT UID1 FROM Relations WHERE UID2 = '$user_id_user' UNION SELECT UID2 FROM Relations WHERE UID1 = '$user_id_user')";
@@ -349,8 +364,8 @@
                                 UNION
                                 SELECT R.UID1 FROM Relations AS R WHERE R.UID2 = '$user_id'
                             )
-                            AND U.User_ID != '$user_id'
-                            LIMIT 10
+                            AND U.User_ID != '$user_id' AND U.User_ID != -1
+                            LIMIT 20
                         ";
                         
                         
@@ -362,6 +377,11 @@
                             $prenom = $data_user['Prenom'];
                             $nom = $data_user['Nom'];
                             $photo = $data_user['Photo'];
+                            if ($photo == NULL) {
+                                $photo = "../Photos/photo_placeholder.png";
+                            }else{
+                                $photo = '../Photos/' . $photo . '';
+                            }
                             $entreprise_id = $data_user['Entreprise_ID'];
                             
                             //! Récupérer l'expérience actuelle de l'utilisateur

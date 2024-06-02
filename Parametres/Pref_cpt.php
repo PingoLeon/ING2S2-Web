@@ -65,10 +65,17 @@
                 $prenom = $data['Prenom'];
                 $email = $data['Mail'];
                 $pays = $data['Pays'];
+                $photo = $data['Photo'];
+                if ($photo == NULL) {
+                    $photo = "../Photos/photo_placeholder.png";
+                }else{
+                    $photo = $data['Photo'];
+                }
 
                 //button if clicked, the name and surname is displayed
                 echo '<div class="row">';
                     echo '<div class="col-md-6">';
+                        echo '<img src="' . $photo . '" alt="Photo de profil" style="width: 100px; height: 100px; border-radius: 50%;">';
                         echo '<br><br><h4 style="text-align:left; margin-left: 10px;"><b>' . $nom . ' ' . $prenom . '</h4>';
                         echo '<p style="text-align:left; margin-left: 10px;">' . $email . '</p>';
                         echo '<p style="text-align:left; margin-left: 10px;">' . $pays . '</p></b>';

@@ -172,6 +172,7 @@ CREATE TABLE IF NOT EXISTS likes (
 
 -- Sample data insertion
 INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`, `Token`, `Photo`, `Pays`, `Entreprise_ID`, `Mood`) VALUES
+(-1, 'notification@ecein.fr', '', 'Réponses aux Offres', 'ECEIN', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo0.png', 'France', -1, ''),
 (1, 'fcadene@gmail.com', 'Cadene', 'Félix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France',-1, ''),
 (2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0, ''),
 (3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0, ''),
@@ -185,7 +186,6 @@ INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`
 (11, 'admin@marketingplus.fr', 'Leclerc', 'Kamel','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo12.png', 'France', 3, ''),
 (12, 'admin@financegrp.fr', 'Zacomi', 'Ben','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo13.png', 'France', 4, ''),
 (13, 'admin@itworld.fr', 'Petit', 'Thomas','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo14.png', 'France', 5, '');
-
 
 INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation, Enterprise_ID)
 VALUES (1, 1, '2022-09-01', '2027-06-01', 'Etudiant', 'Ingenieur', 1);
@@ -236,6 +236,9 @@ VALUES (1, 2);
 
 INSERT INTO Messagerie (ID1, ID2)
 VALUES (1, 2);
+
+INSERT INTO Messagerie (ID1, ID2)
+VALUES (-1, 5), (-1, 6), (-1, 7), (-1, 8), (-1, 9), (-1, 10), (-1, 11), (-1, 12), (-1, 13);
 
 INSERT INTO `informations` (`Information_ID`, `Site_Web`, `Intro`, `Informations`, `Taille`, `Telephone`, `Annee_Fondation`, `Lieu`) VALUES
 (5, 'https://www.ITWorld.com', 'Technologies de l\'information Paris · 30 K abonnés · 20 K anciens élèves', 'ITWorld est une entreprise de premier plan dans le secteur des technologies de l\'information, fournissant des solutions innovantes en matière de cloud computing, de cybersécurité et de développement de logiciels. Nous nous engageons à aider nos clients à réussir dans un monde numérique en constante évolution.', '1001-5000 employés', '+33 1 34 56 78 90', '2000-07-05', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20335368.604213215!2d-37.03920670000004!3d51.52523540000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b309e0db9e7%3A0x692f07be2bb261d4!2sAlara%20Health%20Store!5e0!3m2!1sfr!2sfr!4v171716'),
