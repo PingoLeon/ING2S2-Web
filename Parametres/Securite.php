@@ -75,10 +75,6 @@
                     echo '</div>';
                     echo '<div class="col-md-6">';
                         echo '<h2><b> ' . $email . '</b></h2>';
-                        echo '<p style="word-wrap: break-word;"><b> ' . $mpd . '</b></p>';
-                    echo '</div>';
-                    echo '<div class="col-md-12">';
-                        echo '<h3 style="color: red;">Pour des raisons de sécurité, votre mot de passe est caché.</h3>';
                     echo '</div>';
                 echo '</div>';
                 ?>
