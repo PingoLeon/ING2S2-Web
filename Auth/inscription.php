@@ -180,6 +180,9 @@
             header('Location: inscription.php');
             exit();
         } else {
+            //créer une discussion entre l'utilisateur et le compte de notification
+            $sql = "INSERT INTO Messagerie (ID1, ID2) VALUES (-1, (SELECT User_ID FROM Utilisateur WHERE Mail = '$email'))";
+            $result = mysqli_query($db_handle, $sql);
             if ($remember) { //!Si l'utilisateur a coché la case "Rester connecté", on crée un cookie, sinon on crée une session
                 $cookieSet = set_distinct_cookie($token);
                 if ($cookieSet) {

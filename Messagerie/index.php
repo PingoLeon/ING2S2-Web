@@ -14,7 +14,7 @@
     <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EngineerIN - Messagerie</title>
+    <title>Messagerie - EngineerIN</title>
     
     <link rel="cano nical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
@@ -39,7 +39,11 @@
                         $result = mysqli_query($db_handle, $sql);
                         if (mysqli_num_rows($result) != 0) {
                             $row = mysqli_fetch_assoc($result);
-                            echo $row['Photo'];
+                            if ($row['Photo'] == "") {
+                                echo "../Photos/photo_placeholder.png";
+                            } else {
+                                echo $row['Photo'];
+                            }
                             $nom = $row['Nom'];
                             $prenom = $row['Prenom'];
                             $mood = $row['Mood'];
@@ -65,6 +69,11 @@
                             while($row = mysqli_fetch_assoc($result)){
                                 $friend_id = $row['User_ID'];
                                 $friend_photo = $row['Photo'];
+                                if ($row['Photo'] == "") {
+                                    $friend_photo = "../Photos/photo_placeholder.png";
+                                } else {
+                                    $friend_photo = $row['Photo'];
+                                }
                                 $friend_name = $row['Nom'];
                                 $friend_first_name = $row['Prenom'];
                                 $friend_mood = $row['Mood'];
@@ -129,7 +138,11 @@
                                 $friend_mood = "";
                                 if (mysqli_num_rows($result) != 0) {
                                     $row = mysqli_fetch_assoc($result);
-                                    echo $row['Photo'];
+                                    if ($row['Photo'] == "") {
+                                        echo "../Photos/photo_placeholder.png";
+                                    } else {
+                                        echo $row['Photo'];
+                                    }
                                     $friend_name = $row['Nom'];
                                     $friend_first_name = $row['Prenom'];
                                     $friend_mood = $row['Mood'];
@@ -161,34 +174,38 @@
                             </div>
                             <div class="text-muted">
                                 <?php
-                                    $sql = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$friend_id' ORDER BY Debut";
-                                    $result = mysqli_query($db_handle, $sql);
-                                    if (mysqli_num_rows($result) != 0) {
-                                        $row = mysqli_fetch_assoc($result);
-                                        $date = date("Y-m-d");
-                                        $Enterprise_ID = $row['Enterprise_ID'];
-                                        if ($date > $row['Fin']) {
+                                    if ($friend_id != -1){
+                                        $sql = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$friend_id' ORDER BY Debut";
+                                        $result = mysqli_query($db_handle, $sql);
+                                        if (mysqli_num_rows($result) != 0) {
+                                            $row = mysqli_fetch_assoc($result);
+                                            $date = date("Y-m-d");
+                                            $Enterprise_ID = $row['Enterprise_ID'];
+                                            if ($date > $row['Fin']) {
+                                                if (!$no_relationship){
+                                                    echo "Pas d'expérience actuelle";
+                                                }else{
+                                                    echo "";
+                                                }
+                                            } else {
+                                                echo $row['Position'];
+                                                $sql = "SELECT Nom_Entreprise FROM Enterprise WHERE Enterprise_ID = '$Enterprise_ID'";
+                                                $result = mysqli_query($db_handle, $sql);
+                                                if (mysqli_num_rows($result) != 0) {
+                                                    $row = mysqli_fetch_assoc($result);
+                                                    echo " chez ";
+                                                    echo $row['Nom_Entreprise'];
+                                                }
+                                            } 
+                                        }else{
                                             if (!$no_relationship){
                                                 echo "Pas d'expérience actuelle";
                                             }else{
                                                 echo "";
                                             }
-                                        } else {
-                                            echo $row['Position'];
-                                            $sql = "SELECT Nom_Entreprise FROM Enterprise WHERE Enterprise_ID = '$Enterprise_ID'";
-                                            $result = mysqli_query($db_handle, $sql);
-                                            if (mysqli_num_rows($result) != 0) {
-                                                $row = mysqli_fetch_assoc($result);
-                                                echo " chez ";
-                                                echo $row['Nom_Entreprise'];
-                                            }
-                                        } 
-                                    }else{
-                                        if (!$no_relationship){
-                                            echo "Pas d'expérience actuelle";
-                                        }else{
-                                            echo "";
                                         }
+                                    }else{
+                                        echo "Les réponses des candidats sont affichées ici";
                                     }
                                 ?>      
                             </div>

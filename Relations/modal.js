@@ -1,4 +1,5 @@
 function openModal(sql, user_id_relation, isExistingRelation, display_button, callback) {
+    
     const modal = document.getElementById("profileModalCustom");
     const span = document.getElementsByClassName("close-custom")[0];
     const modalContentCustom = document.getElementById("modalContentCustom");
@@ -34,7 +35,7 @@ function profileModalContent(data, user_id_relation, isExistingRelation, display
     const prenom = data.user.Prenom;
     const nom = data.user.Nom;
     const mail = data.user.Mail;
-    const photo = data.user.Photo;
+    let photo = data.user.Photo;
     const id = data.user.ID;
     const user_id = user_id_relation;
 
@@ -76,6 +77,9 @@ function profileModalContent(data, user_id_relation, isExistingRelation, display
         projectsDetails += `<p>${proj.Edu_Name}: ${proj.Debut} - ${proj.Fin}</p>`;
     }
     
+    if (photo === "" || photo === null || photo === undefined) {
+        photo = "../Photos/photo_placeholder.png";
+    }
     let addButton = '';
     if (display_button === false) {
         addButton = '';

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Accueil - EngineerIN</title>
+    <title>Accueil</title>
     <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -55,37 +55,6 @@
         }
     </style>
     <script>
-        window.onload = function() {
-            const body = document.querySelector('body');
-            const date = new Date();
-            const hour = date.getHours();
-            const day = date.getDate();
-            const month = date.getMonth();
-
-            if (month == 1 && day == 14) {
-                body.style.backgroundColor = 'pink';
-                alert('Joyeux Saint Valentin 💖💖');
-            } else if (month == 9 && day == 31) {
-                body.style.backgroundColor = 'orange';
-                alert('Joyeux Halloween 🎃👻');
-            } else if (month == 11 && day == 25) {
-                body.style.backgroundColor = 'red';
-                alert('Joyeux Noël 🎅🎄');
-            } else if (month == 0 && day == 1) {
-                body.style.backgroundColor = 'blue';
-                alert('Bonne année 🎉🎉');
-            } else if (month == 6 && day == 14) {
-                body.style.backgroundColor = 'blue';
-                alert('Bonne fête nationale !!');
-            } else if (month == 5 && day == 2) {
-                body.style.backgroundColor = 'green';
-                alert('Aujourd\'hui');
-            } else {
-                body.style.backgroundColor = '#d8d8d8';
-            }
-        };
-
-
         function Voir_plus_fct(postId) {
             document.getElementById('ptit_text-' + postId).style.display = 'none';
             document.getElementById('grd_text-' + postId).style.display = 'block';
@@ -144,8 +113,6 @@
         include 'Header.php';
     ?>
     <div class="container" id="background">
-        <!-- Display the date -->
-        
         <br>
         <div class="row">
             <div class="col-md-4">
@@ -157,11 +124,7 @@
                     $nom = $data['Nom'];
                     $prenom = $data['Prenom'];
                     $photo = $data['Photo'];
-                    if ($photo == NULL) {
-                        $photo = "../Photos/photo_placeholder.png";
-                    }else{
-                        $photo = '../Photos/' . $photo . '';
-                    }
+                    $photo = '../Photos/' . $photo . '';
                     echo '<div class="flag" style="position: relative; margin-bottom: 20px;">';
                         echo '<div class="azure"></div>';
                         echo '<div style="position: absolute; bottom:50%; left: 150px; transform: translate(-50%, -50%); width: 50%;">';
@@ -189,11 +152,7 @@
                             $nom = $data['Nom'];
                             $prenom = $data['Prenom'];
                             $photo = $data['Photo'];
-                            if ($photo == NULL) {
-                                $photo = "../Photos/photo_placeholder.png";
-                            }else{
-                                $photo = '../Photos/' . $photo . '';
-                            }
+                            $photo = '../Photos/' . $photo . '';
 
                             //Div with on one side the profile picture in small, not flag. Next to it is a rounded-corner button to create a post
                             echo '<div class="flag" style="position: relative; margin-bottom: 20px; height:150px;">';
