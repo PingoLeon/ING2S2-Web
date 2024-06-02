@@ -167,15 +167,15 @@ CREATE TABLE IF NOT EXISTS Relations (
     UID2 INT
 );
 
-CREATE TABLE IF NOT EXISTS `likes` (
-    `Like_ID` int NOT NULL AUTO_INCREMENT,
-    `Post_ID` int NOT NULL,
-    `User_ID` int NOT NULL,
-    `Date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`Like_ID`),
-    KEY `Post_ID` (`Post_ID`),
-    KEY `User_ID` (`User_ID`)
-)
+CREATE TABLE IF NOT EXISTS likes (
+    Like_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Post_ID INT,
+    User_ID INT,
+    Date DATE,
+    FOREIGN KEY (Post_ID) REFERENCES Posts(Post_ID),
+    FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID)
+);
+
 
 -- Sample data insertion
 INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`, `Token`, `Photo`, `Pays`, `Entreprise_ID`, `Mood`) VALUES
