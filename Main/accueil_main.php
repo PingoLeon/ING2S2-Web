@@ -77,9 +77,9 @@
             } else if (month == 6 && day == 14) {
                 body.style.backgroundColor = 'blue';
                 alert('Bonne fête nationale !!');
-            } else if (month == 5 && day == 2) {
+            } else if (month == 5 && day == 3) {
                 body.style.backgroundColor = 'green';
-                alert('Aujourd\'hui');
+                alert('Soutenances!');
             } else {
                 body.style.backgroundColor = '#d8d8d8';
             }
@@ -102,6 +102,7 @@
             commentsSection.style.display = display;
             messageBar.style.display = display;
         }
+        
     </script>
 <script>
         function openImageModal() {
@@ -173,11 +174,17 @@
                             echo '<br>';
                             echo '<a href="../Main/Profile_main.php" class="btn btn-primary" style="margin-left: 7px;">Voir mon profil</a>';
                         echo '</div>';
-                        echo '</div>';
+                    echo '</div>';
                         // PUBLICITE - LA PUB EST CLICKABLE ET RENVOIT VERS LE SITE DE DISCORD
-                    echo '<a href="https://discord.com/" target="_blank" style="color: white;">';
-                    echo '<img src="../Photos/pub1.png" style="object-fit: cover; width: 97%; ">';    
-                echo '</a>';
+                    echo '<div class="flag" style="position: relative; margin-bottom: 20px;">';
+                        echo '<a href="https://discord.com/" target="_blank" style="color: white;">';
+                        echo '<img src="../Photos/pub1.png" style="object-fit: cover; width: 70%; ">';    
+                        echo '</a>';
+                    echo '</div>';
+
+                    echo '<br>';
+
+
             ?>
         </div>
                 <div class="col-md-8">
@@ -395,8 +402,6 @@
             echo '</a>';
         echo '</footer>';
     echo '</div>';
-    
-    
     ?>
 
 
@@ -406,6 +411,18 @@
             <p id="modalText" style="height:150%;"></p>
         </div>
     </div>
+
+<?php
+function Entreprise($db_handle) {
+            $sql = "SELECT Nom_Entreprise FROM Enterprise";
+            $result = mysqli_query($db_handle, $sql);
+            echo '<select class="form-control" id="entreprise" name="entreprise">';
+                while ($data = mysqli_fetch_assoc($result)) {
+                    echo '<option value="' . $data['Nom_Entreprise'] . '">' . $data['Nom_Entreprise'] . '</option>';
+                }
+            echo '</select>';
+        }
+?>
 
 
 </body>

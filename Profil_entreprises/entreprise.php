@@ -13,6 +13,7 @@ if (isset($_GET['enterprise_id'])) {
 <html>
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
 
     <title>❤❤</title>
     <title>Entreprise</title>
@@ -60,6 +61,16 @@ if (isset($_GET['enterprise_id'])) {
         }
 
         .nav-bar button {
+            background: none;
+            border: none;
+            padding: 14px 20px;
+            color: #495057;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .nav-bar select {
             background: none;
             border: none;
             padding: 14px 20px;
@@ -118,8 +129,11 @@ if (isset($_GET['enterprise_id'])) {
         </li>
         <li>
             <form method="post" action="">
-                <input type="hidden" name="OngletNavBar" value="Posts">
-                <button type="submit" class="<?php echo isset($_POST['OngletNavBar']) && $_POST['OngletNavBar'] === 'Posts' ? 'active' : ''; ?>">Posts</button>
+                <select name="OngletNavBar" onchange="this.form.submit()">
+                        <option value="">- - - - - Events - - - - - -</option>
+                        <option value="Events_Semaine">Events de la semaine</option>
+                        <option value="Tous">Tous les events</option>
+                </select>
             </form>
         </li>
         <li>
