@@ -89,17 +89,17 @@
                 if ($result_posts->num_rows > 0) {
                     while($row = $result_posts->fetch_assoc()) {
                         echo "<div class='col-md-12 notification'>";
-                        echo "<h2>Oui, " . htmlspecialchars($row["Prenom"]) . " a rédigé un nouveau post</h2>";
-                        echo "<h2>" . htmlspecialchars($row["Titre"]) . "</h2>";
-                        echo "<p>" . htmlspecialchars($row["Texte"]) . "</p>";
+                        echo "<h2>Oui, " . $row["Prenom"] . " a rédigé un nouveau post</h2>";
+                        echo "<h2>" . $row["Titre"] . "</h2>";
+                        echo "<p>" . $row["Texte"] . "</p>";
                         if (!empty($row["Photo"])) {
-                            echo "<img src='../Photos/" . htmlspecialchars($row["Photo"]) . "' alt='Photo'>";
+                            echo "<img src='../Photos/" . $row["Photo"] . "' alt='Photo'>";
                         }
                         if (!empty($row["Lieu"])) {
-                            echo "<p><strong>Lieu :</strong> " . htmlspecialchars($row["Lieu"]) . "</p>";
+                            echo "<p><strong>Lieu :</strong> " . $row["Lieu"] . "</p>";
                         }
-                        echo "<p><strong>Date de publication :</strong> " . htmlspecialchars($row["DatePublication"]) . "</p>";
-                        echo "<p><strong>Nombre de likes :</strong> " . htmlspecialchars($row["Nb_likes"]) . "</p>";
+                        echo "<p><strong>Date de publication :</strong> " . $row["DatePublication"] . "</p>";
+                        echo "<p><strong>Nombre de likes :</strong> " . $row["Nb_likes"] . "</p>";
                         echo "<div class='notification-actions'>";
                         echo "<button class='btn btn-primary' onclick='handleLike(" . $row["Post_ID"] . ", \"like\")'>Like</button>";
                         echo "<button class='btn btn-secondary' onclick='handleLike(" . $row["Post_ID"] . ", \"unlike\")'>Unlike</button>";
@@ -134,14 +134,14 @@
                 } else if ($result_events->num_rows > 0) {
                     while($row = $result_events->fetch_assoc()) {
                         echo "<div class='col-md-12 notification'>";
-                        echo "<h2>Oui, " . htmlspecialchars($row["Prenom"]) . " a planifié un nouvel événement</h2>";
-                        echo "<h2>" . htmlspecialchars($row["Intitulé"]) . "</h2>";
-                        echo "<p>" . htmlspecialchars($row["Texte"]) . "</p>";
+                        echo "<h2>Oui, " . $row["Prenom"] . " a planifié un nouvel événement</h2>";
+                        echo "<h2>" . $row["Intitulé"] . "</h2>";
+                        echo "<p>" . $row["Texte"] . "</p>";
                         if (!empty($row["Photo"])) {
-                            echo "<img src='../Profil_entreprises/photo_events/" . htmlspecialchars($row["Photo"]) . "' alt='Event Image'>";
+                            echo "<img src='../Profil_entreprises/photo_events/" . $row["Photo"] . "' alt='Event Image'>";
                         }
-                        echo "<p><strong>Date de début :</strong> " . htmlspecialchars($row["Début"]) . "</p>";
-                        echo "<p><strong>Date de fin :</strong> " . htmlspecialchars($row["Fin"]) . "</p>";
+                        echo "<p><strong>Date de début :</strong> " . $row["Début"] . "</p>";
+                        echo "<p><strong>Date de fin :</strong> " . $row["Fin"] . "</p>";
                         echo "<div class='notification-actions'>";
                         echo "<button class='btn btn-primary'>Say congrats</button>";
                         echo "<button class='btn btn-secondary'>Like</button>";
@@ -150,6 +150,8 @@
                 } else {
                     echo "<div class='col-md-12'><p class='text-center'>Aucun événement trouvé.</p></div>";
                 }
+
+                $conn->close();
                 ?>
             </div>
         </div>
