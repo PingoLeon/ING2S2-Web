@@ -1,4 +1,4 @@
-<?php include '../Main/Header.php'; ?>
+<?php ob_start(); include '../Main/Header.php'; ?>
 
 <?php
 // Check if Entreprise_ID is set in GET parameters
