@@ -1,4 +1,5 @@
 <?php
+    //! Début de la mise en mémoire tampon de sortie
     ob_start();
     include '../Auth/functions.php';
     
@@ -34,13 +35,13 @@
             <div id="barre-laterale" class="p-3 flex-shrink-0">
                 <!-- Onglet personnel -->
                 <div class="d-flex flex-row align-items-center mb-3">
-                    <img src="<?php
+                    <img src="<?php //? Affichage de la photo de profil de l'utilisateur + nom et prénom + humeur
                         $sql = "SELECT Photo, Nom, Prenom, Mood FROM Utilisateur WHERE User_ID = '$id'";
                         $result = mysqli_query($db_handle, $sql);
                         if (mysqli_num_rows($result) != 0) {
                             $row = mysqli_fetch_assoc($result);
                             if ($row['Photo'] == "") {
-                                echo "../Photos/photo_placeholder.png";
+                                echo "../Photos/photo_placeholder.png"; //? Placeholder si pas de photo
                             } else {
                                 echo $row['Photo'];
                             }
@@ -61,7 +62,7 @@
                 <div class="box-selection-action">
                     <div id="select-conversation" class="d-flex flex-column overflow-auto">
                     <?php                        
-                        //! Fetch tous les mails qui ont une conversation avec la personne connectée
+                        //! "Fetch" tous les mails qui ont une conversation avec la personne connectée
                         $sql = "SELECT User_ID, Photo, Nom, Prenom, Mood FROM Utilisateur WHERE User_ID IN (SELECT ID1 FROM Messagerie WHERE ID2 = '$id') OR User_ID IN (SELECT ID2 FROM Messagerie WHERE ID1 = '$id')";
                         $result = mysqli_query($db_handle, $sql);
                         $no_relationship = false;
@@ -70,14 +71,14 @@
                                 $friend_id = $row['User_ID'];
                                 $friend_photo = $row['Photo'];
                                 if ($row['Photo'] == "") {
-                                    $friend_photo = "../Photos/photo_placeholder.png";
+                                    $friend_photo = "../Photos/photo_placeholder.png"; //? Placeholder si pas de photo
                                 } else {
                                     $friend_photo = $row['Photo'];
                                 }
                                 $friend_name = $row['Nom'];
                                 $friend_first_name = $row['Prenom'];
                                 $friend_mood = $row['Mood'];
-                                echo "<form method='post'>";
+                                echo "<form method='post'>"; //? Formulaire pour envoyer l'ID de l'ami si il sélectionne la conversation
                                 echo "<input type='hidden' name='friend_id' value='$friend_id'>";
                                 echo "<input type='hidden' name='friend_photo' value='$friend_photo'>";
                                 echo "<input type='hidden' name='friend_nom' value='$friend_name'>";
@@ -94,6 +95,7 @@
                                 ";
                             $no_relationship = true;
                             $friend_id = '';
+                            //? Si il n'y a pas de conversation, on affiche un message d'erreur et on met l'ID de l'ami à vide
                         }
                     
                     ?>
@@ -102,15 +104,16 @@
                     <div id="action-buttons-messagerie">
                         <form method="post">
                             <button class="btn btn-info w-100 py-2" style="margin-bottom: 6px" type="submit" name="menu">Retour au Menu</button>
-                            <?php
+                            <?php //? Bouton de retour au menu
                                 if (isset($_POST['menu'])) {
                                     header('Location: ../Main/accueil_main.php');
-                                    ob_end_flush(); 
+                                    ob_end_flush(); //! --> Fin de la mise en mémoire tampon de sortie
                                     exit;
                                 }
                             ?>
                         </form>
                         <form method="post">
+                            <!-- Bouton de déconnexion (via functions.php) -->
                             <button class="btn btn-danger w-100 py-2" type="submit" name="logout">Déconnexion</button>
                         </form>
                     </div>
@@ -125,13 +128,13 @@
                         <?php
                             $friend_id = isset($_POST['friend_id']) ? $_POST['friend_id'] : "$friend_id";
                             if ($no_relationship){
-                                echo "../Photos/photo_placeholder.png";
+                                echo "../Photos/photo_placeholder.png"; //? Placeholder si pas de photo
                             }else{
-                                if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé)
+                                if (isset($_SESSION['current_conversation'])) { //? Si une conversation est déjà en cours (un message a été envoyé ou reçu)
                                     $friend_id = $_SESSION['current_conversation'];
                                     unset($_SESSION['current_conversation']);
                                 }
-                                $sql = "SELECT Photo, Nom, Prenom, Mood FROM Utilisateur WHERE User_ID = '$friend_id'";
+                                $sql = "SELECT Photo, Nom, Prenom, Mood FROM Utilisateur WHERE User_ID = '$friend_id'"; //? Récupération des informations de l'ami
                                 $result = mysqli_query($db_handle, $sql);
                                 $friend_first_name = "";
                                 $friend_name = "";
@@ -139,7 +142,7 @@
                                 if (mysqli_num_rows($result) != 0) {
                                     $row = mysqli_fetch_assoc($result);
                                     if ($row['Photo'] == "") {
-                                        echo "../Photos/photo_placeholder.png";
+                                        echo "../Photos/photo_placeholder.png"; //? Placeholder si pas de photo
                                     } else {
                                         echo $row['Photo'];
                                     }
@@ -160,13 +163,13 @@
                                         $friend_first_name = "";
                                         $friend_name = "";
                                     }
-                                    echo "$friend_first_name $friend_name"; 
+                                    echo "$friend_first_name $friend_name";  //! Affichage du nom et prénom de l'ami, vide si personne..
                                 ?>
                             </div>
                             <!-- Statut de l'ami -->
                             <div class="text-muted mood">
                                 <?php 
-                                    if ($friend_id === ''){
+                                    if ($friend_id === ''){ //!Pareil mais pour l'humeur
                                         $friend_mood = "";
                                     }
                                     echo $friend_mood; 
@@ -174,7 +177,7 @@
                             </div>
                             <div class="text-muted">
                                 <?php
-                                    if ($friend_id != -1){
+                                    if ($friend_id != -1){ //! Affichage de son expérience actuelle s'il en a une
                                         $sql = "SELECT Position, Fin, Enterprise_ID FROM Experience WHERE User_ID = '$friend_id' ORDER BY Debut";
                                         $result = mysqli_query($db_handle, $sql);
                                         if (mysqli_num_rows($result) != 0) {
@@ -205,7 +208,7 @@
                                             }
                                         }
                                     }else{
-                                        echo "Les réponses des candidats sont affichées ici";
+                                        echo "Les réponses des candidats sont affichées ici"; //! Placeholder si pas de conversation enregistrée (Pas de relations)
                                     }
                                 ?>      
                             </div>
@@ -222,7 +225,7 @@
                                     WHERE       (ID1 = '$id' AND ID2 = '$friend_id')
                                         OR      (ID1 = '$friend_id' AND ID2 = '$id'))
                                 ORDER BY MSG_ID DESC";
-                        $result = mysqli_query($db_handle, $sql);
+                        $result = mysqli_query($db_handle, $sql);  //! Load tous les messages de la conversation 
                         
                         //!Obtenir le nombre de messages dans la conversation
                         $msg_count = mysqli_num_rows($result);
@@ -231,7 +234,7 @@
                                 $sender_id = $row['Sender_ID'];
                                 $content = $row['Content'];
                                 $message_id = $row['MSG_ID'];
-                                if ($sender_id == $id) {
+                                if ($sender_id == $id) { //! Affichage des messages de l'utilisateur à droite et de l'ami à gauche, affichage du bouton de suppression si c'est un message de l'utilisateur
                                     echo "
                                         <div class='message-container-right'>
                                             <form method='post'>
@@ -278,7 +281,7 @@
                     </button>
                 </form>    
                 <?php
-                    //! Supprimer un message
+                    //! Supprimer un message de la BDD si l'utilisateur appuie sur le bouton de suppression
                     if (isset($_POST['delete_message'])) {
                         $friend_id = mysqli_real_escape_string($db_handle, $_POST['friend_id']);
                         $message_id = mysqli_real_escape_string($db_handle, $_POST['delete_message']);
@@ -294,7 +297,7 @@
                         }
                     }
                     
-                    //! Envoyer le message
+                    //! Envoyer le message dans la BDD si l'utilisateur appuie sur le bouton d'envoi
                     if (isset($_POST['message'])) {
                         $friend_id = mysqli_real_escape_string($db_handle, $_POST['friend_id']);
                         $message = mysqli_real_escape_string($db_handle, $_POST['message']);
@@ -314,7 +317,7 @@
         </div>
     </body>
     <script>
-        //! Fonctions JS pour gérer certaines parties dynamiques de la page
+        //! Fonctions JS AJAX pour gérer certaines parties dynamiques de la page (rechargement des messages, envoi de messages, suppression de messages)
         //? Focus sur la barre de message et récupération du contenu précédent
         window.onload = function() {
             var messageBar = document.getElementById("MessageBar");
@@ -336,13 +339,13 @@
                 success: function(response) {
                     console.log("Response: " + response);
                     if(response.trim() === "reload") {
-                        //Envoi du contenu de la barre de message dans le localStorage pour le récupérer après le rechargement et reload
+                        //?Envoi du contenu de la barre de message dans le localStorage pour le récupérer après le rechargement et reload
                         localStorage.setItem("messageBarContent", document.getElementById("MessageBar").value);
                         location.reload();
                     }
                 }
             });
-        }, 1000); //Load les messages toute les secondes
+        }, 1000); //* Load les messages toute les secondes
     </script>
 </html>
     

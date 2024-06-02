@@ -3,6 +3,7 @@ body {
     height: 100%;
 }
 
+/* Style pour le formulaire, source getbootstrap.com */
 .form-signin {
     max-width: 330px;
     padding: 1rem;
@@ -38,6 +39,8 @@ body {
     color: #aa6d00;
 }
 
+
+/* Style particulier parce que pourquoi pas*/
 .small-text {
-    font-size: 11px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+    font-size: 11px; 
 }

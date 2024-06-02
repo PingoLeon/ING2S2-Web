@@ -15,7 +15,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['post_id'])) {
     $post_id = $_POST['post_id'];
     $action = $_POST['action']; // 'like' or 'unlike'
 
-    if ($action == 'like') {
+    if ($action == 'like') { //! Action à réaliser si on like le post
         $sql_check = "SELECT * FROM likes WHERE User_ID = ? AND Post_ID = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("ii", $user_id, $post_id);
@@ -34,7 +34,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['post_id'])) {
                 $stmt_update->execute();
             }
         }
-    } elseif ($action == 'unlike') {
+    } elseif ($action == 'unlike') { //! Action à réaliser si on enlève le like 
         $sql_check = "SELECT * FROM likes WHERE User_ID = ? AND Post_ID = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("ii", $user_id, $post_id);

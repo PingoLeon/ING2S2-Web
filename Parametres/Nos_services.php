@@ -80,11 +80,7 @@
             <h2><b>Contactez-nous<b></h2><br>
             <a href="mailto:contact@engineerIN.fr">Contactez-nous: contact@engineerIN.fr</a> | Téléphone: 0609508625</p>
             <br>
-
         </div>
-
     </div>
-
 </body>
-
 </html>

@@ -102,7 +102,7 @@ body {
 }
 
 .message-right {
-    background-color: #3F74EE; /* couleur de fond pour les messages de l'utilisateur */
+    background-color: #3F74EE; /* couleur de fond reprise de Google Messages RCS */
     text-align: right;
     align-self: flex-end;
     color: #fff;
@@ -110,7 +110,7 @@ body {
 }
 
 .message-left {
-    background-color: #eff3fc; /* couleur de fond pour les messages de l'ami */
+    background-color: #eff3fc; /* couleur de fond reprise de Google Messages RCS */
     text-align: left;
     margin-right: auto;
     color: #202124;
