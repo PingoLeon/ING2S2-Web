@@ -62,7 +62,13 @@ function Creation_XML($user_id) {
     $userElement->appendChild($xml->createElement("Nom", $user['Nom']));
     $userElement->appendChild($xml->createElement("Prenom", $user['Prenom']));
     $userElement->appendChild($xml->createElement("Username", $user['Username']));
+    if ($user['Photo'] == NULL) {
+        $user['Photo'] = "../Photos/photo_placeholder.png";
+    }
     $userElement->appendChild($xml->createElement("Photo", $user['Photo']));
+    if ($user['Pays'] == NULL) {
+        $user['Pays'] = "Non renseigné";
+    }
     $userElement->appendChild($xml->createElement("Pays", $user['Pays']));
 
     $root->appendChild($userElement);

@@ -13,9 +13,13 @@ if (isset($_GET['enterprise_id'])) {
 <html>
 <head>
 <meta charset="utf-8">
-    <title>TEST</title>
+
+    <title>❤❤</title>
+    <title>Entreprise</title>
+    <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="entreprises/details.css">
@@ -80,6 +84,7 @@ if (isset($_GET['enterprise_id'])) {
     </style>
 </head>
 <body>
+
 <?php
     $sql = 'SELECT * FROM enterprise, informations, events WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.' AND events.Enterprise_ID = '.$entre_id.';';
     $result = mysqli_query($db_handle, $sql);
@@ -141,6 +146,13 @@ if (isset($_GET['enterprise_id'])) {
             include 'details/posts1.php';
         } elseif ($current_page === "Offres") {
             include '../Emplois/EmploiAccueil.php';
+        }
+        elseif ($current_page === "Events_Semaine") {
+            include '../Profil_entreprises/details/events_semaine1.php';
+        }
+        elseif ($current_page === "Tous") {
+            include '../Profil_entreprises/details/posts1.php';
+            echo 'test';
         }
     } else {
         $current_page = "Accueil";

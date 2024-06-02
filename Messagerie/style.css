@@ -169,4 +169,13 @@ body {
     height: 100%;
 }
 
+.mood {
+    font-size: 0.8em; /* Rend le texte plus petit */
+    background-color: #4158D0;
+    background: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+
+    color: transparent; /* Rend la couleur du texte transparente pour que le dégradé de fond soit visible */
+    -webkit-background-clip: text; /* Applique le dégradé de fond au texte */
+    background-clip: text; /* Applique le dégradé de fond au texte */
+}
 
