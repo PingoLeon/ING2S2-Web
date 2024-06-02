@@ -9,7 +9,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = ?";  
+$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
@@ -21,7 +21,6 @@ $stmt->bind_result($entreprise_id);
 $stmt->fetch();
 $stmt->close();
 
-// Maintenant que vous avez l'ID de l'entreprise de l'utilisateur, vous pouvez sélectionner les offres d'emploi correspondantes
 $sql_offres = "SELECT * FROM offre_emploi WHERE Enterprise_ID = ?";
 $stmt_offres = $conn->prepare($sql_offres);
 if (!$stmt_offres) {
@@ -54,7 +53,6 @@ $conn->close();
     <div class="container mt-5">
         <h2>Créer une Nouvelle Offre d'Emploi</h2>
         <form action="CreationOffre.php" method="POST" enctype="multipart/form-data">
-        <form action="CreationOffre.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nomEntreprise">Nom de l'Entreprise</label>
                 <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" required>
@@ -71,10 +69,12 @@ $conn->close();
                 <label for="fin">Date de Fin</label>
                 <input type="date" class="form-control" id="fin" name="fin" required>
             </div>
+
             <div class="form-group">
                 <label for="position">Position</label>
                 <input type="text" class="form-control" id="position" name="position" required>
             </div>
+            
             <div class="form-group">
                 <label for="typeContrat">Type de Contrat</label>
                 <input type="text" class="form-control" id="typeContrat" name="typeContrat" required>
@@ -105,12 +105,12 @@ $conn->close();
             <tbody>
                 <?php foreach ($job_offers as $offer): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($offer['nomEntreprise']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['intitule']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['debut']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['fin']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['position']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['typeContrat']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['Entreprise_ID']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['Intitule']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['Debut']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['Fin']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['Position']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['Type_Contrat']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
