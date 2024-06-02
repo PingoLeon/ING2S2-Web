@@ -103,16 +103,27 @@ $conn->close();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($job_offers as $offer): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($offer['Entreprise_ID']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['Intitule']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['Debut']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['Fin']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['Position']); ?></td>
-                        <td><?php echo htmlspecialchars($offer['Type_Contrat']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
+                <?php 
+                
+                $sql = "SELECT e.Nom_Entreprise, o.Intitule, o.Debut, o.Fin, o.Position, o.Type_Contrat
+                        FROM utilisateur u
+                        JOIN enterprise e ON u.Entreprise_ID = e.Enterprise_ID
+                        JOIN offre_emploi o ON e.Enterprise_ID = o.Enterprise_ID
+                        WHERE u.User_ID = $user_id";
+                $result = mysqli_query($db_handle, $sql);
+                $job_offers = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+                foreach ($job_offers as $job_offer) {
+                    echo '<tr>';
+                    echo '<td>' . $job_offer['Nom_Entreprise'] . '</td>';
+                    echo '<td>' . $job_offer['Intitule'] . '</td>';
+                    echo '<td>' . $job_offer['Debut'] . '</td>';
+                    echo '<td>' . $job_offer['Fin'] . '</td>';
+                    echo '<td>' . $job_offer['Position'] . '</td>';
+                    echo '<td>' . $job_offer['Type_Contrat'] . '</td>';
+                    echo '</tr>';
+                }
+                ?>
             </tbody>
         </table>
     </div>
