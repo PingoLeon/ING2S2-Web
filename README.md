@@ -13,3 +13,14 @@ Pour exploiter ce projet avec WampServer, Cloner / Placer le dossier dans :
 ### **Création de la BDD :**
 
 Dans le dossier [/SQL/](https://github.com/PingoLeon/ING2S2-Web/tree/main/SQL) seront placés les fichiers SQL contenant les requêtes à exécuter afin de créer la BDD pour l'exploiter ensuite
+
+### Comptes dans la BDD :
+
+| Mail                  | MDP  | Détails                  |
+| --------------------- | ---- | ------------------------- |
+| fcadene@gmail.com     | root | Compte Admin du Site      |
+| notification@ecein.fr | root | Compte spécial           |
+| ldalle@gmail.com      | 1234 | Compte Normal             |
+| aleoni@gmail.com      | 1234 | Compte Normal             |
+| atanguy@gmail.com     | 1234 | Compte Normal             |
+| admin@***********     | 1234 | Compte Admin d'Entreprise |
