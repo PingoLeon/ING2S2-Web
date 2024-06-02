@@ -47,7 +47,7 @@
             }).then(response => response.text())
             .then(data => {
                 console.log(data);
-                location.reload(); // Reload the page to see the updated likes count
+                location.reload(); 
             });
         }
     </script>
@@ -74,7 +74,6 @@
                     die("Connection failed: " . $conn->connect_error);
                 }
 
-                // Fetch notifications for new posts
                 $sql_posts = "
                     SELECT 
                         posts.Post_ID, posts.User_ID, posts.Enterprise_ID, posts.DatePublication, posts.Photo, posts.Texte, posts.Titre, posts.Lieu, posts.Nb_likes, Utilisateur.Prenom 
@@ -94,7 +93,6 @@
                         echo "<h2>" . htmlspecialchars($row["Titre"]) . "</h2>";
                         echo "<p>" . htmlspecialchars($row["Texte"]) . "</p>";
                         if (!empty($row["Photo"])) {
-                            // Assuming your images are stored in 'uploads/photos/' directory
                             echo "<img src='../Photos/" . htmlspecialchars($row["Photo"]) . "' alt='Photo'>";
                         }
                         if (!empty($row["Lieu"])) {
@@ -119,7 +117,6 @@
             <h3>Notifications d'Événements</h3>
             <div class="row">
                 <?php
-                // Fetch notifications for events
                 $sql_events = "
                     SELECT 
                         events.events_ID, events.Enterprise_ID, events.Date_publication, events.Intitulé, events.Début, events.Fin, events.Photo, events.Texte, Utilisateur.Prenom 
@@ -141,7 +138,6 @@
                         echo "<h2>" . htmlspecialchars($row["Intitulé"]) . "</h2>";
                         echo "<p>" . htmlspecialchars($row["Texte"]) . "</p>";
                         if (!empty($row["Photo"])) {
-                            // Assuming your event images are stored in 'uploads/events/' directory
                             echo "<img src='../Profil_entreprises/photo_events/" . htmlspecialchars($row["Photo"]) . "' alt='Event Image'>";
                         }
                         echo "<p><strong>Date de début :</strong> " . htmlspecialchars($row["Début"]) . "</p>";
