@@ -9,13 +9,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = ?"; // on 
+$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = ?";  
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-// Fermer la connexion
 $conn->close();
 ?>
 

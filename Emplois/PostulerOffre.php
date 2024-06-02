@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['job_id'])) {
     $job_id = mysqli_real_escape_string($db_handle, $_POST['job_id']);
 
     if (isset($user_id)) {
-        $current_date = date("Y-m-d"); // Getting the current date
+        $current_date = date("Y-m-d");
 
         $sql = "INSERT INTO Applications (Job_ID, User_ID, application_date) VALUES (?, ?, ?)";
         $stmt = $db_handle->prepare($sql);
@@ -92,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['job_id'])) {
 </head>
 <body>
 
-<!-- The Modal -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <p id="modalMessage"><?php echo $message; ?></p>
@@ -102,10 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['job_id'])) {
 </div>
 
 <script>
-    // Get the modal
     var modal = document.getElementById("myModal");
-
-    // Display the modal
     modal.style.display = "block";
 </script>
 

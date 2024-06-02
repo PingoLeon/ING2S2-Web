@@ -30,7 +30,6 @@
                 die("Connection failed: " . $conn->connect_error);
             } 
 
-            // Query to fetch job offers with Job_ID
             $query = 'SELECT Offre_Emploi.Job_ID, Offre_Emploi.Intitule, Offre_Emploi.Debut, Offre_Emploi.Fin, Offre_Emploi.Position, Offre_Emploi.Type_Contrat, Offre_Emploi.Texte, Enterprise.Nom_Entreprise, Enterprise.Logo
                       FROM Offre_Emploi
                       JOIN Enterprise ON Offre_Emploi.Enterprise_ID = Enterprise.Enterprise_ID';
