@@ -543,7 +543,7 @@ function Ajout_Post($db_handle, $user_id) {
         echo '</div>';
         echo '<br>';
         echo '<form action="../Profile/Profile_add.php?id=post_add" method="post">';
-            //Ajout du titre du post
+
             echo '<div class="form-group">';
                 echo '<label for="titre">Titre:</label>';
                 echo '<input type="text" class="form-control" id="titre" name="titre">';
@@ -563,7 +563,14 @@ function Ajout_Post($db_handle, $user_id) {
             echo '<label for="photo">Photo:</label>';
             echo '<input type="file" class="form-control" id="photo" name="photo">';
             echo '</div>';
-
+            
+            //Visibilité du post
+            echo '<div class="form-group form-check">
+                    <input type="hidden" name="visibilite" value="0">
+                    <input type="checkbox" class="form-check-input" id="visibilite" name="visibilite" value="1" checked>
+                <label class="form-check-label" for="visibilite">Rendre le post privé</label>';
+            echo '</div>';
+            
             echo '<button type="submit" class="btn btn-primary">Ajouter</button>';
         echo '</form>';
         echo '<br>';
@@ -605,6 +612,13 @@ function Modification_Post($db_handle, $user_id) {
             echo '<div class="form-group">';
                 echo '<label for="photo">Photo:</label>';
                 echo '<input type="file" class="form-control" id="photo" name="photo">';
+            echo '</div>';
+            
+            //Visibilité du post
+            echo '<div class="form-group form-check">
+                    <input type="hidden" name="visibilite" value="0">
+                    <input type="checkbox" class="form-check-input" id="visibilite" name="visibilite" value="1" checked>
+                    <label class="form-check-label" for="visibilite">Rendre le post privé</label>';
             echo '</div>';
             echo '<button type="submit" class="btn btn-primary">Modifier</button>';
         echo '</form>';

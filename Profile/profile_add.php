@@ -316,6 +316,7 @@ function Post_add($db_handle, $user_id) {
     $texte = isset($_POST["texte"]) ? $_POST["texte"] : "";
     $lieu = isset($_POST["lieu"]) ? $_POST["lieu"] : "";
     $photo = isset($_POST["photo"]) ? $_POST["photo"] : "";
+    $visibilite = isset($_POST["visibilite"]) ? $_POST["visibilite"] : 0;
     $photo = "Photos/" . $photo;
     $photo = substr($photo, 0, -4);
     //Recuperation de la date actuelle avec heure et minute
@@ -328,8 +329,8 @@ function Post_add($db_handle, $user_id) {
         return;
     } else {
         // Utilisation d'une injection automatique pour éviter des problemes vis a vis des apostrophes et autres symboles speciaux
-        $stmt = $db_handle->prepare("INSERT INTO Posts (User_ID, DatePublication, Photo, Texte, Titre, Lieu) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssss", $user_id, $date, $photo, $texte, $titre, $lieu);
+        $stmt = $db_handle->prepare("INSERT INTO Posts (User_ID, DatePublication, Photo, Texte, Titre, Lieu, Visibility_Private) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssssi", $user_id, $date, $photo, $texte, $titre, $lieu, $visibilite);
 
         if ($stmt->execute()) {
             header('Location: ../Main/profile_main.php');
@@ -347,6 +348,7 @@ function Post_modify($db_handle, $user_id) {
     $texte_new = isset($_POST["texte"]) ? $_POST["texte"] : "";
     $lieu_new = isset($_POST["lieu"]) ? $_POST["lieu"] : "";
     $photo_new = isset($_POST["photo"]) ? $_POST["photo"] : "";
+    $visibilite = isset($_POST["visibilite"]) ? $_POST["visibilite"] : 0;
     $photo_new = "Photos/" . $photo_new;
     $photo_new = substr($photo_new, 0, -4);
     $date_new = date("Y-m-d");
@@ -356,8 +358,8 @@ function Post_modify($db_handle, $user_id) {
         return;
     } else {
         // Utilisation d'une injection automatique pour éviter des problemes vis a vis des apostrophes et autres symboles speciaux
-        $stmt = $db_handle->prepare("UPDATE Posts SET DatePublication = ?, Photo = ?, Texte = ?, Lieu = ? WHERE Titre = ? AND User_ID = ?");
-        $stmt->bind_param("sssssi", $date_new, $photo_new, $texte_new, $lieu_new, $titre_new, $user_id);
+        $stmt = $db_handle->prepare("UPDATE Posts SET DatePublication = ?, Photo = ?, Texte = ?, Lieu = ?, Visibility_Private = ? WHERE Titre = ? AND User_ID = ?");
+        $stmt->bind_param("ssssisi", $date_new, $photo_new, $texte_new, $lieu_new, $visibilite, $titre_new, $user_id);
 
         if ($stmt->execute()) {
             header('Location: http://localhost:8080/ING2S2-WEB/Main/profile_main.php');
