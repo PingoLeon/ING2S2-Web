@@ -85,6 +85,7 @@ if (isset($_GET['enterprise_id'])) {
 </head>
 <body>
 
+
 <?php
     $sql = 'SELECT * FROM enterprise, informations, events WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.' AND events.Enterprise_ID = '.$entre_id.';';
     $result = mysqli_query($db_handle, $sql);
@@ -101,7 +102,6 @@ if (isset($_GET['enterprise_id'])) {
 
         <?php echo '<p style="background-color: white; padding: 10px; color: black;">' . $data['Intro'] . '</p>'; ?>
     
-        
     </div>
     <ul class="nav-bar">
         <li>

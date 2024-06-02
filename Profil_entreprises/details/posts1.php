@@ -7,7 +7,7 @@ $result = mysqli_query($db_handle, $sql1);
 $events = array();
 
 while ($event = mysqli_fetch_assoc($result)) {
-    if (($event['Texte']!=NULL)&&($event['Photo']!=NULL)&&($event['Date_publication']!=NULL)){
+    if (($event['Texte']!=NULL)&&($event['Photo']!=NULL)&&($event['Date_publication']!=NULL)&&($event['Intitulé']!=NULL)){
         echo'<div class="container" id="background" style="padding: 15px">';
         echo'<div class="container" id="main_bloc">';
         echo'<div class="row">';
@@ -22,7 +22,7 @@ while ($event = mysqli_fetch_assoc($result)) {
             echo '<p style="margin: 15px">📍📅 Retrouvez-nous du ' . $event['Début'] . ' jusqu\'au ' . $event['Fin'] . '.</p>';
         }
     
-        echo '<img class="image" src="../Profil_entreprises/photo_events/' . $event['Photo'] . '" style="margin: auto; max-width: 100%; height: auto;">';
+        echo '<img class="image" src="../Profil_entreprises/photo_events/' . $event['Photo'] . '.1.png" style="margin: auto; max-width: 100%; height: auto;">';
         
         echo'</div>';
         echo'</div>';

@@ -44,7 +44,7 @@
                     <div id="map" style="width: 100%; height: 100vh;">
                        
                         <?php
-                        echo '<iframe src="'.$data['Lieu'].'" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>';
+                        echo '<iframe src="'.$data['Lieu'].'" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>'; //src : google maps
                         ?>
                     </div>
                     </div></div></div>
