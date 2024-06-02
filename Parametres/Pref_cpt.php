@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parametres</title>
+    <title>Preferences du compte</title>
     <?php include '../Main/Header.php'; ?>
     <style>
         .sidenav {
@@ -53,6 +52,32 @@
     <a href="#">Services EngineerIN</a>
     <a href="#">Notifications</a>
     </div>
+
+    <div class="main">
+        
+        <div id="main_bloc">
+            <h1>Informations de profil</h1>
+            <?php
+            $sql = "SELECT * FROM utilisateur WHERE User_ID = $user_id";
+            $result = mysqli_query($db_handle, $sql);
+            $data = mysqli_fetch_assoc($result);
+
+            $nom = $data['Nom'];
+            $prenom = $data['Prenom'];
+            $email = $data['Mail'];
+            $pays = $data['Pays'];
+
+            //button if clicked, the name and surname is displayed
+            echo '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Modifier</button>';
+            echo '<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+            
+
+
+
+            ?>
+
+    </div>
+
 </body>
 
 </html>

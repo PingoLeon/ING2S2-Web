@@ -31,6 +31,9 @@ if ($id_entreprise > 0 && $id_entreprise != -1) {
 } elseif ($id_entreprise == 0) {
     header("Location: PageOffreEmploi.php");
     exit();
+} elseif ($id_entreprise == -1) {
+    header("Location: FormulaireOffreEmploi.php");
+    
 } else {
     echo "Erreur : id_entreprise a une valeur inattendue.";
 }

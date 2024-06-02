@@ -39,7 +39,7 @@
 
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    $photo = '../' . $row["Logo"];
+                    $photo = '../Profil_entreprises/logos/' . $row["Logo"];
                     echo '<div class="col-md-4">';
                     echo '<div class="card job-card">';
                     echo '<img class="card-img-top" src="' . $photo . '" alt="Card image cap">';
