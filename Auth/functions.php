@@ -16,7 +16,7 @@
     function update_token_of_cookie($db_handle){
         if (isset($_COOKIE['token'])) {
             $token2 = bin2hex(random_bytes(8));
-            $token = $_COOKIE['token']; //! A ce stade si le cookie existe, le token existe forcément
+            $token = $_COOKIE['token']; //! A ce stade si le cookie existe, le token existe forcément, donc pas besoin de rechecker si c'est vide
             $sql = "UPDATE Utilisateur SET Token = '$token2' WHERE Token = '$token'";
             $result_cookie = mysqli_query($db_handle, $sql);
             if (!$result_cookie) {
@@ -31,7 +31,7 @@
     
     //! Fonction pour générer un cookie
     function set_distinct_cookie($token){
-        $cookieSet = setcookie("token", $token, [
+        $cookieSet = setcookie("token", $token, [ //! Le site du zéro en réf pour les options du cookie
             'expires' => time() + 86400,
             'path' => '/',
             'domain' => 'localhost',
@@ -68,6 +68,7 @@
         //? Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
         //? Sinon, on l'envoie vers la page de connexion
         //? Mais si l'utilisateur est déjà sur la page de connexion, on le laisse dessus
+        //? Paramètres $type et $page_to_send_to_once_connected sont optionnels pour ajuster le comportement de la fonction et assurer sa réutilisabilité
         $token = cookie_or_session(); //? Fonction pour récupérer le token si il existe
         $id = $email = $db_handle = "";
         if (!empty($token)) {  //! Le token existe -> potentiellement connecté
@@ -104,23 +105,23 @@
     //! Fonction pour gérer l'action du bouton de déconnexion
     function logout_button_POST(){
         if (isset($_POST['logout'])) {
-            // Détruit la session
+            //! On Détruit la session
             session_unset();
             session_destroy();
             
-            // Supprime le cookie et en crée un nouveau de temps négatif
+            //! On Supprime le cookie et en crée un nouveau de temps négatif, invalide
             if (isset($_COOKIE['token'])) {
                 unset($_COOKIE['token']);
                 setcookie('token', '', time() - 3600, '/');
             }
             
-            // Redirige vers la page d'inscription
+            //! On Redirige vers la page d'inscription
             header('Location: /ING2S2-WEB/Auth/');
             exit;
         }
     }
     
-    //! Fonction pour compter le nombre de messages dans la conversation
+    //! Fonction pour compter le nombre de messages dans la conversation à partir de l'ID de l'utilisateur et de l'ID de son ami (Utilisée dans le chat)
     function check_if_new_msg_in_conv($db_handle, $id, $friend_id, $current_message_count){ 
         //Compter le nombre de messages dans la conversation
         $sql = "SELECT COUNT(*) AS nb_msg FROM Messages 
@@ -138,7 +139,9 @@
         }
         return $nb_msg;
     }
-    
+
+    //! Fonction pour récupérer les messages de la conversation à partir de l'ID de l'utilisateur et de l'ID de son ami (Utilisée dans le chat)
+    //? Sert à updater ou non le chat en fonction du nombre de messages chargés et ceux dans la BDD
 if (isset($_POST['check_new_msg'])) {
     $id = $_POST['id'];
     $friend_id = $_POST['friend_id'];
@@ -148,6 +151,7 @@ if (isset($_POST['check_new_msg'])) {
     exit;
 }   
 
+    //! Fonction utilisée pour exécuter une requête SQL et renvoyer les données en JSON pour les requêtes AJAX
     function fetch_data($user_id, $db_handle){
         if (isset($_GET['sql']) && isset($_GET['id'])) {
             $sql = $_GET['sql'];

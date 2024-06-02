@@ -5,20 +5,18 @@
     <meta charset="utf-8">
     <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EngineerIN</title>
+    <title>Connexion - EngineerIN</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- Favicons -->
     <meta name="theme-color" content="#712cf9">
 
-    <!-- Custom styles for this template -->
     <link href="style.css" rel="stylesheet">
     </head>
     <body class="d-flex align-items-center py-4 bg-body-tertiary">    
     <main class="form-signin w-100 m-auto">
+        <!--! Formulaire de connexion -->
         <form action="" method="post">
             <img class="mb-4" src="../Photos/EngineerIN_logo.png" alt="" width="300" height="72">
             <h1 class="h3 mb-3 fw-normal">Connexion</h1>
@@ -39,6 +37,7 @@
             </div>
             <button class="btn btn-primary w-100 py-2" type="submit">Connexion</button>
             <?php
+                //! Inclusion des fonctions et affichage des messages d'erreur si mis en session
                 include 'functions.php';
                 if (isset($_SESSION['error_message'])) {
                     echo "<br><br>";
@@ -50,7 +49,6 @@
         </form>
         <a href="inscription.php">Pas de compte ? Inscription</a>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>
 
@@ -63,7 +61,7 @@
     list($id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle('connexion');
 
 
-    //! Vérification des données du formulaire
+    //! Vérification des données du formulaire, redirection si un champ vide (possible seulement si le formulaire a été modifié en HTML ou JS)
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["floatingInput"]) && !empty($_POST["floatingInput"])) {
             $email = $_POST["floatingInput"];
@@ -86,7 +84,7 @@
     
     
         //!MDP et Token
-        //?hashage du mot de passe et salage dans la méthode la plus sécurisée avec SHA512
+        //?hashage du mot de passe et salage dans une méthode sécurisée avec SHA512
         $password = hash('sha512', $password);
         //?création d'un token pour la session ou le cookie
         $token = bin2hex(random_bytes(8));
@@ -98,7 +96,7 @@
         $result = mysqli_query($db_handle, $sql);
         if (mysqli_num_rows($result) === 0) {
             $_SESSION['error_message'] = "<div class='alert alert-danger' role='alert'>Ce compte n'existe pas</div>";
-            header('Location: /ING2S2-WEB/Auth/');
+            header('Location: /ING2S2-WEB/Auth/'); //! Redirection vers la page de connexion
             exit();
         }
         
