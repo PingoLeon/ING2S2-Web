@@ -64,40 +64,7 @@
             messageBar.style.display = display;
         }
     </script>
-    <style>
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 90%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 40%;
-    }
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    </style>
-    <script>
+<script>
         function openImageModal() {
             const modal = document.getElementById("imageModal");
             const span = document.getElementsByClassName("close")[0];
@@ -158,9 +125,9 @@
                         echo '</div>';
                         echo '<div class="white">';
                             echo '<br><br><br><br>';
-                            echo '<h1>' . $prenom . ' ' . $nom . '</h1>';
+                            echo '<h1 style="margin-left: 7px;"><b>' . $prenom . ' ' . $nom . '</b></h1>';
                             echo '<br>';
-                            echo '<a href="../Main/Profile_main.php" class="btn btn-primary">Voir mon profil</a>';
+                            echo '<a href="../Main/Profile_main.php" class="btn btn-primary" style="margin-left: 7px;">Voir mon profil</a>';
                         echo '</div>';
                         echo '</div>';
                         // PUBLICITE - LA PUB EST CLICKABLE ET RENVOIT VERS LE SITE DE DISCORD
@@ -170,6 +137,27 @@
             ?>
         </div>
                 <div class="col-md-8">
+                    <div class="container" id="main_bloc">
+                        <?php
+                            $sql = "SELECT * FROM utilisateur WHERE User_ID = $user_id";
+                            $result = mysqli_query($db_handle, $sql);
+                            $data = mysqli_fetch_assoc($result);
+                            $nom = $data['Nom'];
+                            $prenom = $data['Prenom'];
+                            $photo = $data['Photo'];
+                            $photo = '../Photos/' . $photo . '';
+
+                            //Div with on one side the profile picture in small, not flag. Next to it is a rounded-corner button to create a post
+                            echo '<div class="flag" style="position: relative; margin-bottom: 20px; height:150px;">';
+                                echo '<div style="position: absolute; top: 50%; left: 150px; transform: translate(-50%, -50%); display: flex; align-items: center;">';
+                                    echo '<img src="' . $photo . '" class="rounded-circle img-fluid" alt="Profile Picture" style="object-fit: cover; width:100px; height:100px; margin-right: 10px;">';
+                                    echo '<a href="../Main/Modification.php?id=post" type="text" name="message" class="form-control flex-grow-1 me-2" style="display: inline-block; width: 100%;">Ajouter un post</a>'; // Add display: inline-block; width: 70%;
+                                echo '</div>';
+                            echo '</div>';
+                        ?>
+                    </div>
+
+
                     <?php
                         $sql = "(SELECT P.Post_ID, P.User_ID, P.Enterprise_ID, P.DatePublication, P.Photo, P.Texte, P.Titre, P.Lieu, P.Visibility_Private
                             FROM Posts AS P
