@@ -1,5 +1,4 @@
 <?php
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -72,6 +71,32 @@ $conn->close();
             </div>
             <button type="submit" class="btn btn-primary">Créer l'Offre</button>
         </form>
+
+        <h2 class="mt-5">Offres d'Emploi Existantes</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom de l'Entreprise</th>
+                    <th>Intitulé</th>
+                    <th>Date de Début</th>
+                    <th>Date de Fin</th>
+                    <th>Position</th>
+                    <th>Type de Contrat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($job_offers as $offer): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($offer['nomEntreprise']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['intitule']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['debut']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['fin']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['position']); ?></td>
+                        <td><?php echo htmlspecialchars($offer['typeContrat']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

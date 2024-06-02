@@ -35,7 +35,7 @@ function profilePhotoModalContent(data) {
   <br>
   <div class="row">
     <div class="col-md-10">
-      <h2 style="color: black; text-align: left;">Activités</h2>
+      <h2 style="color: black; text-align: left;">Posts</h2>
     </div>
     <div class="col-md-2">
       <a href="../Main/Modification.php?id=post" id="post">
