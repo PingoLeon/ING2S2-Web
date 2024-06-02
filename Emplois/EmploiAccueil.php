@@ -1,24 +1,11 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ECEin";
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include "../Auth/functions.php";
+list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
 
-$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = ?"; // on 
-$stmt = $conn->prepare($sql);
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$stmt->bind_result($id_entreprise);
-$stmt->fetch();
-$stmt->close();
+$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = '$user_id'"; // on 
+$result = mysqli_query($db_handle, $sql);
+$id_entreprise = mysqli_fetch_assoc($result)['Entreprise_ID'];
 
 if ($id_entreprise > 0 && $id_entreprise != -1) {
     header("Location: ../Emplois/FormulaireOffreEmploi.php");
@@ -35,5 +22,4 @@ if ($id_entreprise > 0 && $id_entreprise != -1) {
     echo "Erreur : id_entreprise a une valeur inattendue.";
 }
 
-$conn->close();
 ?>
