@@ -95,7 +95,7 @@ if ($Lien_Entreprise_Utilisateur) {
                                 <p>Mon Profil</p>
                                 <span>></span>
                             </a>
-                            <a href="../Parametres/Settings&Privacy.php" class="sub-menu-link">
+                            <a href="../Parametres/Pref_cpt.php" class="sub-menu-link">
                                 <i class="fa-solid fa-gear"></i>
                                 <p>Parametres</p>
                                 <span>></span>
@@ -148,7 +148,7 @@ if ($Lien_Entreprise_Utilisateur) {
                     </a>
                 </div>
                 <?php endif; ?>
-                <a class="sponsor" href=""><b>Sponsorisez notre<br>futur EngineerIN+ !!<b></a>
+                <a class="sponsor" href="#"><b>Sponsorisez notre<br>futur EngineerIN+ !!<b></a>
             </div>
         </nav>
     </header>
