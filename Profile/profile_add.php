@@ -289,6 +289,7 @@ function Title_modify($db_handle, $user_id) {
     $mail = isset($_POST["email"]) ? $_POST["email"] : "";
     $pays = isset($_POST["pays"]) ? $_POST["pays"] : "";
     $photo = isset($_POST["photo"]) ? $_POST["photo"] : "";
+    $mood = isset($_POST["mood"]) ? $_POST["mood"] : "";
 
     $photo = "../Photos/" . $photo;
 
@@ -298,7 +299,7 @@ function Title_modify($db_handle, $user_id) {
         $photo = $xml->User->Photo;
     }
 
-    $sql = "UPDATE utilisateur SET Prenom = '$prenom', Nom = '$nom', Mail = '$mail', Pays = '$pays', Photo = '$photo'
+    $sql = "UPDATE utilisateur SET Prenom = '$prenom', Nom = '$nom', Mail = '$mail', Pays = '$pays', Photo = '$photo', Mood = '$mood'
     WHERE User_ID = '$user_id'";
     $result = mysqli_query($db_handle, $sql);
     if (!$result) {
