@@ -402,8 +402,6 @@
             echo '</a>';
         echo '</footer>';
     echo '</div>';
-    
-    
     ?>
 
 

@@ -47,4 +47,3 @@
     <?php include '../Profile/Profile_projects.php'; ?>
 </body>
 </html>
-
