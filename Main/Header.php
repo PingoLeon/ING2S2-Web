@@ -71,7 +71,7 @@ if ($Lien_Entreprise_Utilisateur) {
                     </a>
                 </div>
                 <div class="nav-menus">
-                    <a href="../Notifications/Notifications.html">
+                    <a href="../Notifications/Notifications.php">
                         <i class="fa-solid fa-bell"></i>
                         <p>Notification</p>
                     </a>

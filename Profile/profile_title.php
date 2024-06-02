@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profile Title</title>
@@ -22,6 +23,9 @@ $nom = $data['Nom'];
 $email = $data['Mail'];
 $pays = $data['Pays'];
 $photo = $data['Photo'];
+if ($photo == NULL) {
+    $photo = "../Photos/photo_placeholder.png";
+}
 
 echo '<div class="container" id="main_bloc_profile">';
     echo '<br>';
