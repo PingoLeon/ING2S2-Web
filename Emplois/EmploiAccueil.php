@@ -1,9 +1,4 @@
 <?php
-include '../Auth/functions.php';
-//! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
-list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-logout_button_POST();
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -26,11 +21,16 @@ $stmt->fetch();
 $stmt->close();
 
 if ($id_entreprise > 0 && $id_entreprise != -1) {
-    header("Location: FormulaireOffreEmploi.php");
+    header("Location: ../Emplois/FormulaireOffreEmploi.php");
+    ob_end_flush();
     exit();
 } elseif ($id_entreprise == 0) {
-    header("Location: PageOffreEmploi.php");
+    header("Location: ../Emplois/PageOffreEmploi.php");
+    ob_end_flush();
     exit();
+} elseif ($id_entreprise == -1) {
+    header("Location: ../Emplois/FormulaireOffreEmploi.php");
+    ob_end_flush();
 } else {
     echo "Erreur : id_entreprise a une valeur inattendue.";
 }
