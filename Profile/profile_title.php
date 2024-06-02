@@ -23,6 +23,14 @@ $nom = $data['Nom'];
 $email = $data['Mail'];
 $pays = $data['Pays'];
 $photo = $data['Photo'];
+$statut = $data['Entreprise_ID'];
+if ($statut === '-1'){
+    $statut = " <span class='badge badge-danger'>Admin</span>";
+    $button = '<tr><a href="../Profile/profile_admin_delete.php" class="btn btn-danger">Supprimer des utilisateurs</a></tr>';
+} else {
+    $statut = "";
+    $button = "";
+}
 if ($photo == NULL) {
     $photo = "../Photos/photo_placeholder.png";
 }
@@ -36,11 +44,13 @@ echo '<div class="container" id="main_bloc_profile">';
         echo '</div>';
         echo '<div class="col-md-5" style="margin-top:auto; margin-bottom:auto;">';
             echo '<table>';
-            echo '<tr><h1 style="color: black;">' . $prenom . ' ' . $nom . '</h1></tr>';
+            echo '<tr><h1 style="color: black;">' . $prenom . ' ' . $nom . '' . $statut . '</h1></tr>';
             echo '<tr><h3 style="color: black;">' . $email . '</h3></tr>';
             echo '<tr><h3 style="color: black;">' . $pays . '</h3></tr>';
             echo '<br>';
             echo "<tr><a href='../Profile/CV_affichage.php?user_id=$user_id' class='btn btn-primary'>Générer un CV</a></tr>";
+            echo '<br><br>';
+            echo $button;
             echo '</table>';
         echo '</div>';
         echo '<div class="col-md-1">';
