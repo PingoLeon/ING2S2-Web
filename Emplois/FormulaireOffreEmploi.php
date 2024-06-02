@@ -69,10 +69,12 @@ $conn->close();
                 <label for="fin">Date de Fin</label>
                 <input type="date" class="form-control" id="fin" name="fin" required>
             </div>
+
             <div class="form-group">
                 <label for="position">Position</label>
                 <input type="text" class="form-control" id="position" name="position" required>
             </div>
+            
             <div class="form-group">
                 <label for="typeContrat">Type de Contrat</label>
                 <input type="text" class="form-control" id="typeContrat" name="typeContrat" required>

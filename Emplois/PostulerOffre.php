@@ -102,7 +102,6 @@ logout_button_POST();
 </head>
 <body>
 
-<!-- The Modal -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <p id="modalMessage"><?php echo $message_success; ?></p>
@@ -112,10 +111,7 @@ logout_button_POST();
 </div>
 
 <script>
-    // Get the modal
     var modal = document.getElementById("myModal");
-
-    // Display the modal
     modal.style.display = "block";
 </script>
 

@@ -35,6 +35,5 @@ if ($id_entreprise > 0 && $id_entreprise != -1) {
     echo "Erreur : id_entreprise a une valeur inattendue.";
 }
 
-// Fermer la connexion
 $conn->close();
 ?>
