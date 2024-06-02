@@ -62,8 +62,7 @@
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    
-    
+
     //! Fonction pour vérifier si l'utilisateur est connecté et récupérer son ID et son email
     function check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle($type = "normal", $page_to_send_to_once_connected = "../Main/accueil_main.php"){
         //? Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil

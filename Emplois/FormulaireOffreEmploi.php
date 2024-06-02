@@ -1,11 +1,24 @@
 <?php
-    include '../Auth/functions.php';
-    list($user_id, $email, $db_handle) = check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle();
-    logout_button_POST();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "ECEin";
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Récupérer les offres d'emploi de l'entreprise de l'utilisateur
-    $job_offers = get_job_offers_by_company($db_handle, $user_id);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT Entreprise_ID FROM utilisateur WHERE User_ID = ?"; // on 
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+// Fermer la connexion
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,12 +30,12 @@
     <link rel="stylesheet" type="text/css" href="SiteEmplois.css">
     <title>Notifications des Emplois Disponibles</title>
 </head>
-
 <body>
     <?php include '../Main/Header.php'; ?>
 
     <div class="container mt-5">
         <h2>Créer une Nouvelle Offre d'Emploi</h2>
+        <form action="CreationOffre.php" method="POST" enctype="multipart/form-data">
         <form action="CreationOffre.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nomEntreprise">Nom de l'Entreprise</label>
