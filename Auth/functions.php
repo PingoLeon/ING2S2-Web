@@ -55,7 +55,7 @@
 
     //! Fonction pour récupérer les offres d'emploi
     function get_job_offers_by_company($db_handle, $user_id) {
-        $query = "SELECT * FROM offre_emploi WHERE entreprise_id = (SELECT entreprise_id FROM utilisateurs WHERE user_id = ?)";
+        $query = "SELECT * FROM offre_emploi WHERE enterprise_id = (SELECT entreprise_id FROM utilisateur WHERE user_id = ?)";
         $stmt = $db_handle->prepare($query);
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
