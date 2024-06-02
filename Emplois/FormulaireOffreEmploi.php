@@ -112,16 +112,19 @@ $conn->close();
                         WHERE u.User_ID = $user_id";
                 $result = mysqli_query($db_handle, $sql);
                 $job_offers = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-                foreach ($job_offers as $job_offer) {
-                    echo '<tr>';
-                    echo '<td>' . $job_offer['Nom_Entreprise'] . '</td>';
-                    echo '<td>' . $job_offer['Intitule'] . '</td>';
-                    echo '<td>' . $job_offer['Debut'] . '</td>';
-                    echo '<td>' . $job_offer['Fin'] . '</td>';
-                    echo '<td>' . $job_offer['Position'] . '</td>';
-                    echo '<td>' . $job_offer['Type_Contrat'] . '</td>';
-                    echo '</tr>';
+                if (empty($job_offers)) {
+                    echo '<tr><td colspan="6">Aucune offre d\'emploi existante</td></tr>';
+                }else{
+                    foreach ($job_offers as $job_offer) {
+                        echo '<tr>';
+                        echo '<td>' . $job_offer['Nom_Entreprise'] . '</td>';
+                        echo '<td>' . $job_offer['Intitule'] . '</td>';
+                        echo '<td>' . $job_offer['Debut'] . '</td>';
+                        echo '<td>' . $job_offer['Fin'] . '</td>';
+                        echo '<td>' . $job_offer['Position'] . '</td>';
+                        echo '<td>' . $job_offer['Type_Contrat'] . '</td>';
+                        echo '</tr>';
+                    }
                 }
                 ?>
             </tbody>
