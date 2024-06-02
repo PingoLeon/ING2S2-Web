@@ -3,6 +3,9 @@
 $sql1 = 'SELECT * FROM events WHERE Enterprise_ID = '.$entre_id.' ORDER BY Date_publication DESC';
 $result = mysqli_query($db_handle, $sql1);
 
+// Create an array to store all the events
+$events = array();
+
 while ($event = mysqli_fetch_assoc($result)) {
     if (($event['Texte']!=NULL)&&($event['Photo']!=NULL)&&($event['Date_publication']!=NULL)){
         echo'<div class="container" id="background" style="padding: 15px">';
@@ -24,7 +27,13 @@ while ($event = mysqli_fetch_assoc($result)) {
         echo'</div>';
         echo'</div>';
         echo'</div>';
+
+        // Store the event details in the events array
+        $events[] = array(
+            'title' => $event['Intitulé'],
+            'start' => $event['Début'],
+            'end' => $event['Fin']
+        );
     }
 }
 ?>
-<br><br><br>
