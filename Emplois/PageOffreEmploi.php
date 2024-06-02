@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <link rel="icon" href="../Photos/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -11,16 +12,14 @@
 </head>
 
 <body>
-    
-    <?php include '../Main/Header.php'; 
-    
-    ?>
+    <?php include '../Main/Header.php'; ?>
 
     <div class="container mt-5">
         <h2>Notifications des Emplois Disponibles</h2>
         <div class="row">
             <?php
             
+
             $servername = "localhost";
             $username = "root";
             $password = "";
@@ -53,7 +52,7 @@
                     echo '<p>Fin: ' . $row["Fin"] . '</p>';
                     echo '<p>Position: ' . $row["Position"] . '</p>';
                     echo '<p>Type de Contrat: ' . $row["Type_Contrat"] . '</p>';
-                    echo '<form action="Valide_Application.php" method="POST">';
+                    echo '<form action="PostulerOffre.php" method="POST">';
                     echo '<input type="hidden" name="job_id" value="' . $row["Job_ID"] . '">';
                     echo '<button type="submit" class="btn btn-primary mt-3">Postuler pour cette offre</button>';
                     echo '</form>';

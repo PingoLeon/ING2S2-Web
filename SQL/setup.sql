@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS Utilisateur (
     Photo VARCHAR(255),
     Pays VARCHAR(100),
     Entreprise_ID INT,
+    Mood VARCHAR(255),
     FOREIGN KEY (Entreprise_ID) REFERENCES Enterprise(Enterprise_ID)
 );
 
@@ -75,6 +76,7 @@ CREATE TABLE IF NOT EXISTS Commentaires (
     Post_ID INT,
     User_ID INT,
     Texte TEXT,
+    DatePubli DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (Post_ID) REFERENCES Posts(Post_ID),
     FOREIGN KEY (User_ID) REFERENCES Utilisateur(User_ID)
 );
@@ -163,20 +165,20 @@ CREATE TABLE IF NOT EXISTS Relations (
 );
 
 -- Sample data insertion
-INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`, `Token`, `Photo`, `Pays`, `Entreprise_ID`) VALUES
-(1, 'fcadene@gmail.com', 'Cadene', 'Félix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France',-1),
-(2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0),
-(3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0),
-(4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0),
-(5, 'admin@google.com', '', 'Bob', 'BobG', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo5.png', 'France', 8),
-(6, 'admin@axa.fr', 'Jesus', 'Rafael', 'RafaelJ', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo6.png', 'France', 7),
-(7, 'admin@esilv.fr', '🤓', '🤓', '🤓🤓', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo7.png', 'France', 9),
-(8, 'admin@apple.com', 'Bobby', 'BobbyB','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo8.png', 'France', 6),
-(9, 'admin@ece.fr', 'Stephan', 'Francois','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo10.png', 'France', 1),
-(10, 'admin@techcorp.fr', 'Martin', 'Sophie','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo11.png', 'France', 2),
-(11, 'admin@marketingplus.fr', 'Leclerc', 'Kamel','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo12.png', 'France', 3),
-(12, 'admin@financegrp.fr', 'Zacomi', 'Ben','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo13.png', 'France', 4),
-(13, 'admin@itworld.fr', 'Petit', 'Thomas','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo14.png', 'France', 5);
+INSERT INTO `utilisateur` (`User_ID`, `Mail`, `Nom`, `Prenom`, `Username`, `MDP`, `Token`, `Photo`, `Pays`, `Entreprise_ID`, `Mood`) VALUES
+(1, 'fcadene@gmail.com', 'Cadene', 'Félix', 'FefeC', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo1.png', 'France',-1, ''),
+(2, 'ldalle@gmail.com', 'Dalle', 'Leon', 'PinguD', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo2.png', 'France', 0, ''),
+(3, 'atanguy@gmail.com', 'Tanguy', 'Alara', 'AlaraT', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo3.png', 'France', 0, ''),
+(4, 'aleoni@gmail.com', 'Leoni', 'Annabelle', 'AnnaL', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo4.png', 'France', 0, ''),
+(5, 'admin@google.com', '', 'Bob', 'BobG', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo5.png', 'France', 8, ''),
+(6, 'admin@axa.fr', 'Jesus', 'Rafael', 'RafaelJ', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo6.png', 'France', 7, ''),
+(7, 'admin@esilv.fr', '🤓', '🤓', '🤓🤓', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo7.png', 'France', 9, ''),
+(8, 'admin@apple.com', 'Bobby', 'BobbyB','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo8.png', 'France', 6, ''),
+(9, 'admin@ece.fr', 'Stephan', 'Francois','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo10.png', 'France', 1, ''),
+(10, 'admin@techcorp.fr', 'Martin', 'Sophie','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo11.png', 'France', 2, ''),
+(11, 'admin@marketingplus.fr', 'Leclerc', 'Kamel','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo12.png', 'France', 3, ''),
+(12, 'admin@financegrp.fr', 'Zacomi', 'Ben','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo13.png', 'France', 4, ''),
+(13, 'admin@itworld.fr', 'Petit', 'Thomas','',  'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', '', '../photos/photo14.png', 'France', 5, '');
 
 
 INSERT INTO Education (Edu_ID, User_ID, Debut, Fin, Nom, Type_formation, Enterprise_ID)
@@ -242,3 +244,28 @@ INSERT INTO `applications` (`Applications_ID`, `job_id`, `user_id`, `application
 (6, 3, 0, '2024-05-30 14:56:57'),
 (7, 3, 0, '2024-05-30 14:57:33'),
 (8, 3, 2, '2024-05-30 14:57:52');
+
+INSERT INTO posts (Post_ID, User_ID, Enterprise_ID, DatePublication, Photo, Texte, Titre, Lieu) VALUES
+(1, 1, NULL, '2024-05-31 12:32:42', 'Photos/post1', 'POSTE #1', 'Enfin Ambassadeur', 'Paris'),
+(3, 3, NULL, '2024-05-31 15:32:42', 'Photos/photo7', 'Toujours', 'Leon me saoule', 'Versailles'),
+(2, 1, NULL, '2024-05-31 14:32:42', 'Photos/photo3', 'J\'aime Alara de tout mon coeur', 'J\'aime Leon', 'Paris'),
+(5, 1, NULL, '2024-05-31 00:00:00', 'Photos/photo6', 'Demain je vais devoir faire la Journee Portes Ouvertes de l`ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. Demain je vais devoir faire la Journee Portes Ouvertes de l\'ECE. ', 'FINI CETTE MERDE', ''),
+(6, 1, NULL, '2024-05-31 22:38:08', 'Photos/Photo4', 'qqqqqqqqqqqqqqqqqqqqqqqqqqqq', 'Testing', 'Versailles'),
+(7, 1, NULL, '2024-05-31 22:39:10', 'Photos/edit', 'GIGA CHAD', 'Testing post #5', 'fr');
+
+INSERT INTO Commentaires(Post_ID, User_ID, Texte)
+VALUES  (1, 2, 'Félicitations pour ton nouveau poste !'),
+        (1, 1, 'Merci beaucoup ! Je suis très heureux de rejoindre l\'équipe.'),
+        (1, 2, 'Je suis sûr que tu vas faire un excellent travail.'),
+        (1, 1, 'J\'espère pouvoir contribuer positivement à l\'équipe.'),
+        (1, 2, 'Je n\'en doute pas. Tu as toutes les compétences nécessaires.'),
+        (1, 1, 'Merci pour ton soutien, Leon.'),
+        (1, 2, 'De rien, c\'est normal. Tu es un excellent collègue.'),
+        (1, 1, 'Merci, Leon. C\'est très gentil de ta part.'),
+        (1, 2, 'Pas de problème, Félix. Nous sommes une équipe.'),
+        (1, 1, 'Oui, c\'est vrai. Ensemble, nous pouvons accomplir de grandes choses.'),
+        (1, 2, 'Exactement. Nous sommes plus forts ensemble.'),
+        (1, 1, 'C\'est ça. Merci encore pour ton soutien, Leon.'),
+        (1, 2, 'De rien, Félix. C\'est un plaisir de travailler avec toi.'),
+        (1, 1, 'Merci, Leon. À bientôt !'),
+        (1, 2, 'À bientôt, Félix !');

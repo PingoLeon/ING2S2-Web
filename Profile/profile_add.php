@@ -289,6 +289,7 @@ function Title_modify($db_handle, $user_id) {
     $mail = isset($_POST["email"]) ? $_POST["email"] : "";
     $pays = isset($_POST["pays"]) ? $_POST["pays"] : "";
     $photo = isset($_POST["photo"]) ? $_POST["photo"] : "";
+    $mood = isset($_POST["mood"]) ? $_POST["mood"] : "";
 
     $photo = "../Photos/" . $photo;
 
@@ -298,7 +299,7 @@ function Title_modify($db_handle, $user_id) {
         $photo = $xml->User->Photo;
     }
 
-    $sql = "UPDATE utilisateur SET Prenom = '$prenom', Nom = '$nom', Mail = '$mail', Pays = '$pays', Photo = '$photo'
+    $sql = "UPDATE utilisateur SET Prenom = '$prenom', Nom = '$nom', Mail = '$mail', Pays = '$pays', Photo = '$photo', Mood = '$mood'
     WHERE User_ID = '$user_id'";
     $result = mysqli_query($db_handle, $sql);
     if (!$result) {
@@ -317,8 +318,11 @@ function Post_add($db_handle, $user_id) {
     $photo = isset($_POST["photo"]) ? $_POST["photo"] : "";
     $photo = "Photos/" . $photo;
     $photo = substr($photo, 0, -4);
+    //Recuperation de la date actuelle avec heure et minute
     $date = date("Y-m-d");
-
+    $date = $date . " " . date("H:i:s");
+    $date = date("Y-m-d H:i:s");
+    echo $date;
     if ($texte == "") {
         header('Location: ../Main/modification.php?id=post_add');
         return;
@@ -328,7 +332,7 @@ function Post_add($db_handle, $user_id) {
         $stmt->bind_param("isssss", $user_id, $date, $photo, $texte, $titre, $lieu);
 
         if ($stmt->execute()) {
-            header('Location: http://localhost:8080/ING2S2-WEB/Main/profile_main.php');
+            header('Location: ../Main/profile_main.php');
         } else {
             echo "Error: " . $stmt->error;
         }
