@@ -1,3 +1,17 @@
+
+<?php
+
+//Informations sur src des images, textes et lien des entreprises: 
+//Toutes les informations des entreprises réelles ont été obtenues depuis leurs linkedIn respectifs
+//Les liens sur les lieux des entreprises ont été obtenus depuis google maps
+?>
+
+
+
+
+
+
+
 <?php
 include '../Auth/functions.php';
 //! Renvoyer l'utilisateur à la page de connexion si il n'est pas connecté, sinon récupérer l'id et l'email
@@ -18,7 +32,7 @@ $user_id = $id;
 
 <body>
 <?php 
-    $entre_id = 3;
+    $entre_id = 9;
     $sql = 'SELECT * FROM enterprise, informations, events WHERE enterprise.Information_ID = '.$entre_id.' AND informations.Information_ID = '.$entre_id.' AND events.Enterprise_ID = '.$entre_id.';';
     $result = mysqli_query($db_handle, $sql);
     $data = mysqli_fetch_assoc($result);
@@ -62,7 +76,7 @@ $user_id = $id;
                 <tr>
                     <form method="post" action="">
                         <select name="OngletNavBar" onchange="this.form.submit()">
-                            <option value="">Events</option>
+                            <option value="">- - - - - Events - - - - - -</option>
                             <option value="Events_Semaine">Events de la semaine</option>
                             <option value="Tous">Tous les events</option>
                         </select>
