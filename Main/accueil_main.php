@@ -55,6 +55,37 @@
         }
     </style>
     <script>
+        window.onload = function() {
+            const body = document.querySelector('body');
+            const date = new Date();
+            const hour = date.getHours();
+            const day = date.getDate();
+            const month = date.getMonth();
+
+            if (month == 1 && day == 14) {
+                body.style.backgroundColor = 'pink';
+                alert('Joyeux Saint Valentin 💖💖');
+            } else if (month == 9 && day == 31) {
+                body.style.backgroundColor = 'orange';
+                alert('Joyeux Halloween 🎃👻');
+            } else if (month == 11 && day == 25) {
+                body.style.backgroundColor = 'red';
+                alert('Joyeux Noël 🎅🎄');
+            } else if (month == 0 && day == 1) {
+                body.style.backgroundColor = 'blue';
+                alert('Bonne année 🎉🎉');
+            } else if (month == 6 && day == 14) {
+                body.style.backgroundColor = 'blue';
+                alert('Bonne fête nationale !!');
+            } else if (month == 5 && day == 2) {
+                body.style.backgroundColor = 'green';
+                alert('Aujourd\'hui');
+            } else {
+                body.style.backgroundColor = '#d8d8d8';
+            }
+        };
+
+
         function Voir_plus_fct(postId) {
             document.getElementById('ptit_text-' + postId).style.display = 'none';
             document.getElementById('grd_text-' + postId).style.display = 'block';
@@ -113,6 +144,8 @@
         include 'Header.php';
     ?>
     <div class="container" id="background">
+        <!-- Display the date -->
+        
         <br>
         <div class="row">
             <div class="col-md-4">
