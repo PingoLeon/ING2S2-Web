@@ -53,17 +53,7 @@
         return $token;
     }
 
-    //! Fonction pour récupérer les offres d'emploi
-    function get_job_offers_by_company($db_handle, $user_id) {
-        $query = "SELECT * FROM offre_emploi WHERE entreprise_id = (SELECT entreprise_id FROM utilisateurs WHERE user_id = ?)";
-        $stmt = $db_handle->prepare($query);
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-    
-    
+
     //! Fonction pour vérifier si l'utilisateur est connecté et récupérer son ID et son email
     function check_if_cookie_or_session_and_redirect_else_retrieve_id_mail_handle($type = "normal", $page_to_send_to_once_connected = "../Main/accueil_main.php"){
         //? Si l'utilisateur est déjà connecté, on le redirige vers la page d'accueil
