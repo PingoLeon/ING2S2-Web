@@ -94,7 +94,8 @@
                         echo "<h2>" . htmlspecialchars($row["Titre"]) . "</h2>";
                         echo "<p>" . htmlspecialchars($row["Texte"]) . "</p>";
                         if (!empty($row["Photo"])) {
-                            echo "<img src='" . htmlspecialchars($row["Photo"]) . "' alt='Photo'>";
+                            // Assuming your images are stored in 'uploads/photos/' directory
+                            echo "<img src='../Photos/" . htmlspecialchars($row["Photo"]) . "' alt='Photo'>";
                         }
                         if (!empty($row["Lieu"])) {
                             echo "<p><strong>Lieu :</strong> " . htmlspecialchars($row["Lieu"]) . "</p>";
@@ -140,7 +141,8 @@
                         echo "<h2>" . htmlspecialchars($row["Intitulé"]) . "</h2>";
                         echo "<p>" . htmlspecialchars($row["Texte"]) . "</p>";
                         if (!empty($row["Photo"])) {
-                            echo "<img src='" . htmlspecialchars($row["Photo"]) . "' alt='Event Image'>";
+                            // Assuming your event images are stored in 'uploads/events/' directory
+                            echo "<img src='../Profil_entreprises/photo_events/" . htmlspecialchars($row["Photo"]) . "' alt='Event Image'>";
                         }
                         echo "<p><strong>Date de début :</strong> " . htmlspecialchars($row["Début"]) . "</p>";
                         echo "<p><strong>Date de fin :</strong> " . htmlspecialchars($row["Fin"]) . "</p>";
@@ -152,43 +154,6 @@
                 } else {
                     echo "<div class='col-md-12'><p class='text-center'>Aucun événement trouvé.</p></div>";
                 }
-
-                $conn->close();
-                ?>
-            </div>
-        </div>
-
-        <!-- Section des Notifications de Likes sur les Posts Personnels -->
-        <div class="notification-section">
-            <h3>Notifications de Likes</h3>
-            <div class="row">
-                <?php
-                // Fetch likes on personal posts if the user is logged in
-                // Assuming the current user's ID is stored in a session variable
-                session_start();
-                $current_user_id = $_SESSION['user_id'];
-
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-
-                $sql_likes = "SELECT Post_ID, User_ID, Liker_ID, Date FROM likes WHERE User_ID = '$current_user_id' ORDER BY Date DESC";
-                $result_likes = $conn->query($sql_likes);
-
-                if ($result_likes->num_rows > 0) {
-                    while($row = $result_likes->fetch_assoc()) {
-                        echo "<div class='col-md-12 notification'>";
-                        echo "<h2>Oui, " . htmlspecialchars($row["Liker_ID"]) . " a liké votre post</h2>";
-                        echo "<p><strong>Date :</strong> " . htmlspecialchars($row["Date"]) . "</p>";
-                        echo "</div>";
-                    }
-                } else {
-                    echo "<div class='col-md-12'><p class='text-center'>Aucune notification de like trouvée.</p></div>";
-                }
-
-                $conn->close();
                 ?>
             </div>
         </div>
